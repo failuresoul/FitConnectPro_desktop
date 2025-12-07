@@ -1,0 +1,199 @@
+/* Root Colors */
+. root {
+    -fx-primary: #2196F3;
+    -fx-secondary: #FF5722;
+    -fx-success: #4CAF50;
+    -fx-dark: #263238;
+    -fx-light: #ECEFF1;
+    -fx-white: #FFFFFF;
+    -fx-gray: #757575;
+    -fx-light-gray: #BDBDBD;
+}
+
+/* Branding Section */
+.branding-section {
+    -fx-background-color: linear-gradient(to bottom right, #2196F3, #1976D2);
+}
+
+.logo-icon {
+    -fx-text-fill: white;
+}
+
+.brand-title {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.brand-subtitle {
+    -fx-text-fill: white;
+}
+
+.brand-tagline {
+    -fx-text-fill: rgba(255, 255, 255, 0.8);
+}
+
+/* Login Section */
+.login-section {
+    -fx-background-color: #FFFFFF;
+}
+
+.login-title {
+    -fx-text-fill: #263238;
+    -fx-font-weight: bold;
+}
+
+.login-subtitle {
+    -fx-text-fill: #757575;
+}
+
+/* User Type Container */
+.user-type-container {
+    -fx-background-color: #F5F5F5;
+    -fx-background-radius: 8px;
+    -fx-padding: 20;
+}
+
+.section-label {
+    -fx-text-fill: #263238;
+    -fx-font-weight: bold;
+}
+
+.user-radio {
+    -fx-text-fill: #263238;
+    -fx-font-size: 13px;
+}
+
+.user-radio . radio-button {
+    -fx-background-color: white;
+    -fx-border-color: #BDBDBD;
+    -fx-border-width: 2px;
+    -fx-border-radius: 50%;
+}
+
+.user-radio:selected .radio-button {
+    -fx-background-color: #2196F3;
+    -fx-border-color: #2196F3;
+}
+
+. user-radio . dot {
+    -fx-background-color: white;
+    -fx-background-radius: 50%;
+}
+
+/* Input Fields */
+.input-container {
+    -fx-spacing: 8;
+}
+
+.input-label {
+    -fx-text-fill: #263238;
+    -fx-font-weight: bold;
+}
+
+.input-field {
+    -fx-background-color: white;
+    -fx-border-color: #BDBDBD;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-padding: 12px;
+    -fx-font-family: Arial;
+    -fx-font-size: 14px;
+    -fx-text-fill: #263238;
+}
+
+.input-field:focused {
+    -fx-border-color: #2196F3;
+    -fx-border-width: 2px;
+    -fx-effect: dropshadow(gaussian, rgba(33, 150, 243, 0.3), 10, 0, 0, 0);
+}
+
+. input-field:hover {
+    -fx-border-color: #757575;
+}
+
+/* Login Button */
+.login-button {
+    -fx-background-color: linear-gradient(to right, #2196F3, #1976D2);
+    -fx-text-fill: white;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+    -fx-font-family: Arial;
+    -fx-font-weight: bold;
+    -fx-font-size: 15px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 8, 0, 0, 2);
+}
+
+.login-button:hover {
+    -fx-background-color: linear-gradient(to right, #1976D2, #1565C0);
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 12, 0, 0, 3);
+}
+
+. login-button:pressed {
+    -fx-background-color: linear-gradient(to right, #1565C0, #0D47A1);
+    -fx-scale-x: 0.98;
+    -fx-scale-y: 0.98;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 5, 0, 0, 1);
+}
+
+/* Forgot Password Link */
+.forgot-password-link {
+    -fx-text-fill: #2196F3;
+    -fx-underline: false;
+    -fx-font-family: Arial;
+    -fx-font-size: 12px;
+}
+
+.forgot-password-link:hover {
+    -fx-text-fill: #1976D2;
+    -fx-underline: true;
+}
+
+. forgot-password-link:pressed {
+    -fx-text-fill: #1565C0;
+}
+
+/* Scrollbar Styling (if needed) */
+.scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar . thumb {
+    -fx-background-color: #BDBDBD;
+    -fx-background-radius: 5px;
+}
+
+.scroll-bar .thumb:hover {
+    -fx-background-color: #757575;
+}
+
+/* Alert Styling */
+.alert {
+    -fx-background-color: white;
+}
+
+.alert . header-panel {
+    -fx-background-color: #2196F3;
+}
+
+.alert .header-panel . label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.alert .content {
+    -fx-padding: 20;
+}
+
+. alert .button {
+    -fx-background-color: #2196F3;
+    -fx-text-fill: white;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+}
+
+.alert .button:hover {
+    -fx-background-color: #1976D2;
+}

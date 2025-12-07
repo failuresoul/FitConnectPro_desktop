@@ -19,12 +19,12 @@ public class DatabaseConnection {
 
     private DatabaseConnection() {
         try {
-            Class.forName("org.sqlite. JDBC");
+            // Remove the Class.forName line - not needed with modules
             connectionPool = new ArrayList<>(POOL_SIZE);
             for (int i = 0; i < POOL_SIZE; i++) {
                 connectionPool.add(createConnection());
             }
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException("Error initializing database connection pool", e);
         }
     }
@@ -55,7 +55,7 @@ public class DatabaseConnection {
 
     public synchronized void releaseConnection(Connection connection) {
         if (connection != null) {
-            usedConnections. remove(connection);
+            usedConnections.remove(connection);
             connectionPool.add(connection);
         }
     }
@@ -89,7 +89,7 @@ public class DatabaseConnection {
                     "FOREIGN KEY (admin_id) REFERENCES Admins(admin_id))");
 
             // TRAINER TABLES
-            stmt.execute("CREATE TABLE IF NOT EXISTS Trainers (" +
+            stmt. execute("CREATE TABLE IF NOT EXISTS Trainers (" +
                     "trainer_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "username TEXT NOT NULL UNIQUE, " +
                     "password_hash TEXT NOT NULL, " +
@@ -399,7 +399,7 @@ public class DatabaseConnection {
             stmt.execute("CREATE INDEX IF NOT EXISTS idx_trainer_salaries_trainer ON Trainer_Salaries(trainer_id)");
             stmt.execute("CREATE INDEX IF NOT EXISTS idx_trainer_messages_sender ON Trainer_Member_Messages(sender_id)");
             stmt.execute("CREATE INDEX IF NOT EXISTS idx_trainer_messages_receiver ON Trainer_Member_Messages(receiver_id)");
-            stmt. execute("CREATE INDEX IF NOT EXISTS idx_members_email ON Members(email)");
+            stmt.execute("CREATE INDEX IF NOT EXISTS idx_members_email ON Members(email)");
             stmt.execute("CREATE INDEX IF NOT EXISTS idx_members_status ON Members(account_status)");
             stmt.execute("CREATE INDEX IF NOT EXISTS idx_goals_member ON Goals(member_id)");
             stmt.execute("CREATE INDEX IF NOT EXISTS idx_workouts_member ON Workouts(member_id)");

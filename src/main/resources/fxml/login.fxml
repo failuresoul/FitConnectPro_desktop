@@ -1,16 +1,165 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.HelloController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.gym.controllers.LoginController"
+            stylesheets="@../css/login_styles.css" prefHeight="600.0" prefWidth="800.0">
 
-    <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
-</VBox>
+    <!-- Define non-Node objects -->
+    <fx:define>
+        <ToggleGroup fx:id="userTypeGroup"/>
+    </fx:define>
+
+    <!-- Left Side - Branding -->
+    <left>
+        <VBox alignment="CENTER" styleClass="branding-section" prefWidth="350.0">
+            <padding>
+                <Insets top="50" right="30" bottom="50" left="30"/>
+            </padding>
+
+            <Label text="💪" styleClass="logo-icon">
+                <font>
+                    <Font size="80"/>
+                </font>
+            </Label>
+
+            <Label text="FitConnect Pro" styleClass="brand-title">
+                <font>
+                    <Font name="Arial Bold" size="32"/>
+                </font>
+                <VBox.margin>
+                    <Insets top="20"/>
+                </VBox.margin>
+            </Label>
+
+            <Label text="A Premium GYM Management System" styleClass="brand-subtitle">
+                <font>
+                    <Font name="Arial" size="15"/>
+                </font>
+                <VBox.margin>
+                    <Insets top="5"/>
+                </VBox.margin>
+            </Label>
+
+            <Label text="Empowering Fitness Excellence" styleClass="brand-tagline">
+                <font>
+                    <Font name="Arial Italic" size="14"/>
+                </font>
+                <VBox.margin>
+                    <Insets top="30"/>
+                </VBox.margin>
+            </Label>
+        </VBox>
+    </left>
+
+    <!-- Right Side - Login Form -->
+    <center>
+        <VBox alignment="CENTER" styleClass="login-section" spacing="25">
+            <padding>
+                <Insets top="50" right="50" bottom="50" left="50"/>
+            </padding>
+
+            <Label text="Welcome Back!" styleClass="login-title">
+                <font>
+                    <Font name="Arial Bold" size="28"/>
+                </font>
+            </Label>
+
+            <Label text="Please login to continue" styleClass="login-subtitle">
+                <font>
+                    <Font name="Arial" size="14"/>
+                </font>
+                <VBox.margin>
+                    <Insets top="-15"/>
+                </VBox.margin>
+            </Label>
+
+            <!-- User Type Selection -->
+            <VBox spacing="15" styleClass="user-type-container">
+                <Label text="Select User Type:" styleClass="section-label">
+                    <font>
+                        <Font name="Arial" size="13"/>
+                    </font>
+                </Label>
+
+                <HBox spacing="20" alignment="CENTER">
+                    <RadioButton fx:id="adminRadio" text="Admin" styleClass="user-radio" toggleGroup="$userTypeGroup">
+                        <font>
+                            <Font name="Arial" size="13"/>
+                        </font>
+                    </RadioButton>
+
+                    <RadioButton fx:id="trainerRadio" text="Trainer" styleClass="user-radio"
+                                 toggleGroup="$userTypeGroup" selected="true">
+                        <font>
+                            <Font name="Arial" size="13"/>
+                        </font>
+                    </RadioButton>
+
+                    <RadioButton fx:id="memberRadio" text="Member" styleClass="user-radio"
+                                 toggleGroup="$userTypeGroup">
+                        <font>
+                            <Font name="Arial" size="13"/>
+                        </font>
+                    </RadioButton>
+                </HBox>
+            </VBox>
+
+            <!-- Username Field -->
+            <VBox spacing="8" styleClass="input-container">
+                <Label text="Username" styleClass="input-label">
+                    <font>
+                        <Font name="Arial" size="13"/>
+                    </font>
+                </Label>
+                <TextField fx:id="usernameField" promptText="Enter your username"
+                           styleClass="input-field" prefWidth="350">
+                    <font>
+                        <Font name="Arial" size="14"/>
+                    </font>
+                </TextField>
+            </VBox>
+
+            <!-- Password Field -->
+            <VBox spacing="8" styleClass="input-container">
+                <Label text="Password" styleClass="input-label">
+                    <font>
+                        <Font name="Arial" size="13"/>
+                    </font>
+                </Label>
+                <PasswordField fx:id="passwordField" promptText="Enter your password"
+                               styleClass="input-field" prefWidth="350">
+                    <font>
+                        <Font name="Arial" size="14"/>
+                    </font>
+                </PasswordField>
+            </VBox>
+
+            <!-- Login Button -->
+            <Button fx:id="loginButton" text="LOGIN" styleClass="login-button"
+                    prefWidth="350" prefHeight="45">
+                <font>
+                    <Font name="Arial Bold" size="15"/>
+                </font>
+                <VBox.margin>
+                    <Insets top="10"/>
+                </VBox.margin>
+            </Button>
+
+            <!-- Forgot Password Link -->
+            <Hyperlink fx:id="forgotPasswordLink" text="Forgot Password?"
+                       styleClass="forgot-password-link">
+                <font>
+                    <Font name="Arial" size="12"/>
+                </font>
+                <VBox.margin>
+                    <Insets top="-10"/>
+                </VBox.margin>
+            </Hyperlink>
+        </VBox>
+    </center>
+</BorderPane>
