@@ -3,15 +3,15 @@ package com.gym.controllers;
 import com.gym.dao.AuthDAO;
 import com. gym.models.Admin;
 import com.gym.models.Member;
-import com.gym.models.Trainer;
-import com. gym.services.Session;
+import com.gym.models. Trainer;
+import com.gym.services.Session;
 import com.gym.utils.ValidationUtil;
 import javafx.event.ActionEvent;
-import javafx.fxml. FXML;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene. Node;
+import javafx. scene.Node;
 import javafx.scene.Parent;
-import javafx. scene.Scene;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
@@ -51,7 +51,7 @@ public class LoginController {
 
     @FXML
     public void initialize() {
-        trainerRadio.setSelected(true);
+        trainerRadio. setSelected(true);
 
         loginButton.setOnAction(event -> handleLogin(event));
         forgotPasswordLink.setOnAction(event -> handleForgotPassword());
@@ -66,11 +66,11 @@ public class LoginController {
             if (! ValidationUtil.isNotEmpty(username)) {
                 ValidationUtil.showAlert("Validation Error",
                         "Username cannot be empty!",
-                        Alert.AlertType.ERROR);
+                        Alert.AlertType. ERROR);
                 return;
             }
 
-            if (!ValidationUtil.isNotEmpty(password)) {
+            if (!ValidationUtil. isNotEmpty(password)) {
                 ValidationUtil.showAlert("Validation Error",
                         "Password cannot be empty!",
                         Alert.AlertType.ERROR);
@@ -85,16 +85,16 @@ public class LoginController {
 
             switch (userType) {
                 case "ADMIN":
-                    Admin admin = authDAO.authenticateAdmin(username, password);
+                    Admin admin = authDAO. authenticateAdmin(username, password);
                     if (admin != null) {
                         loggedInUser = admin;
                         loginSuccessful = true;
-                        Session. getInstance().setCurrentUser(admin, "ADMIN");
+                        Session.getInstance().setCurrentUser(admin, "ADMIN");
                     }
                     break;
 
                 case "TRAINER":
-                    Trainer trainer = authDAO. authenticateTrainer(username, password);
+                    Trainer trainer = authDAO.authenticateTrainer(username, password);
                     if (trainer != null) {
                         loggedInUser = trainer;
                         loginSuccessful = true;
@@ -107,7 +107,7 @@ public class LoginController {
                     if (member != null) {
                         loggedInUser = member;
                         loginSuccessful = true;
-                        Session.getInstance().setCurrentUser(member, "MEMBER");
+                        Session.getInstance(). setCurrentUser(member, "MEMBER");
                     }
                     break;
 
@@ -122,22 +122,20 @@ public class LoginController {
                 ValidationUtil.showAlert("Login Successful",
                         "Welcome " + username + "!\n\n" +
                                 "User Type: " + userType + "\n" +
-                                "Authentication completed successfully.\n\n" +
-                                "Note: Dashboard screens are under development.",
+                                "Authentication completed successfully.",
                         Alert.AlertType.INFORMATION);
 
-                // Uncomment this line when dashboard files are created
-                // loadDashboard(event, userType);
+                loadDashboard(event, userType);
 
                 System.out.println("\n=== LOGIN SUCCESS ===");
                 System.out.println("User: " + username);
-                System. out.println("Type: " + userType);
+                System.out.println("Type: " + userType);
                 System.out.println("Session created successfully!");
-                System.out. println("=====================\n");
+                System. out.println("=====================\n");
             } else {
-                ValidationUtil. showAlert("Login Failed",
+                ValidationUtil.showAlert("Login Failed",
                         "Invalid username or password!\nPlease check your credentials and try again.",
-                        Alert.AlertType.ERROR);
+                        Alert. AlertType.ERROR);
             }
 
         } catch (Exception e) {
@@ -164,30 +162,37 @@ public class LoginController {
                     break;
             }
 
+            System.out.println("Loading dashboard from: " + fxmlPath);
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent dashboardRoot = loader.load();
 
             Scene dashboardScene = new Scene(dashboardRoot);
-            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Stage window = (Stage) ((Node) event. getSource()).getScene().getWindow();
             window.setScene(dashboardScene);
-            window.setTitle(userType + " Dashboard - Premium Gym Management System");
+            window. setTitle(userType + " Dashboard - Premium Gym Management System");
             window.centerOnScreen();
             window.show();
 
         } catch (IOException e) {
+            System.err.println("Error loading dashboard: " + e.getMessage());
+            e.printStackTrace();
+
             ValidationUtil.showAlert("Error",
-                    "Could not load dashboard: " + e. getMessage(),
+                    "Could not load dashboard.\n\n" +
+                            "Please ensure the dashboard file exists at:\n" +
+                            "src/main/resources/fxml/admin/admin_dashboard.fxml\n\n" +
+                            "Error details: " + e.getMessage(),
                     Alert.AlertType.ERROR);
-            e. printStackTrace();
         }
     }
 
     @FXML
     public void handleForgotPassword() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        Alert alert = new Alert(Alert. AlertType.INFORMATION);
         alert.setTitle("Forgot Password");
         alert.setHeaderText("Password Recovery");
-        alert.setContentText("Please contact the system administrator to reset your password.\n\n" +
+        alert. setContentText("Please contact the system administrator to reset your password.\n\n" +
                 "Admin Email: admin@gymsystem.com\n" +
                 "Phone: +1 (555) 123-4567");
         alert.showAndWait();

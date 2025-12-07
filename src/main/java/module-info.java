@@ -6,13 +6,10 @@ module com.gym {
     requires jbcrypt;
 
     opens com.gym to javafx.fxml;
-    opens com.gym.controllers to javafx. fxml;
-    opens com. gym.models to javafx. base;
+    opens com.gym.controllers to javafx.fxml;
+    opens com.gym.controllers.admin to javafx.fxml;
 
     exports com.gym;
-    exports com.gym. controllers;
-    exports com.gym.models;
-    exports com. gym.dao;
-    exports com.gym.services;
-    exports com.gym.utils;
+    exports com.gym.controllers;
+    exports com.gym.controllers.admin;
 }

@@ -1,0 +1,223 @@
+/* Root Colors */
+.root {
+    -fx-primary: #2196F3;
+    -fx-secondary: #FF5722;
+    -fx-success: #4CAF50;
+    -fx-warning: #FFC107;
+    -fx-danger: #F44336;
+    -fx-dark: #263238;
+    -fx-sidebar-bg: #1E272E;
+    -fx-light: #ECEFF1;
+    -fx-white: #FFFFFF;
+    -fx-gray: #757575;
+    -fx-light-gray: #E0E0E0;
+}
+
+/* Top Menu Bar */
+.top-menu-bar {
+    -fx-background-color: white;
+    -fx-border-color: #E0E0E0;
+    -fx-border-width: 0 0 1 0;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 5, 0, 0, 2);
+}
+
+.dashboard-title {
+    -fx-text-fill: #263238;
+}
+
+.logout-button {
+    -fx-background-color: #F44336;
+    -fx-text-fill: white;
+    -fx-background-radius: 5px;
+    -fx-padding: 8 20 8 20;
+    -fx-cursor: hand;
+    -fx-font-weight: bold;
+}
+
+. logout-button:hover {
+    -fx-background-color: #D32F2F;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+. logout-button:pressed {
+    -fx-background-color: #C62828;
+}
+
+/* Sidebar */
+.sidebar {
+    -fx-background-color: #1E272E;
+    -fx-border-color: #141A1F;
+    -fx-border-width: 0 1 0 0;
+}
+
+.sidebar-header {
+    -fx-text-fill: #9E9E9E;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+.nav-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #B0BEC5;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 15 20 15 20;
+    -fx-background-radius: 0;
+    -fx-border-width: 0;
+    -fx-cursor: hand;
+    -fx-font-size: 13px;
+}
+
+.nav-button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.05);
+    -fx-text-fill: white;
+}
+
+.active-nav {
+    -fx-background-color: #2196F3;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.active-nav:hover {
+    -fx-background-color: #1976D2;
+}
+
+/* Content Area */
+.content-scroll {
+    -fx-background-color: #F5F7FA;
+}
+
+.content-scroll .viewport {
+    -fx-background-color: #F5F7FA;
+}
+
+.content-area {
+    -fx-background-color: #F5F7FA;
+}
+
+/* Statistics Grid */
+.stats-grid {
+    -fx-hgap: 20;
+    -fx-vgap: 20;
+}
+
+/* Stat Cards */
+.stat-card {
+    -fx-background-color: white;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 10, 0, 0, 2);
+    -fx-pref-width: 240;
+    -fx-pref-height: 150;
+}
+
+.stat-card:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 15, 0, 0, 3);
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+}
+
+.stat-icon {
+    -fx-text-fill: #2196F3;
+}
+
+.stat-value {
+    -fx-text-fill: #263238;
+    -fx-font-weight: bold;
+}
+
+.stat-label {
+    -fx-text-fill: #757575;
+}
+
+/* Activity Section */
+.activity-section {
+    -fx-background-color: white;
+    -fx-background-radius: 10px;
+    -fx-padding: 20;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 10, 0, 0, 2);
+}
+
+.section-title {
+    -fx-text-fill: #263238;
+    -fx-font-weight: bold;
+}
+
+/* Table View */
+.activity-table {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.activity-table .column-header {
+    -fx-background-color: #F5F7FA;
+    -fx-text-fill: #263238;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-padding: 10;
+}
+
+.activity-table . column-header-background {
+    -fx-background-color: #F5F7FA;
+}
+
+.activity-table .table-row-cell {
+    -fx-background-color: white;
+    -fx-border-color: transparent transparent #E0E0E0 transparent;
+    -fx-border-width: 1;
+    -fx-padding: 10;
+}
+
+. activity-table .table-row-cell:hover {
+    -fx-background-color: #F5F7FA;
+}
+
+.activity-table .table-row-cell:selected {
+    -fx-background-color: #E3F2FD;
+    -fx-text-fill: #263238;
+}
+
+. activity-table .table-cell {
+    -fx-text-fill: #263238;
+    -fx-font-size: 12px;
+    -fx-padding: 10;
+}
+
+/* Status Bar */
+.status-bar {
+    -fx-background-color: white;
+    -fx-border-color: #E0E0E0;
+    -fx-border-width: 1 0 0 0;
+}
+
+.status-label {
+    -fx-text-fill: #757575;
+}
+
+.status-value {
+    -fx-text-fill: #2196F3;
+    -fx-font-weight: bold;
+}
+
+/* Scrollbar Styling */
+.scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar . thumb {
+    -fx-background-color: #BDBDBD;
+    -fx-background-radius: 5px;
+}
+
+.scroll-bar .thumb:hover {
+    -fx-background-color: #9E9E9E;
+}
+
+.scroll-bar .track {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+}

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.gym.controllers.admin.MemberRegistrationController"
+      spacing="20" style="-fx-background-color: #F5F7FA; -fx-padding: 30;">
+
+    <!-- Title -->
+    <Label text="Member Registration" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #263238;">
+    </Label>
+
+    <Separator/>
+
+    <!-- Form Container -->
+    <ScrollPane fitToWidth="true" prefHeight="600">
+        <VBox spacing="20" style="-fx-padding: 10;">
+
+            <!-- Personal Information Section -->
+            <Label text="Personal Information" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #263238;">
+            </Label>
+
+            <GridPane hgap="15" vgap="15">
+                <Label text="Full Name:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <TextField fx:id="fullNameField" promptText="Enter full name"
+                           GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="300"/>
+
+                <Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <TextField fx:id="emailField" promptText="Enter email address"
+                           GridPane.columnIndex="1" GridPane.rowIndex="1" prefWidth="300"/>
+
+                <Label text="Phone:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                <TextField fx:id="phoneField" promptText="Enter phone number"
+                           GridPane.columnIndex="1" GridPane.rowIndex="2" prefWidth="300"/>
+
+                <Label text="Date of Birth:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                <DatePicker fx:id="dobPicker" promptText="Select date of birth"
+                            GridPane.columnIndex="1" GridPane.rowIndex="3" prefWidth="300"/>
+
+                <Label text="Gender:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                <ComboBox fx:id="genderComboBox" promptText="Select gender"
+                          GridPane.columnIndex="1" GridPane.rowIndex="4" prefWidth="300"/>
+            </GridPane>
+
+            <Separator/>
+
+            <!-- Physical Information Section -->
+            <Label text="Physical Information" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #263238;">
+            </Label>
+
+            <GridPane hgap="15" vgap="15">
+                <Label text="Height (cm):" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <TextField fx:id="heightField" promptText="Enter height in cm"
+                           GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="300"/>
+
+                <Label text="Weight (kg):" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <TextField fx:id="weightField" promptText="Enter weight in kg"
+                           GridPane.columnIndex="1" GridPane.rowIndex="1" prefWidth="300"/>
+
+                <Label text="Medical Notes:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                <TextArea fx:id="medicalNotesArea" promptText="Enter any medical conditions or notes"
+                          GridPane.columnIndex="1" GridPane.rowIndex="2" prefWidth="300" prefHeight="80"/>
+
+                <Label text="Emergency Contact:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                <TextField fx:id="emergencyContactField" promptText="Enter emergency contact (Name and Phone)"
+                           GridPane.columnIndex="1" GridPane.rowIndex="3" prefWidth="300"/>
+            </GridPane>
+
+            <Separator/>
+
+            <!-- Membership Information Section -->
+            <Label text="Membership Information" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #263238;">
+            </Label>
+
+            <GridPane hgap="15" vgap="15">
+                <Label text="Membership Type:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <ComboBox fx:id="membershipTypeComboBox" promptText="Select membership type"
+                          GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="300"/>
+
+                <Label text="Start Date:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <DatePicker fx:id="startDatePicker" promptText="Select start date"
+                            GridPane.columnIndex="1" GridPane.rowIndex="1" prefWidth="300"/>
+
+                <Label text="Duration (months):" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                <Spinner fx:id="durationSpinner" editable="true"
+                         GridPane.columnIndex="1" GridPane.rowIndex="2" prefWidth="300"/>
+            </GridPane>
+
+            <Separator/>
+
+            <!-- Generated Credentials Section -->
+            <Label text="Generated Credentials" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #263238;">
+            </Label>
+
+            <GridPane hgap="15" vgap="15">
+                <Label text="Username:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <TextField fx:id="usernameField" editable="false" promptText="Auto-generated"
+                           GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="300"
+                           style="-fx-background-color: #f0f0f0;"/>
+
+                <Label text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <TextField fx:id="passwordField" editable="false" promptText="Auto-generated"
+                           GridPane.columnIndex="1" GridPane.rowIndex="1" prefWidth="300"
+                           style="-fx-background-color: #f0f0f0;"/>
+            </GridPane>
+
+            <Separator/>
+
+            <!-- Action Buttons -->
+            <HBox spacing="15" alignment="CENTER">
+                <Button fx:id="registerButton" text="Register Member"
+                        style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 10 30; -fx-cursor: hand;">
+                </Button>
+
+                <Button fx:id="clearButton" text="Clear Form"
+                        style="-fx-background-color: #757575; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10 30; -fx-cursor: hand;">
+                </Button>
+            </HBox>
+        </VBox>
+    </ScrollPane>
+</VBox>
