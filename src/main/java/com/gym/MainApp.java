@@ -3,7 +3,7 @@ package com.gym;
 import com.gym.utils.DatabaseConnection;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx. scene.Parent;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -33,7 +33,7 @@ public class MainApp extends Application {
             // Set stage properties
             primaryStage.setTitle("Premium Gym Management System - Login");
             primaryStage. setScene(scene);
-            primaryStage.setResizable(false);
+            primaryStage.setResizable(true);
             primaryStage.centerOnScreen();
 
             // Show stage

@@ -120,10 +120,10 @@ public class StatisticsDAO {
             // This means they are currently paying members
             String sql = "SELECT " +
                     "SUM(CASE " +
-                    "    WHEN membership_type = 'BASIC' THEN 30 " +
-                    "    WHEN membership_type = 'STANDARD' THEN 50 " +
-                    "    WHEN membership_type = 'PREMIUM' THEN 50 " +
-                    "    WHEN membership_type = 'ELITE' THEN 80 " +
+                    "    WHEN membership_type = 'BASIC' THEN 500 " +
+                    "    WHEN membership_type = 'STANDARD' THEN 800 " +
+                    "    WHEN membership_type = 'PREMIUM' THEN 1500 " +
+                    "    WHEN membership_type = 'ELITE' THEN 3000 " +
                     "    ELSE 0 " +
                     "END) as total_revenue " +
                     "FROM Members " +

@@ -193,8 +193,8 @@ public class LoginController {
         alert.setTitle("Forgot Password");
         alert.setHeaderText("Password Recovery");
         alert. setContentText("Please contact the system administrator to reset your password.\n\n" +
-                "Admin Email: admin@gymsystem.com\n" +
-                "Phone: +1 (555) 123-4567");
+                "Admin Email: fitconnectpro@gymsystem.com\n" +
+                "Phone: 01746109666");
         alert.showAndWait();
     }
 }

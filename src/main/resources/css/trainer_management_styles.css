@@ -1,0 +1,60 @@
+/* Table Styling */
+.custom-table {
+    -fx-background-color: transparent;
+}
+
+.custom-table .column-header-background {
+    -fx-background-color: linear-gradient(to bottom, #607D8B 0%, #546E7A 100%);
+}
+
+.custom-table .column-header {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size:  13px;
+    -fx-padding: 12 10;
+}
+
+.custom-table .table-row-cell {
+    -fx-background-color: white;
+    -fx-border-color: transparent transparent #EEEEEE transparent;
+    -fx-padding: 8;
+}
+
+.custom-table . table-row-cell:hover {
+    -fx-background-color: #E3F2FD;
+    -fx-cursor: hand;
+}
+
+.custom-table .table-row-cell:selected {
+    -fx-background-color: #BBDEFB;
+}
+
+.custom-table .table-cell {
+    -fx-text-fill: #37474F;
+    -fx-font-size: 13px;
+    -fx-padding: 10 10;
+}
+
+/* Button Hover Effects */
+.button:hover {
+    -fx-opacity: 0.9;
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+}
+
+/* TextField Focus */
+.text-field:focused {
+    -fx-border-color: #2196F3;
+    -fx-border-width: 2;
+}
+
+/* Scrollbar Styling */
+.scroll-bar:vertical . thumb {
+    -fx-background-color: #CFD8DC;
+    -fx-background-radius: 5;
+}
+
+.scroll-bar:vertical .track {
+    -fx-background-color: #ECEFF1;
+}

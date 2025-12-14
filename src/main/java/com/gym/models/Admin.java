@@ -1,4 +1,4 @@
-package com.gym. models;
+package com.gym.models;
 
 import java.time.LocalDateTime;
 
@@ -10,25 +10,15 @@ public class Admin {
     private String email;
     private String phone;
     private String role;
+    private String accountStatus;
     private LocalDateTime createdDate;
     private LocalDateTime lastLogin;
 
+    // Constructor
     public Admin() {
     }
 
-    public Admin(int adminId, String username, String passwordHash, String fullName, String email,
-                 String phone, String role, LocalDateTime createdDate, LocalDateTime lastLogin) {
-        this.adminId = adminId;
-        this. username = username;
-        this. passwordHash = passwordHash;
-        this.fullName = fullName;
-        this.email = email;
-        this.phone = phone;
-        this.role = role;
-        this.createdDate = createdDate;
-        this. lastLogin = lastLogin;
-    }
-
+    // Getters and Setters
     public int getAdminId() {
         return adminId;
     }
@@ -58,7 +48,7 @@ public class Admin {
     }
 
     public void setFullName(String fullName) {
-        this. fullName = fullName;
+        this.fullName = fullName;
     }
 
     public String getEmail() {
@@ -66,7 +56,7 @@ public class Admin {
     }
 
     public void setEmail(String email) {
-        this. email = email;
+        this.email = email;
     }
 
     public String getPhone() {
@@ -83,6 +73,14 @@ public class Admin {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getAccountStatus() {
+        return accountStatus;
+    }
+
+    public void setAccountStatus(String accountStatus) {
+        this.accountStatus = accountStatus;
     }
 
     public LocalDateTime getCreatedDate() {
@@ -110,6 +108,7 @@ public class Admin {
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 ", role='" + role + '\'' +
+                ", accountStatus='" + accountStatus + '\'' +
                 ", createdDate=" + createdDate +
                 ", lastLogin=" + lastLogin +
                 '}';

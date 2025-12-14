@@ -8,6 +8,7 @@ CREATE TABLE Admins (
                         email TEXT NOT NULL UNIQUE,
                         phone TEXT,
                         role TEXT NOT NULL,
+                        account_status TEXT DEFAULT 'ACTIVE',                    -- ← ADDED THIS LINE
                         created_date DATETIME DEFAULT CURRENT_TIMESTAMP,
                         last_login DATETIME
 );
@@ -24,24 +25,24 @@ CREATE TABLE Admin_Logs (
 );
 
 -- TRAINER TABLES
-
 CREATE TABLE Trainers (
                           trainer_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                          username TEXT NOT NULL UNIQUE,
+                          username TEXT UNIQUE NOT NULL,
                           password_hash TEXT NOT NULL,
                           full_name TEXT NOT NULL,
-                          email TEXT NOT NULL UNIQUE,
+                          email TEXT UNIQUE NOT NULL,
                           phone TEXT,
                           specializations TEXT,
-                          experience_years INTEGER,
+                          experience_years INTEGER DEFAULT 0,
                           certifications TEXT,
-                          hire_date DATE,
-                          monthly_salary REAL,
-                          account_status TEXT NOT NULL,
-                          max_clients INTEGER,
-                          added_by_admin_id INTEGER,
-                          created_date DATETIME DEFAULT CURRENT_TIMESTAMP,
-                          FOREIGN KEY (added_by_admin_id) REFERENCES Admins(admin_id)
+                          max_clients INTEGER DEFAULT 10,
+                          current_clients INTEGER DEFAULT 0,
+                          account_status TEXT DEFAULT 'ACTIVE',
+                          salary REAL DEFAULT 0.0,
+                          hired_by_admin_id INTEGER,
+                          hire_date TEXT,
+                          last_login TEXT,
+                          FOREIGN KEY (hired_by_admin_id) REFERENCES Admins(admin_id)
 );
 
 CREATE TABLE Trainer_Applications (
@@ -376,3 +377,13 @@ CREATE INDEX idx_body_measurements_member ON Body_Measurements(member_id);
 CREATE INDEX idx_friendships_member1 ON Friendships(member_id_1);
 CREATE INDEX idx_friendships_member2 ON Friendships(member_id_2);
 CREATE INDEX idx_social_activities_member ON Social_Activities(member_id);
+
+-- SAMPLE DATA
+
+-- Insert default admin (password: admin123)
+INSERT INTO Admins (username, password_hash, full_name, email, phone, role, account_status, created_date)
+VALUES ('admin', '$2a$10$xqYLkkP0RMKF0YdKhZGzAeZ. GD5YqWXHqVr3GlqN5o5yVqYqB6rqe',
+        'System Administrator', 'admin@gym. com', '1234567890', 'SUPER_ADMIN', 'ACTIVE', datetime('now'));
+
+-- Enable foreign keys
+PRAGMA foreign_keys = ON;

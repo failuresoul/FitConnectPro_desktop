@@ -1,6 +1,5 @@
 package com.gym.models;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -14,37 +13,19 @@ public class Trainer {
     private List<String> specializations;
     private int experienceYears;
     private String certifications;
-    private LocalDate hireDate;
-    private double monthlySalary;
-    private String accountStatus;
     private int maxClients;
-    private int addedByAdminId;
-    private LocalDateTime createdDate;
+    private int currentClients;
+    private String accountStatus;
+    private double salary;
+    private int hiredByAdminId;
+    private LocalDateTime hireDate;
+    private LocalDateTime lastLogin;
 
+    // Constructor
     public Trainer() {
     }
 
-    public Trainer(int trainerId, String username, String passwordHash, String fullName, String email,
-                   String phone, List<String> specializations, int experienceYears, String certifications,
-                   LocalDate hireDate, double monthlySalary, String accountStatus, int maxClients,
-                   int addedByAdminId, LocalDateTime createdDate) {
-        this.trainerId = trainerId;
-        this.username = username;
-        this.passwordHash = passwordHash;
-        this.fullName = fullName;
-        this.email = email;
-        this.phone = phone;
-        this.specializations = specializations;
-        this.experienceYears = experienceYears;
-        this.certifications = certifications;
-        this.hireDate = hireDate;
-        this.monthlySalary = monthlySalary;
-        this.accountStatus = accountStatus;
-        this.maxClients = maxClients;
-        this.addedByAdminId = addedByAdminId;
-        this.createdDate = createdDate;
-    }
-
+    // Getters and Setters
     public int getTrainerId() {
         return trainerId;
     }
@@ -117,20 +98,20 @@ public class Trainer {
         this.certifications = certifications;
     }
 
-    public LocalDate getHireDate() {
-        return hireDate;
+    public int getMaxClients() {
+        return maxClients;
     }
 
-    public void setHireDate(LocalDate hireDate) {
-        this.hireDate = hireDate;
+    public void setMaxClients(int maxClients) {
+        this.maxClients = maxClients;
     }
 
-    public double getMonthlySalary() {
-        return monthlySalary;
+    public int getCurrentClients() {
+        return currentClients;
     }
 
-    public void setMonthlySalary(double monthlySalary) {
-        this.monthlySalary = monthlySalary;
+    public void setCurrentClients(int currentClients) {
+        this.currentClients = currentClients;
     }
 
     public String getAccountStatus() {
@@ -141,28 +122,36 @@ public class Trainer {
         this.accountStatus = accountStatus;
     }
 
-    public int getMaxClients() {
-        return maxClients;
+    public double getSalary() {
+        return salary;
     }
 
-    public void setMaxClients(int maxClients) {
-        this.maxClients = maxClients;
+    public void setSalary(double salary) {
+        this.salary = salary;
     }
 
-    public int getAddedByAdminId() {
-        return addedByAdminId;
+    public int getHiredByAdminId() {
+        return hiredByAdminId;
     }
 
-    public void setAddedByAdminId(int addedByAdminId) {
-        this.addedByAdminId = addedByAdminId;
+    public void setHiredByAdminId(int hiredByAdminId) {
+        this.hiredByAdminId = hiredByAdminId;
     }
 
-    public LocalDateTime getCreatedDate() {
-        return createdDate;
+    public LocalDateTime getHireDate() {
+        return hireDate;
     }
 
-    public void setCreatedDate(LocalDateTime createdDate) {
-        this.createdDate = createdDate;
+    public void setHireDate(LocalDateTime hireDate) {
+        this.hireDate = hireDate;
+    }
+
+    public LocalDateTime getLastLogin() {
+        return lastLogin;
+    }
+
+    public void setLastLogin(LocalDateTime lastLogin) {
+        this.lastLogin = lastLogin;
     }
 
     @Override
@@ -176,12 +165,12 @@ public class Trainer {
                 ", specializations=" + specializations +
                 ", experienceYears=" + experienceYears +
                 ", certifications='" + certifications + '\'' +
-                ", hireDate=" + hireDate +
-                ", monthlySalary=" + monthlySalary +
-                ", accountStatus='" + accountStatus + '\'' +
                 ", maxClients=" + maxClients +
-                ", addedByAdminId=" + addedByAdminId +
-                ", createdDate=" + createdDate +
+                ", currentClients=" + currentClients +
+                ", accountStatus='" + accountStatus + '\'' +
+                ", salary=" + salary +
+                ", hiredByAdminId=" + hiredByAdminId +
+                ", hireDate=" + hireDate +
                 '}';
     }
 }

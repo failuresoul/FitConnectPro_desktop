@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+        <?import javafx.geometry.Insets?>
+        <?import javafx.scene.control.*?>
+        <?import javafx.scene.layout.*?>
+        <?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.gym.controllers.admin.TrainerRegistrationController"
+      spacing="20" style="-fx-background-color:  #F5F7FA; -fx-padding: 30;">
+
+    <Label text="Trainer Registration" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #263238;"/>
+
+    <Separator/>
+
+    <ScrollPane fitToWidth="true" prefHeight="600">
+        <VBox spacing="20" style="-fx-padding: 10;">
+
+            <Label text="Personal Information" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #263238;"/>
+
+            <GridPane hgap="15" vgap="15">
+                <Label text="Full Name:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <TextField fx:id="fullNameField" promptText="Enter full name"
+                           GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="300"/>
+
+                <Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <TextField fx:id="emailField" promptText="Enter email address"
+                           GridPane.columnIndex="1" GridPane.rowIndex="1" prefWidth="300"/>
+
+                <Label text="Phone:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                <TextField fx:id="phoneField" promptText="Enter phone number"
+                           GridPane.columnIndex="1" GridPane.rowIndex="2" prefWidth="300"/>
+            </GridPane>
+
+            <Separator/>
+
+            <Label text="Professional Information" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #263238;"/>
+
+            <GridPane hgap="15" vgap="15">
+                <Label text="Education:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <TextField fx:id="educationField" promptText="Enter education background"
+                           GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="300"/>
+
+                <Label text="Certifications:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <TextField fx:id="certificationsField" promptText="Enter certifications"
+                           GridPane.columnIndex="1" GridPane.rowIndex="1" prefWidth="300"/>
+
+                <Label text="Experience Years:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                <Spinner fx:id="experienceSpinner" editable="true"
+                         GridPane.columnIndex="1" GridPane.rowIndex="2" prefWidth="300"/>
+            </GridPane>
+
+            <Separator/>
+
+            <Label text="Specializations" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #263238;"/>
+
+            <VBox spacing="10">
+                <CheckBox fx:id="strengthTrainingCheck" text="Strength Training"/>
+                <CheckBox fx:id="cardioCheck" text="Cardio"/>
+                <CheckBox fx:id="yogaCheck" text="Yoga"/>
+                <CheckBox fx:id="nutritionCheck" text="Nutrition"/>
+                <CheckBox fx:id="crossfitCheck" text="CrossFit"/>
+                <CheckBox fx:id="weightLossCheck" text="Weight Loss"/>
+                <CheckBox fx:id="muscleGainCheck" text="Muscle Gain"/>
+            </VBox>
+
+            <Separator/>
+
+            <Label text="Employment Details" style="-fx-font-size:  16px; -fx-font-weight: bold; -fx-text-fill: #263238;"/>
+
+            <GridPane hgap="15" vgap="15">
+                <Label text="Monthly Salary:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <TextField fx:id="salaryField" promptText="Enter monthly salary"
+                           GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="300"/>
+
+                <Label text="Max Clients:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <Spinner fx:id="maxClientsSpinner" editable="true"
+                         GridPane.columnIndex="1" GridPane.rowIndex="1" prefWidth="300"/>
+
+                <Label text="Account Status:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                <ComboBox fx:id="accountStatusComboBox" promptText="Select status"
+                          GridPane.columnIndex="1" GridPane.rowIndex="2" prefWidth="300"/>
+            </GridPane>
+
+            <Separator/>
+
+            <Label text="Generated Credentials" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill:  #263238;"/>
+
+            <GridPane hgap="15" vgap="15">
+                <Label text="Username:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <TextField fx:id="usernameField" editable="false" promptText="Auto-generated"
+                           GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="300"
+                           style="-fx-background-color: #f0f0f0;"/>
+
+                <Label text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <TextField fx:id="passwordField" editable="false" promptText="Auto-generated"
+                           GridPane.columnIndex="1" GridPane.rowIndex="1" prefWidth="300"
+                           style="-fx-background-color:  #f0f0f0;"/>
+            </GridPane>
+
+            <Separator/>
+
+            <HBox spacing="15" alignment="CENTER">
+                <Button fx:id="registerButton" text="Register Trainer"
+                        style="-fx-background-color:  #2196F3; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding:  10 30; -fx-cursor: hand;"/>
+
+                <Button fx:id="clearButton" text="Clear Form"
+                        style="-fx-background-color: #757575; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10 30; -fx-cursor: hand;"/>
+            </HBox>
+        </VBox>
+    </ScrollPane>
+</VBox>
