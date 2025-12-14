@@ -1,6 +1,7 @@
 package com.gym.models;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class TrainerApplication {
     private int applicationId;
@@ -11,36 +12,17 @@ public class TrainerApplication {
     private String education;
     private String certifications;
     private int experienceYears;
-    private String specializations;
+    private List<String> specializations;
     private String coverLetter;
     private LocalDateTime applicationDate;
-    private String status;
-    private int reviewedByAdminId;
+    private String status; // PENDING, APPROVED, REJECTED
+    private Integer reviewedByAdminId;
     private LocalDateTime reviewDate;
 
-    public TrainerApplication() {
-    }
+    // Constructors
+    public TrainerApplication() {}
 
-    public TrainerApplication(int applicationId, String fullName, String email, String phone, int age,
-                              String education, String certifications, int experienceYears,
-                              String specializations, String coverLetter, LocalDateTime applicationDate,
-                              String status, int reviewedByAdminId, LocalDateTime reviewDate) {
-        this. applicationId = applicationId;
-        this.fullName = fullName;
-        this.email = email;
-        this.phone = phone;
-        this.age = age;
-        this.education = education;
-        this.certifications = certifications;
-        this.experienceYears = experienceYears;
-        this.specializations = specializations;
-        this.coverLetter = coverLetter;
-        this.applicationDate = applicationDate;
-        this.status = status;
-        this.reviewedByAdminId = reviewedByAdminId;
-        this.reviewDate = reviewDate;
-    }
-
+    // Getters and Setters
     public int getApplicationId() {
         return applicationId;
     }
@@ -105,11 +87,11 @@ public class TrainerApplication {
         this.experienceYears = experienceYears;
     }
 
-    public String getSpecializations() {
+    public List<String> getSpecializations() {
         return specializations;
     }
 
-    public void setSpecializations(String specializations) {
+    public void setSpecializations(List<String> specializations) {
         this.specializations = specializations;
     }
 
@@ -137,12 +119,12 @@ public class TrainerApplication {
         this.status = status;
     }
 
-    public int getReviewedByAdminId() {
+    public Integer getReviewedByAdminId() {
         return reviewedByAdminId;
     }
 
-    public void setReviewedByAdminId(int reviewedByAdminId) {
-        this. reviewedByAdminId = reviewedByAdminId;
+    public void setReviewedByAdminId(Integer reviewedByAdminId) {
+        this.reviewedByAdminId = reviewedByAdminId;
     }
 
     public LocalDateTime getReviewDate() {
@@ -150,25 +132,6 @@ public class TrainerApplication {
     }
 
     public void setReviewDate(LocalDateTime reviewDate) {
-        this. reviewDate = reviewDate;
-    }
-
-    @Override
-    public String toString() {
-        return "TrainerApplication{" +
-                "applicationId=" + applicationId +
-                ", fullName='" + fullName + '\'' +
-                ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
-                ", age=" + age +
-                ", education='" + education + '\'' +
-                ", certifications='" + certifications + '\'' +
-                ", experienceYears=" + experienceYears +
-                ", specializations='" + specializations + '\'' +
-                ", applicationDate=" + applicationDate +
-                ", status='" + status + '\'' +
-                ", reviewedByAdminId=" + reviewedByAdminId +
-                ", reviewDate=" + reviewDate +
-                '}';
+        this.reviewDate = reviewDate;
     }
 }

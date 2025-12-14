@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.gym.controllers.public_.PublicTrainerApplicationController"
+      spacing="20" style="-fx-background-color: #f5f5f5;">
+
+    <padding>
+        <Insets top="30" right="30" bottom="30" left="30"/>
+    </padding>
+
+    <!-- Header -->
+    <Label text="🏋️ Apply to Become a Trainer" style="-fx-font-size:  28px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+    <Separator/>
+
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent;">
+        <VBox spacing="15">
+            <!-- Personal Information -->
+            <Label text="Personal Information" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+
+            <GridPane hgap="15" vgap="15">
+                <Label text="Full Name:*" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <TextField fx:id="fullNameField" promptText="Enter your full name" GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="300"/>
+
+                <Label text="Email:*" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <TextField fx:id="emailField" promptText="your. email@example.com" GridPane.columnIndex="1" GridPane.rowIndex="1" prefWidth="300"/>
+
+                <Label text="Phone: *" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                <TextField fx:id="phoneField" promptText="Phone number" GridPane.columnIndex="1" GridPane.rowIndex="2" prefWidth="300"/>
+
+                <Label text="Age:*" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                <Spinner fx:id="ageSpinner" GridPane.columnIndex="1" GridPane.rowIndex="3" prefWidth="150"/>
+            </GridPane>
+
+            <Separator/>
+
+            <!-- Qualifications -->
+            <Label text="Qualifications" style="-fx-font-size: 18px; -fx-font-weight:  bold;"/>
+
+            <GridPane hgap="15" vgap="15">
+                <Label text="Education: *" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <TextField fx:id="educationField" promptText="Degree, School, Year" GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="300"/>
+
+                <Label text="Certifications: *" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <TextField fx:id="certificationsField" promptText="List your certifications" GridPane.columnIndex="1" GridPane.rowIndex="1" prefWidth="300"/>
+
+                <Label text="Experience (Years):*" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                <Spinner fx:id="experienceSpinner" GridPane.columnIndex="1" GridPane.rowIndex="2" prefWidth="150"/>
+            </GridPane>
+
+            <Separator/>
+
+            <!-- Specializations -->
+            <Label text="Specializations: * (Select all that apply)" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+
+            <HBox spacing="20">
+                <VBox spacing="10">
+                    <CheckBox fx:id="strengthTrainingCheck" text="Strength Training"/>
+                    <CheckBox fx:id="cardioCheck" text="Cardio"/>
+                    <CheckBox fx:id="yogaCheck" text="Yoga"/>
+                    <CheckBox fx:id="nutritionCheck" text="Nutrition"/>
+                </VBox>
+                <VBox spacing="10">
+                    <CheckBox fx:id="crossfitCheck" text="CrossFit"/>
+                    <CheckBox fx:id="weightLossCheck" text="Weight Loss"/>
+                    <CheckBox fx:id="muscleGainCheck" text="Muscle Gain"/>
+                </VBox>
+            </HBox>
+
+            <Separator/>
+
+            <!-- Cover Letter -->
+            <Label text="Cover Letter: *" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+            <TextArea fx:id="coverLetterArea" promptText="Tell us why you want to be a trainer at our gym..." wrapText="true" prefRowCount="6"/>
+
+            <!-- Buttons -->
+            <HBox spacing="15" alignment="CENTER">
+                <Button fx:id="submitButton" text="Submit Application" style="-fx-background-color:  #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10 30;"/>
+                <Button fx:id="cancelButton" text="Cancel" style="-fx-background-color: #f44336; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10 30;"/>
+            </HBox>
+        </VBox>
+    </ScrollPane>
+
+</VBox>
