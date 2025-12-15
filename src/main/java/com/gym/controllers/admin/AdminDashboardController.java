@@ -1,21 +1,21 @@
-package com.gym.controllers.admin;
+package com.gym.controllers. admin;
 
 import com.gym.dao.StatisticsDAO;
-import com.gym. models.Admin;
-import com. gym.services.Session;
+import com.gym.models.Admin;
+import com.gym.services.Session;
 import com.gym.utils.DateUtil;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx. scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.Scene;
+import javafx.scene. control.*;
 import javafx.scene.layout.VBox;
-import javafx.stage. Stage;
+import javafx.stage. Modality;
+import javafx. stage.Stage;
 
-import java.io. IOException;
-import java.text. NumberFormat;
-import java.util.Currency;
-import java.util.Locale;
+import java.io.IOException;
+import java.text.NumberFormat;
+import java.util. Currency;
 
 public class AdminDashboardController {
 
@@ -64,6 +64,19 @@ public class AdminDashboardController {
     @FXML
     private Label currentDateLabel;
 
+    // Quick Action Buttons - NEW
+    @FXML
+    private Button addMemberButton;
+
+    @FXML
+    private Button addTrainerButton;
+
+    @FXML
+    private Button viewApplicationsButton;
+
+    @FXML
+    private Button assignTrainerButton;
+
     private StatisticsDAO statisticsDAO;
 
     public AdminDashboardController() {
@@ -80,12 +93,15 @@ public class AdminDashboardController {
     private void loadAdminInfo() {
         try {
             Admin admin = (Admin) Session.getInstance().getCurrentUser();
-            if (admin != null) {
+            if (admin != null && loggedInAdminLabel != null) {
                 loggedInAdminLabel.setText(admin.getFullName());
-            } else {
-                loggedInAdminLabel. setText("Unknown Admin");
+            } else if (loggedInAdminLabel != null) {
+                loggedInAdminLabel.setText("Unknown Admin");
             }
-            currentDateLabel.setText(DateUtil.formatDate(DateUtil.getCurrentDate()));
+
+            if (currentDateLabel != null) {
+                currentDateLabel.setText(DateUtil.formatDate(DateUtil.getCurrentDate()));
+            }
         } catch (Exception e) {
             System.err.println("Error loading admin info: " + e.getMessage());
             e.printStackTrace();
@@ -94,74 +110,119 @@ public class AdminDashboardController {
 
     private void loadStatistics() {
         try {
-            int totalMembers = statisticsDAO.getTotalMembers();
-            totalMembersLabel.setText(String.valueOf(totalMembers));
+            int totalMembers = statisticsDAO. getTotalMembers();
+            if (totalMembersLabel != null) {
+                totalMembersLabel.setText(String.valueOf(totalMembers));
+            }
 
             int totalTrainers = statisticsDAO.getTotalTrainers();
-            totalTrainersLabel.setText(String.valueOf(totalTrainers));
+            if (totalTrainersLabel != null) {
+                totalTrainersLabel.setText(String.valueOf(totalTrainers));
+            }
 
             int pendingApps = statisticsDAO.getPendingApplicationsCount();
-            pendingApplicationsLabel.setText(String.valueOf(pendingApps));
+            if (pendingApplicationsLabel != null) {
+                pendingApplicationsLabel.setText(String.valueOf(pendingApps));
+            }
 
             double revenue = statisticsDAO.getMonthlyRevenue();
             NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
             currencyFormat.setCurrency(Currency.getInstance("BDT"));
-            monthlyRevenueLabel.setText(currencyFormat.format(revenue));
+            if (monthlyRevenueLabel != null) {
+                monthlyRevenueLabel.setText(currencyFormat.format(revenue));
+            }
 
             System.out.println("=== STATISTICS LOADED ===");
-            System.out.println("Total Members: " + totalMembers);
+            System. out.println("Total Members: " + totalMembers);
             System.out.println("Total Trainers: " + totalTrainers);
-            System. out.println("Pending Applications: " + pendingApps);
-            System.out.println("Monthly Revenue: " + currencyFormat. format(revenue));
-            System. out.println("=========================");
+            System.out.println("Pending Applications: " + pendingApps);
+            System. out.println("Monthly Revenue: " + currencyFormat.format(revenue));
+            System.out.println("=========================");
 
         } catch (Exception e) {
             System.err.println("Error loading statistics: " + e. getMessage());
             e.printStackTrace();
 
-            totalMembersLabel.setText("0");
-            totalTrainersLabel.setText("0");
-            pendingApplicationsLabel.setText("0");
-            monthlyRevenueLabel.setText("$0. 00");
+            if (totalMembersLabel != null) totalMembersLabel.setText("0");
+            if (totalTrainersLabel != null) totalTrainersLabel.setText("0");
+            if (pendingApplicationsLabel != null) pendingApplicationsLabel.setText("0");
+            if (monthlyRevenueLabel != null) monthlyRevenueLabel.setText("$0.00");
         }
     }
 
     private void setupEventHandlers() {
-        logoutButton. setOnAction(event -> handleLogout());
-        dashboardBtn. setOnAction(event -> loadDashboardHome());
-        memberManagementBtn.setOnAction(event -> loadMemberManagement());
-        trainerManagementBtn.setOnAction(event -> loadTrainerManagement());
-        salaryManagementBtn.setOnAction(event -> loadSalaryManagement());
-        applicationsBtn.setOnAction(event -> loadApplications());
-        reportsBtn.setOnAction(event -> loadReports());
+        // Navigation buttons
+        if (logoutButton != null) {
+            logoutButton.setOnAction(event -> handleLogout());
+        }
+
+        if (dashboardBtn != null) {
+            dashboardBtn.setOnAction(event -> loadDashboardHome());
+        }
+
+        if (memberManagementBtn != null) {
+            memberManagementBtn.setOnAction(event -> loadMemberManagement());
+        }
+
+        if (trainerManagementBtn != null) {
+            trainerManagementBtn.setOnAction(event -> loadTrainerManagement());
+        }
+
+        if (salaryManagementBtn != null) {
+            salaryManagementBtn.setOnAction(event -> loadSalaryManagement());
+        }
+
+        if (applicationsBtn != null) {
+            applicationsBtn.setOnAction(event -> loadApplications());
+        }
+
+        if (reportsBtn != null) {
+            reportsBtn.setOnAction(event -> loadReports());
+        }
+
+        // Quick Action Buttons - NEW
+        if (addMemberButton != null) {
+            addMemberButton.setOnAction(event -> loadMemberManagement());
+        }
+
+        if (addTrainerButton != null) {
+            addTrainerButton.setOnAction(event -> loadTrainerRegistration());
+        }
+
+        if (viewApplicationsButton != null) {
+            viewApplicationsButton.setOnAction(event -> loadApplications());
+        }
+
+        if (assignTrainerButton != null) {
+            assignTrainerButton.setOnAction(event -> openAssignTrainerDialog());
+        }
     }
 
     private void handleLogout() {
         try {
             Session.getInstance().logout();
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login. fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
             Parent loginRoot = loader.load();
 
             Scene loginScene = new Scene(loginRoot);
-            Stage window = (Stage) logoutButton.getScene(). getWindow();
-            window.setScene(loginScene);
-            window.setTitle("Premium Gym Management System - Login");
-            window. centerOnScreen();
-            window. show();
+            Stage window = (Stage) logoutButton.getScene().getWindow();
+            window. setScene(loginScene);
+            window. setTitle("Premium Gym Management System - Login");
+            window.centerOnScreen();
+            window.show();
 
-            System.out. println("Admin logged out successfully!");
+            System.out.println("Admin logged out successfully!");
         } catch (Exception e) {
             e.printStackTrace();
-            showAlert("Logout Error", "Could not logout: " + e. getMessage(), Alert.AlertType.ERROR);
+            showAlert("Logout Error", "Could not logout:  " + e.getMessage(), Alert.AlertType.ERROR);
         }
     }
 
     private void loadDashboardHome() {
-        System.out. println("Loading Dashboard Home - Reloading entire dashboard...");
+        System.out.println("Loading Dashboard Home - Reloading entire dashboard...");
 
         try {
-            // Reload the entire dashboard scene
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/admin/admin_dashboard.fxml"));
             Parent dashboardRoot = loader.load();
 
@@ -177,74 +238,112 @@ public class AdminDashboardController {
         } catch (IOException e) {
             System.err.println("Error loading dashboard home: " + e.getMessage());
             e.printStackTrace();
-            showAlert("Error", "Could not load dashboard home: " + e.getMessage(), Alert. AlertType.ERROR);
+            showAlert("Error", "Could not load dashboard home: " + e.getMessage(), Alert.AlertType.ERROR);
         }
     }
 
     private void loadMemberManagement() {
         System.out.println("Loading Member Registration.. .");
         loadView("/fxml/admin/member_registration.fxml");
-        setActiveButton(memberManagementBtn);
+        if (memberManagementBtn != null) {
+            setActiveButton(memberManagementBtn);
+        }
+    }
+    private void loadTrainerRegistration() {
+        System.out.println("Loading Trainer Registration...");
+        loadView("/fxml/admin/trainer_registration.fxml");
     }
 
     private void loadTrainerManagement() {
-        System. out.println("Trainer Management clicked");
+        System.out.println("Trainer Management clicked");
         loadView("/fxml/admin/trainer_management.fxml");
-        setActiveButton(trainerManagementBtn);
+        if (trainerManagementBtn != null) {
+            setActiveButton(trainerManagementBtn);
+        }
     }
 
     private void loadSalaryManagement() {
-        System.out.println("Salary Management clicked");
+        System.out. println("Salary Management clicked");
         showAlert("Coming Soon", "Salary Management feature is under development.", Alert.AlertType.INFORMATION);
-        setActiveButton(salaryManagementBtn);
+        if (salaryManagementBtn != null) {
+            setActiveButton(salaryManagementBtn);
+        }
     }
 
     private void loadApplications() {
-        System.out.println("Applications clicked");
+        System.out. println("Applications clicked");
         loadView("/fxml/admin/applications.fxml");
-        setActiveButton(applicationsBtn);
+        if (applicationsBtn != null) {
+            setActiveButton(applicationsBtn);
+        }
     }
 
     private void loadReports() {
         System.out.println("Reports clicked");
-        showAlert("Coming Soon", "Reports feature is under development.", Alert.AlertType.INFORMATION);
-        setActiveButton(reportsBtn);
+        showAlert("Coming Soon", "Reports feature is under development.", Alert.AlertType. INFORMATION);
+        if (reportsBtn != null) {
+            setActiveButton(reportsBtn);
+        }
     }
 
     private void loadView(String fxmlPath) {
         try {
-            System.out.println("Loading view: " + fxmlPath);
+            System. out.println("Loading view: " + fxmlPath);
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent view = loader.load();
 
-            contentArea.getChildren().clear();
-            contentArea.getChildren().add(view);
-
-            System.out.println("View loaded successfully!");
+            if (contentArea != null) {
+                contentArea.getChildren().clear();
+                contentArea.getChildren().add(view);
+                System.out.println("View loaded successfully!");
+            }
 
         } catch (IOException e) {
-            System. err.println("Error loading view: " + fxmlPath);
+            System.err.println("Error loading view: " + fxmlPath);
             e.printStackTrace();
 
             showAlert("Error",
-                    "Could not load view: " + fxmlPath + "\n\nError: " + e. getMessage(),
+                    "Could not load view: " + fxmlPath + "\n\nError: " + e.getMessage(),
                     Alert.AlertType.ERROR);
         }
     }
 
     private void setActiveButton(Button activeButton) {
         // Remove active class from all buttons
-        dashboardBtn.getStyleClass().remove("active-nav");
-        memberManagementBtn. getStyleClass().remove("active-nav");
-        trainerManagementBtn.getStyleClass().remove("active-nav");
-        salaryManagementBtn.getStyleClass().remove("active-nav");
-        applicationsBtn.getStyleClass().remove("active-nav");
-        reportsBtn.getStyleClass().remove("active-nav");
+        if (dashboardBtn != null) dashboardBtn.getStyleClass().remove("active-nav");
+        if (memberManagementBtn != null) memberManagementBtn. getStyleClass().remove("active-nav");
+        if (trainerManagementBtn != null) trainerManagementBtn.getStyleClass().remove("active-nav");
+        if (salaryManagementBtn != null) salaryManagementBtn.getStyleClass().remove("active-nav");
+        if (applicationsBtn != null) applicationsBtn.getStyleClass().remove("active-nav");
+        if (reportsBtn != null) reportsBtn.getStyleClass().remove("active-nav");
 
         // Add active class to the clicked button
-        if (! activeButton.getStyleClass().contains("active-nav")) {
+        if (activeButton != null && ! activeButton.getStyleClass().contains("active-nav")) {
             activeButton.getStyleClass().add("active-nav");
+        }
+    }
+
+    private void openAssignTrainerDialog() {
+        try {
+            System.out.println("Opening Assign Trainer dialog...");
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/admin/assign_trainer_dialog.fxml"));
+            Parent root = loader. load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Assign Trainer to Member");
+            stage.setScene(new Scene(root, 600, 500));
+            stage.setResizable(false);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage. showAndWait();
+
+            System.out.println("Assign trainer dialog closed");
+
+        } catch (IOException e) {
+            System.err.println("Error opening assign trainer dialog: " + e.getMessage());
+            e.printStackTrace();
+            showAlert("Error", "Could not open assign trainer dialog: " + e.getMessage(), Alert.AlertType.ERROR);
         }
     }
 

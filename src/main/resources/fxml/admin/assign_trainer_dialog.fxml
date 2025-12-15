@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.gym.controllers.admin.AssignTrainerController"
+      spacing="20" style="-fx-background-color:  #f5f5f5; -fx-padding: 30;">
+
+    <!-- Header -->
+    <Label text="Assign Trainer to Member" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+
+    <Separator/>
+
+    <!-- Form -->
+    <GridPane hgap="15" vgap="15">
+
+        <!-- Select Member -->
+        <Label text="Select Member:  *" GridPane.columnIndex="0" GridPane.rowIndex="0"
+               style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+        <ComboBox fx:id="memberComboBox" promptText="Choose a member..."
+                  GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="300"/>
+        <Label fx:id="memberInfoLabel" text="" GridPane.columnIndex="1" GridPane.rowIndex="1"
+               style="-fx-font-size: 11px; -fx-text-fill: #7f8c8d;"/>
+
+        <!-- Select Trainer -->
+        <Label text="Select Trainer:  *" GridPane.columnIndex="0" GridPane.rowIndex="2"
+               style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+        <ComboBox fx:id="trainerComboBox" promptText="Choose a trainer..."
+                  GridPane.columnIndex="1" GridPane.rowIndex="2" prefWidth="300"/>
+        <Label fx:id="trainerInfoLabel" text="" GridPane.columnIndex="1" GridPane.rowIndex="3"
+               style="-fx-font-size:  11px; -fx-text-fill: #7f8c8d;"/>
+
+        <!-- Assignment Start Date -->
+        <Label text="Start Date: *" GridPane.columnIndex="0" GridPane.rowIndex="4"
+               style="-fx-font-size:  14px; -fx-font-weight: bold;"/>
+        <DatePicker fx:id="startDatePicker" promptText="Select start date"
+                    GridPane.columnIndex="1" GridPane.rowIndex="4" prefWidth="300"/>
+
+    </GridPane>
+
+    <Separator/>
+
+    <!-- Buttons -->
+    <HBox spacing="15" alignment="CENTER">
+        <Button fx:id="assignButton" text="Assign Trainer"
+                style="-fx-background-color:  #2ecc71; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 12 30; -fx-cursor: hand;"/>
+        <Button fx:id="cancelButton" text="Cancel"
+                style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 12 30; -fx-cursor:  hand;"/>
+    </HBox>
+
+    <!-- Status Message -->
+    <Label fx:id="statusLabel" text="" wrapText="true"
+           style="-fx-font-size: 12px; -fx-text-fill: #e74c3c;"/>
+
+</VBox>

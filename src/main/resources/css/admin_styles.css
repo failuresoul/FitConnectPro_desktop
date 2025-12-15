@@ -221,3 +221,27 @@
 .scroll-bar .decrement-button {
     -fx-background-color: transparent;
 }
+/* Quick Action Buttons */
+.quick-action-button {
+    -fx-background-color: #3498db;
+    -fx-text-fill:  white;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+}
+
+.quick-action-button:hover {
+    -fx-background-color: #2980b9;
+    -fx-effect:  dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 2);
+}
+
+.quick-action-button-primary {
+    -fx-background-color: #16a085;
+    -fx-text-fill: white;
+    -fx-background-radius: 5px;
+    -fx-cursor:  hand;
+}
+
+. quick-action-button-primary:hover {
+    -fx-background-color: #138d75;
+    -fx-effect:  dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 2);
+}

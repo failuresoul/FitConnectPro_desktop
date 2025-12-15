@@ -366,4 +366,93 @@ public class TrainerDAO {
             return defaultValue;
         }
     }
+    // Add to existing TrainerDAO. java
+
+    // Assign trainer to member
+    public boolean assignTrainerToMember(int trainerId, int memberId, int adminId, LocalDate startDate) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        boolean success = false;
+
+        try {
+            conn = DatabaseConnection.getInstance().getConnection();
+
+            // First, end any existing active assignments for this member
+            String endExistingSql = "UPDATE Trainer_Member_Assignment SET status = 'ENDED', end_date = ? " +
+                    "WHERE member_id = ? AND status = 'ACTIVE'";
+            pstmt = conn.prepareStatement(endExistingSql);
+            pstmt.setString(1, LocalDate.now().toString());
+            pstmt.setInt(2, memberId);
+            pstmt.executeUpdate();
+            pstmt.close();
+
+            // Insert new assignment
+            String sql = "INSERT INTO Trainer_Member_Assignment (trainer_id, member_id, assignment_date, status, assigned_by_admin_id) " +
+                    "VALUES (?, ?, ?, 'ACTIVE', ?)";
+
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, trainerId);
+            pstmt.setInt(2, memberId);
+            pstmt.setString(3, startDate.toString());
+            pstmt.setInt(4, adminId);
+
+            int rowsAffected = pstmt.executeUpdate();
+            success = rowsAffected > 0;
+
+            if (success) {
+                System.out.println("✅ Trainer " + trainerId + " assigned to member " + memberId);
+            }
+
+        } catch (SQLException e) {
+            System.err.println("❌ Error assigning trainer: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            try {
+                if (pstmt != null) pstmt.close();
+                if (conn != null) DatabaseConnection.getInstance().releaseConnection(conn);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return success;
+    }
+    // Get available trainers (not at max capacity)
+    public List<Trainer> getAvailableTrainers() {
+        List<Trainer> availableTrainers = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DatabaseConnection.getInstance().getConnection();
+            String sql = "SELECT * FROM Trainers WHERE account_status = 'ACTIVE' ORDER BY full_name";
+            pstmt = conn.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Trainer trainer = extractTrainerFromResultSet(rs);
+
+                // Check if trainer has capacity
+                int currentClients = getAssignedClientsCount(trainer.getTrainerId());
+                if (currentClients < trainer. getMaxClients()) {
+                    availableTrainers.add(trainer);
+                }
+            }
+
+        } catch (SQLException e) {
+            System.err.println("❌ Error getting available trainers: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (pstmt != null) pstmt.close();
+                if (conn != null) DatabaseConnection.getInstance().releaseConnection(conn);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return availableTrainers;
+    }
 }
