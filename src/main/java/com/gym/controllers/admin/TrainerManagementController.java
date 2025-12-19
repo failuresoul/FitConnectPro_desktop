@@ -1,23 +1,18 @@
 package com.gym.controllers.admin;
 
 import com.gym.dao.TrainerDAO;
-import com.gym.models.Trainer;
+import com.gym.models. Trainer;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx. beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml. FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene. Scene;
 import javafx.scene.control.*;
-import javafx. scene.layout.HBox;
-import javafx.stage.Stage;
+import javafx.scene.layout.HBox;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.stream. Collectors;
 
 public class TrainerManagementController {
 
@@ -28,10 +23,7 @@ public class TrainerManagementController {
     private Button searchButton;
 
     @FXML
-    private Button clearSearchButton;
-
-    @FXML
-    private Button addTrainerButton;
+    private Button clearButton;
 
     @FXML
     private TableView<Trainer> trainersTable;
@@ -70,14 +62,14 @@ public class TrainerManagementController {
 
     @FXML
     public void initialize() {
-        System.out.println("🔄 TrainerManagementController initialize() called");
+        System.out.println("TrainerManagementController initialize() called");
         setupTableColumns();
         loadTrainers();
         setupEventHandlers();
     }
 
     private void setupTableColumns() {
-        System.out.println("🔄 Setting up table columns.. .");
+        System.out.println("Setting up table columns...");
 
         // ID Column
         idColumn.setCellValueFactory(cellData ->
@@ -88,15 +80,15 @@ public class TrainerManagementController {
                 new SimpleStringProperty(cellData.getValue().getFullName()));
 
         // Specializations Column
-        specializationsColumn.setCellValueFactory(cellData -> {
+        specializationsColumn. setCellValueFactory(cellData -> {
             List<String> specs = cellData.getValue().getSpecializations();
-            String specsStr = (specs != null && !specs.isEmpty()) ? String.join(", ", specs) : "N/A";
+            String specsStr = (specs != null && ! specs.isEmpty()) ? String.join(", ", specs) : "N/A";
             return new SimpleStringProperty(specsStr);
         });
 
         // Experience Column
         experienceColumn.setCellValueFactory(cellData ->
-                new SimpleIntegerProperty(cellData.getValue().getExperienceYears()).asObject());
+                new SimpleIntegerProperty(cellData. getValue().getExperienceYears()).asObject());
 
         // Salary Column
         salaryColumn.setCellValueFactory(cellData ->
@@ -121,8 +113,8 @@ public class TrainerManagementController {
 
             {
                 editButton.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white; -fx-padding: 5 10; -fx-font-size: 11px; -fx-cursor: hand;");
-                viewButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 5 10; -fx-font-size: 11px; -fx-cursor: hand;");
-                deleteButton.setStyle("-fx-background-color: #f44336; -fx-text-fill:  white; -fx-padding: 5 10; -fx-font-size: 11px; -fx-cursor: hand;");
+                viewButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 5 10; -fx-font-size: 11px; -fx-cursor:  hand;");
+                deleteButton. setStyle("-fx-background-color: #f44336; -fx-text-fill: white; -fx-padding: 5 10; -fx-font-size: 11px; -fx-cursor: hand;");
 
                 editButton.setOnAction(event -> {
                     Trainer trainer = getTableView().getItems().get(getIndex());
@@ -151,11 +143,11 @@ public class TrainerManagementController {
             }
         });
 
-        System.out.println("✅ Table columns setup complete");
+        System.out.println("Table columns setup complete");
     }
 
     private void loadTrainers() {
-        System.out.println("\n🔄 Loading trainers from database...");
+        System.out.println("Loading trainers from database...");
 
         try {
             List<Trainer> trainers = trainerDAO.getAllTrainers();
@@ -164,7 +156,7 @@ public class TrainerManagementController {
             System.out.println("Total trainers retrieved: " + trainers.size());
 
             if (trainers.isEmpty()) {
-                System. out.println("⚠️  No trainers found in database!");
+                System.out. println("No trainers found in database!");
             } else {
                 for (Trainer trainer : trainers) {
                     int clientCount = trainerDAO.getAssignedClientsCount(trainer.getTrainerId());
@@ -174,72 +166,56 @@ public class TrainerManagementController {
                             " | Clients: " + clientCount);
                 }
             }
-            System.out.println("=======================\n");
+            System.out.println("=======================");
 
             trainersList = FXCollections. observableArrayList(trainers);
             filteredList = FXCollections. observableArrayList(trainers);
             trainersTable.setItems(filteredList);
 
-            System.out.println("✅ Trainers loaded into table:  " + filteredList.size() + " items");
+            System.out.println("Trainers loaded into table:  " + filteredList.size() + " items");
 
         } catch (Exception e) {
-            System. err.println("❌ Error loading trainers: " + e. getMessage());
+            System.err.println("Error loading trainers: " + e.getMessage());
             e.printStackTrace();
-
-            // Show error alert
             showAlert("Error", "Failed to load trainers:  " + e.getMessage(), Alert.AlertType.ERROR);
         }
     }
 
     private void setupEventHandlers() {
-        searchButton.setOnAction(event -> handleSearch());
-        clearSearchButton. setOnAction(event -> handleClearSearch());
-        addTrainerButton.setOnAction(event -> handleAddTrainer());
+        if (searchButton != null) {
+            searchButton.setOnAction(event -> handleSearch());
+        }
+
+        if (clearButton != null) {
+            clearButton.setOnAction(event -> handleClearSearch());
+        }
     }
 
     private void handleSearch() {
         String searchText = searchField.getText().toLowerCase().trim();
 
         if (searchText.isEmpty()) {
-            filteredList. setAll(trainersList);
+            filteredList.setAll(trainersList);
         } else {
             List<Trainer> filtered = trainersList.stream()
-                    .filter(trainer ->
+                    . filter(trainer ->
                             trainer.getFullName().toLowerCase().contains(searchText) ||
                                     trainer.getEmail().toLowerCase().contains(searchText) ||
                                     String.join(",", trainer.getSpecializations()).toLowerCase().contains(searchText))
-                    .collect(Collectors.toList());
+                    .collect(Collectors. toList());
 
-            filteredList. setAll(filtered);
+            filteredList.setAll(filtered);
         }
 
-        System.out.println("🔍 Search results: " + filteredList.size() + " trainers found");
+        System.out.println("Search results:  " + filteredList.size() + " trainers found");
     }
 
     private void handleClearSearch() {
-        searchField.clear();
-        filteredList.setAll(trainersList);
-        System.out.println("🔄 Search cleared");
-    }
-
-    private void handleAddTrainer() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/admin/trainer_registration.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = new Stage();
-            stage.setTitle("Add New Trainer");
-            stage.setScene(new Scene(root));
-            stage.showAndWait();
-
-            // Reload trainers after adding
-            System.out.println("🔄 Reloading trainers after registration...");
-            loadTrainers();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            showAlert("Error", "Could not open trainer registration form: " + e.getMessage(), Alert.AlertType.ERROR);
+        if (searchField != null) {
+            searchField.clear();
         }
+        filteredList.setAll(trainersList);
+        System.out.println("Search cleared");
     }
 
     private void handleEditTrainer(Trainer trainer) {
@@ -277,14 +253,14 @@ public class TrainerManagementController {
             showAlert("Cannot Delete",
                     "This trainer has " + clientCount + " assigned clients.\n\n" +
                             "Please reassign or remove clients before deleting this trainer.",
-                    Alert.AlertType. WARNING);
+                    Alert.AlertType.WARNING);
             return;
         }
 
         Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
         confirmation. setTitle("Confirm Delete");
-        confirmation.setHeaderText("Delete Trainer: " + trainer.getFullName());
-        confirmation.setContentText(
+        confirmation.setHeaderText("Delete Trainer: " + trainer. getFullName());
+        confirmation. setContentText(
                 "Are you sure you want to delete this trainer?\n\n" +
                         "This action cannot be undone."
         );
@@ -294,7 +270,7 @@ public class TrainerManagementController {
             boolean success = trainerDAO.deleteTrainer(trainer.getTrainerId());
 
             if (success) {
-                showAlert("Success", "Trainer deleted successfully!", Alert.AlertType. INFORMATION);
+                showAlert("Success", "Trainer deleted successfully!", Alert. AlertType.INFORMATION);
                 loadTrainers();
             } else {
                 showAlert("Error", "Could not delete trainer.", Alert.AlertType.ERROR);
@@ -308,5 +284,13 @@ public class TrainerManagementController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    /**
+     * Public method to reload trainers - can be called from outside
+     */
+    public void refreshTrainers() {
+        System.out.println("Refreshing trainers list...");
+        loadTrainers();
     }
 }

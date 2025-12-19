@@ -1,68 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene. layout.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
-<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.gym.controllers.admin.TrainerManagementController"
-      spacing="20" style="-fx-background-color: #F5F7FA; -fx-padding: 30;">
+        <?import javafx.scene.control.*?>
+        <?import javafx.scene.layout.*?>
+        <?import javafx.geometry.Insets?>
+
+<VBox spacing="20" style="-fx-background-color:  #F5F7FA; -fx-padding: 30;" xmlns="http://javafx.com/javafx/17. 0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gym.controllers.admin.TrainerManagementController">
 
     <!-- Header -->
-    <Label text="Trainer Management"
-           style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #263238;"/>
+    <Label style="-fx-font-size:  24px; -fx-font-weight: bold; -fx-text-fill: #263238;" text="Trainer Management" />
 
-    <Separator/>
+    <Separator />
 
-    <!-- Search and Filter Section -->
-    <HBox spacing="15" alignment="CENTER_LEFT"
-          style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 10;">
-
-        <Label text="🔍" style="-fx-font-size: 18px;"/>
-
+    <!-- Search Section -->
+    <HBox spacing="15" alignment="CENTER_LEFT">
         <TextField fx:id="searchField" promptText="Search by name, email, or specialization..."
                    prefWidth="400"
-                   style="-fx-background-color: #F5F7FA; -fx-border-color: #CFD8DC; -fx-border-radius: 5; -fx-background-radius: 5; -fx-padding: 10;"/>
+                   style="-fx-padding: 10; -fx-font-size: 13px;"/>
 
         <Button fx:id="searchButton" text="Search"
-                style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding:  10 25; -fx-background-radius: 5; -fx-cursor: hand;"/>
+                style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-padding: 10 20; -fx-font-size: 13px; -fx-cursor: hand;"/>
 
-        <Button fx:id="clearSearchButton" text="Clear"
-                style="-fx-background-color: #78909C; -fx-text-fill: white; -fx-padding: 10 25; -fx-background-radius: 5; -fx-cursor: hand;"/>
-
-        <Region HBox.hgrow="ALWAYS"/>
-
-        <Button fx:id="addTrainerButton" text="➕ Add New Trainer"
-                style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 12 30; -fx-background-radius:  5; -fx-cursor:  hand;"/>
+        <Button fx:id="clearButton" text="Clear"
+                style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-padding: 10 20; -fx-font-size: 13px; -fx-cursor:  hand;"/>
     </HBox>
 
     <!-- Trainers Table -->
-    <VBox spacing="10" VBox.vgrow="ALWAYS"
-          style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10;">
+    <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10;" VBox.vgrow="ALWAYS">
 
-        <Label text="Registered Trainers"
-               style="-fx-font-size:  16px; -fx-font-weight: bold; -fx-text-fill: #263238;"/>
+        <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #263238;" text="Registered Trainers" />
 
         <TableView fx:id="trainersTable" prefHeight="500" VBox.vgrow="ALWAYS">
             <columns>
-                <TableColumn fx:id="idColumn" text="ID" prefWidth="60"/>
-                <TableColumn fx:id="nameColumn" text="Full Name" prefWidth="180"/>
-                <TableColumn fx:id="specializationsColumn" text="Specializations" prefWidth="200"/>
-                <TableColumn fx:id="experienceColumn" text="Experience" prefWidth="100"/>
-                <TableColumn fx:id="salaryColumn" text="Monthly Salary" prefWidth="120"/>
-                <TableColumn fx:id="clientsColumn" text="Clients" prefWidth="80"/>
-                <TableColumn fx:id="statusColumn" text="Status" prefWidth="100"/>
-                <TableColumn fx:id="actionsColumn" text="Actions" prefWidth="300"/>
+                <TableColumn fx:id="idColumn" prefWidth="60" text="ID" />
+                <TableColumn fx:id="nameColumn" prefWidth="180" text="Full Name" />
+                <TableColumn fx:id="specializationsColumn" prefWidth="200" text="Specializations" />
+                <TableColumn fx:id="experienceColumn" prefWidth="100" text="Experience" />
+                <TableColumn fx:id="salaryColumn" prefWidth="120" text="Monthly Salary" />
+                <TableColumn fx:id="clientsColumn" prefWidth="80" text="Clients" />
+                <TableColumn fx:id="statusColumn" prefWidth="100" text="Status" />
+                <TableColumn fx:id="actionsColumn" prefWidth="280" text="Actions" />
             </columns>
             <placeholder>
                 <VBox alignment="CENTER" spacing="15" style="-fx-padding: 50;">
-                    <Label text="📋" style="-fx-font-size: 48px; -fx-opacity: 0.3;"/>
-                    <Label text="No trainers found"
-                           style="-fx-font-size: 16px; -fx-text-fill: #9E9E9E;"/>
-                    <Label text="Click 'Add New Trainer' to register your first trainer"
-                           style="-fx-font-size: 13px; -fx-text-fill: #BDBDBD;"/>
+                    <Label style="-fx-font-size: 48px; -fx-opacity: 0.3;" text="📋" />
+                    <Label style="-fx-font-size: 16px; -fx-text-fill: #9E9E9E;" text="No trainers found" />
+                    <Label style="-fx-font-size: 13px; -fx-text-fill: #BDBDBD;" text="Use the 'Add New Trainer' button in the dashboard to register trainers" />
                 </VBox>
             </placeholder>
         </TableView>

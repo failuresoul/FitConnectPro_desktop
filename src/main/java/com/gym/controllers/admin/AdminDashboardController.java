@@ -64,7 +64,7 @@ public class AdminDashboardController {
     @FXML
     private Label currentDateLabel;
 
-    // Quick Action Buttons - NEW
+    // Quick Action Buttons
     @FXML
     private Button addMemberButton;
 
@@ -85,6 +85,7 @@ public class AdminDashboardController {
 
     @FXML
     public void initialize() {
+        System.out.println("AdminDashboardController initialized");
         loadAdminInfo();
         loadStatistics();
         setupEventHandlers();
@@ -180,21 +181,21 @@ public class AdminDashboardController {
             reportsBtn.setOnAction(event -> loadReports());
         }
 
-        // Quick Action Buttons - NEW
+        // Quick Action Buttons
         if (addMemberButton != null) {
             addMemberButton.setOnAction(event -> loadMemberManagement());
         }
 
         if (addTrainerButton != null) {
-            addTrainerButton.setOnAction(event -> loadTrainerRegistration());
+            addTrainerButton. setOnAction(event -> loadTrainerRegistration());
         }
 
         if (viewApplicationsButton != null) {
-            viewApplicationsButton.setOnAction(event -> loadApplications());
+            viewApplicationsButton. setOnAction(event -> loadApplications());
         }
 
         if (assignTrainerButton != null) {
-            assignTrainerButton.setOnAction(event -> openAssignTrainerDialog());
+            assignTrainerButton. setOnAction(event -> openAssignTrainerDialog());
         }
     }
 
@@ -249,13 +250,14 @@ public class AdminDashboardController {
             setActiveButton(memberManagementBtn);
         }
     }
+
     private void loadTrainerRegistration() {
-        System.out.println("Loading Trainer Registration...");
+        System.out.println("Loading Trainer Registration.. .");
         loadView("/fxml/admin/trainer_registration.fxml");
     }
 
     private void loadTrainerManagement() {
-        System.out.println("Trainer Management clicked");
+        System.out.println("Loading Trainer Management...");
         loadView("/fxml/admin/trainer_management.fxml");
         if (trainerManagementBtn != null) {
             setActiveButton(trainerManagementBtn);
@@ -263,24 +265,24 @@ public class AdminDashboardController {
     }
 
     private void loadSalaryManagement() {
-        System.out. println("Salary Management clicked");
-        showAlert("Coming Soon", "Salary Management feature is under development.", Alert.AlertType.INFORMATION);
+        System.out.println("Loading Salary Management.. .");
+        loadView("/fxml/admin/salary_management.fxml");
         if (salaryManagementBtn != null) {
             setActiveButton(salaryManagementBtn);
         }
     }
 
     private void loadApplications() {
-        System.out. println("Applications clicked");
-        loadView("/fxml/admin/applications.fxml");
+        System.out.println("Loading Applications...");
+        loadView("/fxml/admin/applications. fxml");
         if (applicationsBtn != null) {
             setActiveButton(applicationsBtn);
         }
     }
 
     private void loadReports() {
-        System.out.println("Reports clicked");
-        showAlert("Coming Soon", "Reports feature is under development.", Alert.AlertType. INFORMATION);
+        System.out.println("Loading Reports...");
+        showAlert("Coming Soon", "Reports feature is under development.", Alert.AlertType.INFORMATION);
         if (reportsBtn != null) {
             setActiveButton(reportsBtn);
         }
@@ -312,9 +314,9 @@ public class AdminDashboardController {
     private void setActiveButton(Button activeButton) {
         // Remove active class from all buttons
         if (dashboardBtn != null) dashboardBtn.getStyleClass().remove("active-nav");
-        if (memberManagementBtn != null) memberManagementBtn. getStyleClass().remove("active-nav");
+        if (memberManagementBtn != null) memberManagementBtn.getStyleClass().remove("active-nav");
         if (trainerManagementBtn != null) trainerManagementBtn.getStyleClass().remove("active-nav");
-        if (salaryManagementBtn != null) salaryManagementBtn.getStyleClass().remove("active-nav");
+        if (salaryManagementBtn != null) salaryManagementBtn. getStyleClass().remove("active-nav");
         if (applicationsBtn != null) applicationsBtn.getStyleClass().remove("active-nav");
         if (reportsBtn != null) reportsBtn.getStyleClass().remove("active-nav");
 
@@ -326,22 +328,22 @@ public class AdminDashboardController {
 
     private void openAssignTrainerDialog() {
         try {
-            System.out.println("Opening Assign Trainer dialog...");
+            System.out.println("Opening Assign Trainer dialog.. .");
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/admin/assign_trainer_dialog.fxml"));
-            Parent root = loader. load();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/admin/assign_trainer_dialog. fxml"));
+            Parent root = loader.load();
 
             Stage stage = new Stage();
-            stage.setTitle("Assign Trainer to Member");
+            stage. setTitle("Assign Trainer to Member");
             stage.setScene(new Scene(root, 600, 500));
-            stage.setResizable(false);
+            stage. setResizable(false);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage. showAndWait();
 
             System.out.println("Assign trainer dialog closed");
 
         } catch (IOException e) {
-            System.err.println("Error opening assign trainer dialog: " + e.getMessage());
+            System. err.println("Error opening assign trainer dialog: " + e.getMessage());
             e.printStackTrace();
             showAlert("Error", "Could not open assign trainer dialog: " + e.getMessage(), Alert.AlertType.ERROR);
         }
@@ -351,7 +353,7 @@ public class AdminDashboardController {
         Alert alert = new Alert(type);
         alert.setTitle(title);
         alert.setHeaderText(null);
-        alert. setContentText(message);
+        alert.setContentText(message);
         alert.showAndWait();
     }
 }

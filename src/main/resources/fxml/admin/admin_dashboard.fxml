@@ -1,213 +1,211 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-        <?import javafx.geometry.Insets?>
-        <?import javafx.scene.control.*?>
-        <?import javafx.scene.layout.*?>
-        <?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.gym.controllers.admin.AdminDashboardController"
-            stylesheets="@../../css/admin_styles.css" prefHeight="700.0" prefWidth="1200.0">
+<BorderPane prefHeight="700.0" prefWidth="1200.0" stylesheets="@../../css/admin_styles.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gym.controllers.admin.AdminDashboardController">
 
     <top>
-        <HBox styleClass="top-menu-bar" alignment="CENTER_LEFT" spacing="10">
+        <HBox alignment="CENTER_LEFT" spacing="10" styleClass="top-menu-bar">
             <padding>
-                <Insets top="15" right="20" bottom="15" left="20"/>
+                <Insets bottom="15" left="20" right="20" top="15" />
             </padding>
 
-            <Label text="Admin Dashboard" styleClass="dashboard-title">
+            <Label styleClass="dashboard-title" text="Admin Dashboard">
                 <font>
-                    <Font name="Arial Bold" size="20"/>
+                    <Font name="Arial Bold" size="20" />
                 </font>
             </Label>
 
-            <Region HBox.hgrow="ALWAYS"/>
+            <Region HBox.hgrow="ALWAYS" />
 
-            <Button fx:id="logoutButton" text="Logout" styleClass="logout-button">
+            <Button fx:id="logoutButton" styleClass="logout-button" text="Logout">
                 <font>
-                    <Font name="Arial" size="13"/>
+                    <Font name="Arial" size="13" />
                 </font>
             </Button>
         </HBox>
     </top>
 
     <left>
-        <VBox styleClass="sidebar" prefWidth="200" spacing="5">
+        <VBox prefHeight="600.0" prefWidth="237.0" spacing="5" styleClass="sidebar">
             <padding>
-                <Insets top="20" right="0" bottom="20" left="0"/>
+                <Insets bottom="20" left="0" right="0" top="20" />
             </padding>
 
-            <Label text="NAVIGATION" styleClass="sidebar-header">
+            <Label styleClass="sidebar-header" text="NAVIGATION">
                 <font>
-                    <Font name="Arial Bold" size="11"/>
+                    <Font name="Arial Bold" size="11" />
                 </font>
                 <padding>
-                    <Insets left="15" bottom="10"/>
+                    <Insets bottom="10" left="15" />
                 </padding>
             </Label>
 
-            <Button fx:id="dashboardBtn" text="🏠 Dashboard" styleClass="nav-button">
+            <Button fx:id="dashboardBtn" styleClass="nav-button" text="🏠 Dashboard">
                 <font>
-                    <Font name="Arial" size="13"/>
+                    <Font name="Arial" size="13" />
                 </font>
             </Button>
 
-            <Button fx:id="memberManagementBtn" text="👥 Member Management" styleClass="nav-button">
+            <Button fx:id="memberManagementBtn" styleClass="nav-button" text="👥 Member Management">
                 <font>
-                    <Font name="Arial" size="13"/>
+                    <Font name="Arial" size="13" />
                 </font>
             </Button>
 
-            <Button fx:id="trainerManagementBtn" text="💪 Trainer Management" styleClass="nav-button">
+            <Button fx:id="trainerManagementBtn" styleClass="nav-button" text="💪 Trainer Management">
                 <font>
-                    <Font name="Arial" size="13"/>
+                    <Font name="Arial" size="13" />
                 </font>
             </Button>
 
-            <Button fx:id="salaryManagementBtn" text="💰 Salary Management" styleClass="nav-button">
+            <Button fx:id="salaryManagementBtn" prefWidth="194.0" styleClass="nav-button" text="💰 Salary Management">
                 <font>
-                    <Font name="Arial" size="13"/>
+                    <Font name="Arial" size="13" />
                 </font>
             </Button>
 
-            <Button fx:id="applicationsBtn" text="📋 Applications" styleClass="nav-button">
+            <Button fx:id="applicationsBtn" styleClass="nav-button" text="📋 Applications">
                 <font>
-                    <Font name="Arial" size="13"/>
+                    <Font name="Arial" size="13" />
                 </font>
             </Button>
 
-            <Button fx:id="reportsBtn" text="📊 Reports" styleClass="nav-button">
+            <Button fx:id="reportsBtn" styleClass="nav-button" text="📊 Reports">
                 <font>
-                    <Font name="Arial" size="13"/>
+                    <Font name="Arial" size="13" />
                 </font>
             </Button>
         </VBox>
     </left>
 
     <center>
-        <ScrollPane fitToWidth="true" fitToHeight="true" styleClass="content-scroll">
-            <VBox fx:id="contentArea" styleClass="content-area" spacing="25">
+        <ScrollPane fitToHeight="true" fitToWidth="true" styleClass="content-scroll">
+            <VBox fx:id="contentArea" spacing="25" styleClass="content-area">
                 <padding>
-                    <Insets top="25" right="25" bottom="25" left="25"/>
+                    <Insets bottom="25" left="25" right="25" top="25" />
                 </padding>
 
                 <HBox spacing="20">
-                    <VBox styleClass="stat-card" prefWidth="250" prefHeight="150">
+                    <VBox prefHeight="150" prefWidth="250" styleClass="stat-card">
                         <padding>
-                            <Insets top="20" right="20" bottom="20" left="20"/>
+                            <Insets bottom="20" left="20" right="20" top="20" />
                         </padding>
 
-                        <Label text="👥" styleClass="stat-icon">
+                        <Label styleClass="stat-icon" text="👥">
                             <font>
-                                <Font size="36"/>
+                                <Font size="36" />
                             </font>
                         </Label>
 
-                        <Label fx:id="totalMembersLabel" text="0" styleClass="stat-value">
+                        <Label fx:id="totalMembersLabel" styleClass="stat-value" text="0">
                             <font>
-                                <Font name="Arial Bold" size="32"/>
+                                <Font name="Arial Bold" size="32" />
                             </font>
                             <padding>
-                                <Insets top="10"/>
+                                <Insets top="10" />
                             </padding>
                         </Label>
 
-                        <Label text="Total Members" styleClass="stat-label">
+                        <Label styleClass="stat-label" text="Total Members">
                             <font>
-                                <Font name="Arial" size="13"/>
+                                <Font name="Arial" size="13" />
                             </font>
                             <padding>
-                                <Insets top="5"/>
+                                <Insets top="5" />
                             </padding>
                         </Label>
                     </VBox>
 
-                    <VBox styleClass="stat-card" prefWidth="250" prefHeight="150">
+                    <VBox prefHeight="150" prefWidth="250" styleClass="stat-card">
                         <padding>
-                            <Insets top="20" right="20" bottom="20" left="20"/>
+                            <Insets bottom="20" left="20" right="20" top="20" />
                         </padding>
 
-                        <Label text="💪" styleClass="stat-icon">
+                        <Label styleClass="stat-icon" text="💪">
                             <font>
-                                <Font size="36"/>
+                                <Font size="36" />
                             </font>
                         </Label>
 
-                        <Label fx:id="totalTrainersLabel" text="0" styleClass="stat-value">
+                        <Label fx:id="totalTrainersLabel" styleClass="stat-value" text="0">
                             <font>
-                                <Font name="Arial Bold" size="32"/>
+                                <Font name="Arial Bold" size="32" />
                             </font>
                             <padding>
-                                <Insets top="10"/>
+                                <Insets top="10" />
                             </padding>
                         </Label>
 
-                        <Label text="Total Trainers" styleClass="stat-label">
+                        <Label styleClass="stat-label" text="Total Trainers">
                             <font>
-                                <Font name="Arial" size="13"/>
+                                <Font name="Arial" size="13" />
                             </font>
                             <padding>
-                                <Insets top="5"/>
+                                <Insets top="5" />
                             </padding>
                         </Label>
                     </VBox>
 
-                    <VBox styleClass="stat-card" prefWidth="250" prefHeight="150">
+                    <VBox prefHeight="150" prefWidth="250" styleClass="stat-card">
                         <padding>
-                            <Insets top="20" right="20" bottom="20" left="20"/>
+                            <Insets bottom="20" left="20" right="20" top="20" />
                         </padding>
 
-                        <Label text="📋" styleClass="stat-icon">
+                        <Label styleClass="stat-icon" text="📋">
                             <font>
-                                <Font size="36"/>
+                                <Font size="36" />
                             </font>
                         </Label>
 
-                        <Label fx:id="pendingApplicationsLabel" text="0" styleClass="stat-value">
+                        <Label fx:id="pendingApplicationsLabel" styleClass="stat-value" text="0">
                             <font>
-                                <Font name="Arial Bold" size="32"/>
+                                <Font name="Arial Bold" size="32" />
                             </font>
                             <padding>
-                                <Insets top="10"/>
+                                <Insets top="10" />
                             </padding>
                         </Label>
 
-                        <Label text="Pending Applications" styleClass="stat-label">
+                        <Label styleClass="stat-label" text="Pending Applications">
                             <font>
-                                <Font name="Arial" size="13"/>
+                                <Font name="Arial" size="13" />
                             </font>
                             <padding>
-                                <Insets top="5"/>
+                                <Insets top="5" />
                             </padding>
                         </Label>
                     </VBox>
 
-                    <VBox styleClass="stat-card" prefWidth="250" prefHeight="150">
+                    <VBox prefHeight="150" prefWidth="250" styleClass="stat-card">
                         <padding>
-                            <Insets top="20" right="20" bottom="20" left="20"/>
+                            <Insets bottom="20" left="20" right="20" top="20" />
                         </padding>
 
-                        <Label text="💵" styleClass="stat-icon">
+                        <Label styleClass="stat-icon" text="💵">
                             <font>
-                                <Font size="36"/>
+                                <Font size="36" />
                             </font>
                         </Label>
 
-                        <Label fx:id="monthlyRevenueLabel" text="0" styleClass="stat-value">
+                        <Label fx:id="monthlyRevenueLabel" styleClass="stat-value" text="0">
                             <font>
-                                <Font name="Arial Bold" size="32"/>
+                                <Font name="Arial Bold" size="32" />
                             </font>
                             <padding>
-                                <Insets top="10"/>
+                                <Insets top="10" />
                             </padding>
                         </Label>
 
-                        <Label text="Monthly Revenue" styleClass="stat-label">
+                        <Label styleClass="stat-label" text="Monthly Revenue">
                             <font>
-                                <Font name="Arial" size="13"/>
+                                <Font name="Arial" size="13" />
                             </font>
                             <padding>
-                                <Insets top="5"/>
+                                <Insets top="5" />
                             </padding>
                         </Label>
                     </VBox>
@@ -216,75 +214,75 @@
                 <!-- ============================================ -->
                 <!-- QUICK ACTIONS SECTION - NEW CODE STARTS HERE -->
                 <!-- ============================================ -->
-                <Separator/>
+                <Separator />
 
                 <VBox spacing="15">
-                    <Label text="Quick Actions" styleClass="section-title">
+                    <Label styleClass="section-title" text="Quick Actions">
                         <font>
-                            <Font name="Arial Bold" size="18"/>
+                            <Font name="Arial Bold" size="18" />
                         </font>
                     </Label>
 
                     <HBox spacing="15">
-                        <Button fx:id="addMemberButton" text="Add New Member" styleClass="quick-action-button">
+                        <Button fx:id="addMemberButton" styleClass="quick-action-button" text="Add New Member">
                             <font>
-                                <Font name="Arial" size="13"/>
+                                <Font name="Arial" size="13" />
                             </font>
                             <padding>
-                                <Insets top="12" right="25" bottom="12" left="25"/>
+                                <Insets bottom="12" left="25" right="25" top="12" />
                             </padding>
                         </Button>
 
-                        <Button fx:id="addTrainerButton" text="Add New Trainer" styleClass="quick-action-button">
+                        <Button fx:id="addTrainerButton" styleClass="quick-action-button" text="Add New Trainer">
                             <font>
-                                <Font name="Arial" size="13"/>
+                                <Font name="Arial" size="13" />
                             </font>
                             <padding>
-                                <Insets top="12" right="25" bottom="12" left="25"/>
+                                <Insets bottom="12" left="25" right="25" top="12" />
                             </padding>
                         </Button>
 
-                        <Button fx:id="viewApplicationsButton" text="View Applications" styleClass="quick-action-button">
+                        <Button fx:id="viewApplicationsButton" styleClass="quick-action-button" text="View Applications">
                             <font>
-                                <Font name="Arial" size="13"/>
+                                <Font name="Arial" size="13" />
                             </font>
                             <padding>
-                                <Insets top="12" right="25" bottom="12" left="25"/>
+                                <Insets bottom="12" left="25" right="25" top="12" />
                             </padding>
                         </Button>
 
-                        <Button fx:id="assignTrainerButton" text="Assign Trainer" styleClass="quick-action-button-primary">
+                        <Button fx:id="assignTrainerButton" styleClass="quick-action-button-primary" text="Assign Trainer">
                             <font>
-                                <Font name="Arial Bold" size="13"/>
+                                <Font name="Arial Bold" size="13" />
                             </font>
                             <padding>
-                                <Insets top="12" right="25" bottom="12" left="25"/>
+                                <Insets bottom="12" left="25" right="25" top="12" />
                             </padding>
                         </Button>
                     </HBox>
                 </VBox>
 
-                <Separator/>
+                <Separator />
                 <!-- ============================================ -->
                 <!-- QUICK ACTIONS SECTION - NEW CODE ENDS HERE -->
                 <!-- ============================================ -->
 
-                <VBox styleClass="activity-section" spacing="15">
-                    <Label text="Recent Activity" styleClass="section-title">
+                <VBox spacing="15" styleClass="activity-section">
+                    <Label styleClass="section-title" text="Recent Activity">
                         <font>
-                            <Font name="Arial Bold" size="18"/>
+                            <Font name="Arial Bold" size="18" />
                         </font>
                     </Label>
 
-                    <TableView fx:id="recentActivityTable" styleClass="activity-table" prefHeight="300">
+                    <TableView fx:id="recentActivityTable" prefHeight="300" styleClass="activity-table">
                         <columns>
-                            <TableColumn text="Date" prefWidth="150"/>
-                            <TableColumn text="Activity Type" prefWidth="200"/>
-                            <TableColumn text="Description" prefWidth="400"/>
-                            <TableColumn text="User" prefWidth="150"/>
+                            <TableColumn prefWidth="150" text="Date" />
+                            <TableColumn prefWidth="200" text="Activity Type" />
+                            <TableColumn prefWidth="400" text="Description" />
+                            <TableColumn prefWidth="150" text="User" />
                         </columns>
                         <placeholder>
-                            <Label text="No recent activity to display"/>
+                            <Label text="No recent activity to display" />
                         </placeholder>
                     </TableView>
                 </VBox>
@@ -293,28 +291,28 @@
     </center>
 
     <bottom>
-        <HBox styleClass="status-bar" alignment="CENTER_LEFT" spacing="15">
+        <HBox alignment="CENTER_LEFT" spacing="15" styleClass="status-bar">
             <padding>
-                <Insets top="10" right="20" bottom="10" left="20"/>
+                <Insets bottom="10" left="20" right="20" top="10" />
             </padding>
 
-            <Label text="Logged in as:" styleClass="status-label">
+            <Label styleClass="status-label" text="Logged in as:">
                 <font>
-                    <Font name="Arial" size="12"/>
+                    <Font name="Arial" size="12" />
                 </font>
             </Label>
 
-            <Label fx:id="loggedInAdminLabel" text="Admin Name" styleClass="status-value">
+            <Label fx:id="loggedInAdminLabel" styleClass="status-value" text="Admin Name">
                 <font>
-                    <Font name="Arial Bold" size="12"/>
+                    <Font name="Arial Bold" size="12" />
                 </font>
             </Label>
 
-            <Region HBox.hgrow="ALWAYS"/>
+            <Region HBox.hgrow="ALWAYS" />
 
-            <Label fx:id="currentDateLabel" text="Date" styleClass="status-label">
+            <Label fx:id="currentDateLabel" styleClass="status-label" text="Date">
                 <font>
-                    <Font name="Arial" size="12"/>
+                    <Font name="Arial" size="12" />
                 </font>
             </Label>
         </HBox>

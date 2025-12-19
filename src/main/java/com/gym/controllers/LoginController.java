@@ -119,11 +119,11 @@ public class LoginController {
             }
 
             if (loginSuccessful) {
-                ValidationUtil.showAlert("Login Successful",
-                        "Welcome " + username + "!\n\n" +
-                                "User Type: " + userType + "\n" +
-                                "Authentication completed successfully.",
-                        Alert.AlertType.INFORMATION);
+//                ValidationUtil.showAlert("Login Successful",
+//                        "Welcome " + username + "!\n\n" +
+//                                "User Type: " + userType + "\n" +
+//                                "Authentication completed successfully.",
+//                        Alert.AlertType.INFORMATION);
 
                 loadDashboard(event, userType);
 
@@ -192,9 +192,9 @@ public class LoginController {
         Alert alert = new Alert(Alert. AlertType.INFORMATION);
         alert.setTitle("Forgot Password");
         alert.setHeaderText("Password Recovery");
-        alert. setContentText("Please contact the system administrator to reset your password.\n\n" +
-                "Admin Email: fitconnectpro@gymsystem.com\n" +
-                "Phone: 01746109666");
-        alert.showAndWait();
+//        alert. setContentText("Please contact the system administrator to reset your password.\n\n" +
+//                "Admin Email: fitconnectpro@gymsystem.com\n" +
+//                "Phone: 01746109666");
+//        alert.showAndWait();
     }
 }

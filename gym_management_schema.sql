@@ -8,7 +8,7 @@ CREATE TABLE Admins (
                         email TEXT NOT NULL UNIQUE,
                         phone TEXT,
                         role TEXT NOT NULL,
-                        account_status TEXT DEFAULT 'ACTIVE',                    -- ← ADDED THIS LINE
+                        account_status TEXT DEFAULT 'ACTIVE',
                         created_date DATETIME DEFAULT CURRENT_TIMESTAMP,
                         last_login DATETIME
 );
@@ -25,6 +25,7 @@ CREATE TABLE Admin_Logs (
 );
 
 -- TRAINER TABLES
+
 CREATE TABLE Trainers (
                           trainer_id INTEGER PRIMARY KEY AUTOINCREMENT,
                           username TEXT UNIQUE NOT NULL,
@@ -141,21 +142,24 @@ CREATE TABLE Trainer_Meal_Plans (
                                     FOREIGN KEY (member_id) REFERENCES Members(member_id)
 );
 
+-- CORRECTED TRAINER SALARIES TABLE
 CREATE TABLE Trainer_Salaries (
                                   salary_id INTEGER PRIMARY KEY AUTOINCREMENT,
                                   trainer_id INTEGER NOT NULL,
                                   month INTEGER NOT NULL,
                                   year INTEGER NOT NULL,
                                   base_salary REAL NOT NULL,
-                                  bonus REAL DEFAULT 0,
-                                  deductions REAL DEFAULT 0,
+                                  bonus REAL DEFAULT 0.0,
+                                  deductions REAL DEFAULT 0.0,
                                   net_salary REAL NOT NULL,
-                                  payment_date DATE,
-                                  payment_status TEXT NOT NULL,
-                                  processed_by_admin_id INTEGER,
-                                  notes TEXT,
-                                  FOREIGN KEY (trainer_id) REFERENCES Trainers(trainer_id),
-                                  FOREIGN KEY (processed_by_admin_id) REFERENCES Admins(admin_id)
+                                  status TEXT DEFAULT 'PENDING' CHECK(status IN ('PENDING', 'PAID')),
+                                  payment_date TEXT,
+                                  processed_by_admin_id INTEGER NOT NULL,
+                                  created_date TEXT NOT NULL,
+                                  last_modified TEXT,
+                                  FOREIGN KEY (trainer_id) REFERENCES Trainers(trainer_id) ON DELETE CASCADE,
+                                  FOREIGN KEY (processed_by_admin_id) REFERENCES Admins(admin_id),
+                                  UNIQUE(trainer_id, month, year)
 );
 
 CREATE TABLE Trainer_Member_Messages (
@@ -360,6 +364,8 @@ CREATE INDEX idx_trainer_workout_plans_member ON Trainer_Workout_Plans(member_id
 CREATE INDEX idx_trainer_daily_goals_member ON Trainer_Daily_Goals(member_id);
 CREATE INDEX idx_trainer_meal_plans_member ON Trainer_Meal_Plans(member_id);
 CREATE INDEX idx_trainer_salaries_trainer ON Trainer_Salaries(trainer_id);
+CREATE INDEX idx_trainer_salaries_status ON Trainer_Salaries(status);
+CREATE INDEX idx_trainer_salaries_month_year ON Trainer_Salaries(month, year);
 CREATE INDEX idx_trainer_messages_sender ON Trainer_Member_Messages(sender_id);
 CREATE INDEX idx_trainer_messages_receiver ON Trainer_Member_Messages(receiver_id);
 CREATE INDEX idx_members_email ON Members(email);
@@ -383,7 +389,7 @@ CREATE INDEX idx_social_activities_member ON Social_Activities(member_id);
 -- Insert default admin (password: admin123)
 INSERT INTO Admins (username, password_hash, full_name, email, phone, role, account_status, created_date)
 VALUES ('admin', '$2a$10$xqYLkkP0RMKF0YdKhZGzAeZ. GD5YqWXHqVr3GlqN5o5yVqYqB6rqe',
-        'System Administrator', 'admin@gym. com', '1234567890', 'SUPER_ADMIN', 'ACTIVE', datetime('now'));
+        'System Administrator', 'admin@gym.com', '1234567890', 'SUPER_ADMIN', 'ACTIVE', datetime('now'));
 
 -- Enable foreign keys
 PRAGMA foreign_keys = ON;
