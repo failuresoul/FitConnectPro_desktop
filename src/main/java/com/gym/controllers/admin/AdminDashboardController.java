@@ -282,7 +282,7 @@ public class AdminDashboardController {
 
     private void loadReports() {
         System.out.println("Loading Reports...");
-        showAlert("Coming Soon", "Reports feature is under development.", Alert.AlertType.INFORMATION);
+        loadView("/fxml/admin/salary_reports.fxml");
         if (reportsBtn != null) {
             setActiveButton(reportsBtn);
         }
