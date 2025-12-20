@@ -274,7 +274,7 @@ public class AdminDashboardController {
 
     private void loadApplications() {
         System.out.println("Loading Applications...");
-        loadView("/fxml/admin/applications. fxml");
+        loadView("/fxml/admin/applications.fxml");
         if (applicationsBtn != null) {
             setActiveButton(applicationsBtn);
         }
@@ -330,7 +330,7 @@ public class AdminDashboardController {
         try {
             System.out.println("Opening Assign Trainer dialog.. .");
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/admin/assign_trainer_dialog. fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/admin/assign_trainer_dialog.fxml"));
             Parent root = loader.load();
 
             Stage stage = new Stage();

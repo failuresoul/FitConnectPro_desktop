@@ -35,5 +35,6 @@ public class Session {
     public void logout() {
         this.currentUser = null;
         this.userType = null;
+        System.out.println("Session cleared successfully!");
     }
 }
