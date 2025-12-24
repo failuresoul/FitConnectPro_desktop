@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.gym.controllers.trainer.MyClientsController"
+            style="-fx-background-color:  #F5F7FA;">
+
+    <top>
+        <VBox spacing="15.0" style="-fx-padding: 20; -fx-background-color: white;">
+            <Label text="My Clients" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #263238;" />
+
+            <HBox spacing="15.0" alignment="CENTER_LEFT">
+                <TextField fx:id="searchField" promptText="Search by name, email, or goal..."
+                           prefWidth="400.0" style="-fx-padding: 10; -fx-font-size: 14px;" />
+                <Button fx:id="searchButton" text="Search"
+                        style="-fx-background-color:  #3498db; -fx-text-fill: white; -fx-padding: 10 20; -fx-font-size:  14px;" />
+                <Button fx:id="clearButton" text="Clear"
+                        style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-padding: 10 20; -fx-font-size: 14px;" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Label fx:id="totalClientsLabel" text="Total Clients: 0"
+                       style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #34495e;" />
+            </HBox>
+        </VBox>
+    </top>
+
+    <center>
+        <SplitPane dividerPositions="0.7" style="-fx-background-color: transparent;">
+
+            <!-- Left:  Clients Table -->
+            <VBox spacing="10.0" style="-fx-padding: 20; -fx-background-color: white; -fx-background-radius: 10;">
+                <TableView fx:id="clientsTable" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="memberNameColumn" text="Member Name" prefWidth="180.0" />
+                        <TableColumn fx:id="goalColumn" text="Goal" prefWidth="150.0" />
+                        <TableColumn fx:id="assignmentDateColumn" text="Assignment Date" prefWidth="130.0" />
+                        <TableColumn fx:id="lastWorkoutColumn" text="Last Workout" prefWidth="130.0" />
+                        <TableColumn fx:id="progressColumn" text="Progress %" prefWidth="100.0" />
+                        <TableColumn fx:id="actionsColumn" text="Actions" prefWidth="250.0" />
+                    </columns>
+                </TableView>
+            </VBox>
+
+            <!-- Right: Client Details Panel -->
+            <VBox fx:id="detailsPanel" spacing="15.0"
+                  style="-fx-padding: 20; -fx-background-color: white; -fx-background-radius: 10;">
+
+                <Label text="Client Details" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #263238;" />
+
+                <Separator />
+
+                <VBox fx:id="clientInfoContainer" spacing="10.0">
+                    <Label fx:id="detailNameLabel" text="Select a client to view details"
+                           style="-fx-font-size: 14px; -fx-text-fill: #7f8c8d;" />
+
+                    <VBox fx:id="detailsContent" spacing="8.0" visible="false">
+                        <HBox spacing="10.0">
+                            <Label text="Name:" style="-fx-font-weight: bold; -fx-min-width: 100;" />
+                            <Label fx:id="detailName" text="-" />
+                        </HBox>
+
+                        <HBox spacing="10.0">
+                            <Label text="Email:" style="-fx-font-weight: bold; -fx-min-width: 100;" />
+                            <Label fx:id="detailEmail" text="-" />
+                        </HBox>
+
+                        <HBox spacing="10.0">
+                            <Label text="Phone:" style="-fx-font-weight: bold; -fx-min-width: 100;" />
+                            <Label fx:id="detailPhone" text="-" />
+                        </HBox>
+
+                        <HBox spacing="10.0">
+                            <Label text="Goal:" style="-fx-font-weight: bold; -fx-min-width: 100;" />
+                            <Label fx:id="detailGoal" text="-" />
+                        </HBox>
+
+                        <HBox spacing="10.0">
+                            <Label text="Membership:" style="-fx-font-weight: bold; -fx-min-width: 100;" />
+                            <Label fx:id="detailMembership" text="-" />
+                        </HBox>
+
+                        <HBox spacing="10.0">
+                            <Label text="Status:" style="-fx-font-weight: bold; -fx-min-width: 100;" />
+                            <Label fx:id="detailStatus" text="-" />
+                        </HBox>
+
+                        <Separator />
+
+                        <VBox spacing="8.0">
+                            <Button fx:id="viewFullProfileBtn" text="View Full Profile" maxWidth="Infinity"
+                                    style="-fx-background-color:  #3498db; -fx-text-fill: white; -fx-padding: 10;" />
+                            <Button fx:id="createPlanBtn" text="Create Workout Plan" maxWidth="Infinity"
+                                    style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-padding: 10;" />
+                            <Button fx:id="sendMessageBtn" text="Send Message" maxWidth="Infinity"
+                                    style="-fx-background-color: #9b59b6; -fx-text-fill: white; -fx-padding: 10;" />
+                        </VBox>
+                    </VBox>
+                </VBox>
+
+            </VBox>
+
+        </SplitPane>
+    </center>
+
+</BorderPane>

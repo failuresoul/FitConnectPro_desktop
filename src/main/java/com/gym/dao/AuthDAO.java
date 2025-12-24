@@ -141,7 +141,6 @@ public class AuthDAO {
 
                     trainer.setAccountStatus(rs.getString("account_status"));
 
-                    // FIXED:  Wrap salary in try-catch
                     try {
                         trainer.setSalary(rs.getDouble("salary"));
                     } catch (SQLException e) {

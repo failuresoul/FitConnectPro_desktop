@@ -3,115 +3,90 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx/21"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.gym.controllers.trainer.TrainerDashboardController"
-            style="-fx-background-color: #F5F7FA;">
+<BorderPane style="-fx-background-color: #F5F7FA;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gym.controllers.trainer.TrainerDashboardController">
 
     <top>
-        <HBox style="-fx-background-color: #2C3E50; -fx-padding: 15 30;" alignment="CENTER_LEFT" spacing="20.0">
-            <Label text="Trainer Dashboard" style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight:  bold;" />
+        <HBox alignment="CENTER_LEFT" spacing="20.0" style="-fx-background-color: #2C3E50; -fx-padding: 15 30;">
+            <Label style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight:  bold;" text="Trainer Dashboard" />
 
             <Region HBox.hgrow="ALWAYS" />
 
-            <Label fx:id="welcomeLabel" text="Welcome, Trainer" style="-fx-text-fill: white; -fx-font-size: 14px;" />
-            <Button fx:id="logoutButton" text="Logout"
-                    style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-padding: 8 20; -fx-font-weight: bold;" />
+            <Label fx:id="welcomeLabel" style="-fx-text-fill: white; -fx-font-size: 14px;" text="Welcome, Trainer" />
+            <Button fx:id="logoutButton" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-padding: 8 20; -fx-font-weight: bold;" text="Logout" />
         </HBox>
     </top>
 
     <left>
-        <VBox style="-fx-background-color: #34495E; -fx-padding: 20 0;" prefWidth="220.0" spacing="5.0">
+        <VBox prefWidth="220.0" spacing="5.0" style="-fx-background-color: #34495E; -fx-padding: 20 0;">
 
-            <Label text="NAVIGATION" style="-fx-text-fill: #95a5a6; -fx-font-size: 11px; -fx-padding: 10 20;" />
+            <Label style="-fx-text-fill: #95a5a6; -fx-font-size: 11px; -fx-padding:  10 20;" text="NAVIGATION" />
 
-            <Button fx:id="dashboardBtn" text="🏠 Dashboard"
-                    style="-fx-background-color:  transparent; -fx-text-fill:  white; -fx-alignment: CENTER_LEFT; -fx-padding: 12 20; -fx-font-size: 14px; -fx-cursor: hand;"
-                    maxWidth="Infinity" />
+            <Button fx:id="dashboardBtn" maxWidth="Infinity" style="-fx-background-color:  transparent; -fx-text-fill: white; -fx-alignment:  CENTER_LEFT; -fx-padding: 12 20; -fx-font-size: 14px; -fx-cursor: hand;" text="🏠 Dashboard" />
 
-            <Button fx:id="myClientsBtn" text="👥 My Clients"
-                    style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-padding: 12 20; -fx-font-size:  14px; -fx-cursor: hand;"
-                    maxWidth="Infinity" />
+            <Button fx:id="myClientsBtn" maxWidth="Infinity" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-padding: 12 20; -fx-font-size:  14px; -fx-cursor: hand;" text="👥 My Clients" />
 
-            <Button fx:id="createWorkoutBtn" text="💪 Create Workout Plan"
-                    style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-padding: 12 20; -fx-font-size: 14px; -fx-cursor: hand;"
-                    maxWidth="Infinity" />
+            <Button fx:id="createWorkoutBtn" maxWidth="Infinity" style="-fx-background-color:  transparent; -fx-text-fill: white; -fx-alignment:  CENTER_LEFT; -fx-padding: 12 20; -fx-font-size: 14px; -fx-cursor: hand;" text="💪 Create Workout Plan" />
 
-            <Button fx:id="createMealBtn" text="🍎 Create Meal Plan"
-                    style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-padding: 12 20; -fx-font-size:  14px; -fx-cursor: hand;"
-                    maxWidth="Infinity" />
+            <Button fx:id="createMealBtn" maxWidth="Infinity" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-padding: 12 20; -fx-font-size: 14px; -fx-cursor: hand;" text="🍎 Create Meal Plan" />
 
-            <Button fx:id="setGoalsBtn" text="🎯 Set Daily Goals"
-                    style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-padding: 12 20; -fx-font-size: 14px; -fx-cursor: hand;"
-                    maxWidth="Infinity" />
+            <Button fx:id="setGoalsBtn" maxWidth="Infinity" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-padding: 12 20; -fx-font-size:  14px; -fx-cursor: hand;" text="🎯 Set Daily Goals" />
 
-            <Button fx:id="progressReportsBtn" text="📊 Progress Reports"
-                    style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-padding: 12 20; -fx-font-size:  14px; -fx-cursor: hand;"
-                    maxWidth="Infinity" />
+            <Button fx:id="progressReportsBtn" maxWidth="Infinity" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-padding: 12 20; -fx-font-size:  14px; -fx-cursor: hand;" text="📊 Progress Reports" />
 
-            <Button fx:id="messagesBtn" text="💬 Messages"
-                    style="-fx-background-color:  transparent; -fx-text-fill: white; -fx-alignment:  CENTER_LEFT; -fx-padding: 12 20; -fx-font-size: 14px; -fx-cursor: hand;"
-                    maxWidth="Infinity" />
+            <Button fx:id="messagesBtn" maxWidth="Infinity" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-padding: 12 20; -fx-font-size: 14px; -fx-cursor: hand;" text="💬 Messages" />
 
-            <Button fx:id="profileBtn" text="⚙️ My Profile"
-                    style="-fx-background-color: transparent; -fx-text-fill:  white; -fx-alignment: CENTER_LEFT; -fx-padding:  12 20; -fx-font-size: 14px; -fx-cursor: hand;"
-                    maxWidth="Infinity" />
+            <Button fx:id="profileBtn" maxWidth="Infinity" style="-fx-background-color: transparent; -fx-text-fill:  white; -fx-alignment: CENTER_LEFT; -fx-padding:  12 20; -fx-font-size: 14px; -fx-cursor: hand;" text="⚙️ My Profile" />
 
         </VBox>
     </left>
 
     <center>
-        <ScrollPane fitToWidth="true" fitToHeight="true" style="-fx-background-color: transparent;">
-            <VBox fx:id="contentArea" spacing="20.0" style="-fx-padding: 30;">
+        <VBox fx:id="contentArea" spacing="20.0" style="-fx-padding: 30; -fx-background-color: #F5F7FA;">
 
-                <Label text="Dashboard Overview" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #263238;" />
+            <Label style="-fx-font-size:  24px; -fx-font-weight: bold; -fx-text-fill: #263238;" text="Dashboard Overview" />
 
-                <Separator />
+            <Separator />
 
-                <HBox spacing="20.0">
-                    <VBox spacing="10.0" prefWidth="250.0" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);">
-                        <Label text="Total Clients" style="-fx-font-size: 13px; -fx-text-fill: #7f8c8d;" />
-                        <Label fx:id="totalClientsLabel" text="0" style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: #3498db;" />
-                    </VBox>
+            <HBox spacing="20.0">
+                <VBox prefWidth="250.0" spacing="10.0" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+                    <Label style="-fx-font-size: 13px; -fx-text-fill: #7f8c8d;" text="Total Clients" />
+                    <Label fx:id="totalClientsLabel" style="-fx-font-size: 36px; -fx-font-weight:  bold; -fx-text-fill: #3498db;" text="0" />
+                </VBox>
 
-                    <VBox spacing="10.0" prefWidth="250.0" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius:  10; -fx-effect:  dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);">
-                        <Label text="Today's Workouts" style="-fx-font-size: 13px; -fx-text-fill: #7f8c8d;" />
-                        <Label fx:id="todayWorkoutsLabel" text="0" style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: #27ae60;" />
-                    </VBox>
+                <VBox prefWidth="250.0" spacing="10.0" style="-fx-background-color:  white; -fx-padding: 20; -fx-background-radius:  10; -fx-effect:  dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+                    <Label style="-fx-font-size: 13px; -fx-text-fill: #7f8c8d;" text="Today's Workouts" />
+                    <Label fx:id="todayWorkoutsLabel" style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: #27ae60;" text="0" />
+                </VBox>
 
-                    <VBox spacing="10.0" prefWidth="250.0" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius:  10; -fx-effect:  dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);">
-                        <Label text="Pending Plans" style="-fx-font-size:  13px; -fx-text-fill: #7f8c8d;" />
-                        <Label fx:id="pendingPlansLabel" text="0" style="-fx-font-size:  36px; -fx-font-weight: bold; -fx-text-fill: #f39c12;" />
-                    </VBox>
+                <VBox prefWidth="250.0" spacing="10.0" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10;">
+                    <Label style="-fx-font-size:  13px; -fx-text-fill: #7f8c8d;" text="Pending Plans" />
+                    <Label fx:id="pendingPlansLabel" style="-fx-font-size:  36px; -fx-font-weight: bold; -fx-text-fill: #f39c12;" text="0" />
+                </VBox>
+            </HBox>
+
+            <VBox spacing="10.0" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10;">
+                <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #263238;" text="Quick Actions" />
+
+                <HBox spacing="15.0">
+                    <Button fx:id="quickCreateWorkoutBtn" style="-fx-background-color:  #3498db; -fx-text-fill: white; -fx-padding: 12 25; -fx-font-size:  14px;" text="Create Workout Plan" />
+                    <Button fx:id="quickCreateMealBtn" style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-padding: 12 25; -fx-font-size: 14px;" text="Create Meal Plan" />
+                    <Button fx:id="quickViewClientsBtn" style="-fx-background-color: #9b59b6; -fx-text-fill: white; -fx-padding: 12 25; -fx-font-size: 14px;" text="View My Clients" />
                 </HBox>
-
-                <VBox spacing="10.0" style="-fx-background-color:  white; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);">
-                    <Label text="Quick Actions" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #263238;" />
-
-                    <HBox spacing="15.0">
-                        <Button fx:id="quickCreateWorkoutBtn" text="Create Workout Plan"
-                                style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-padding: 12 25; -fx-font-size:  14px;" />
-                        <Button fx:id="quickCreateMealBtn" text="Create Meal Plan"
-                                style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-padding: 12 25; -fx-font-size: 14px;" />
-                        <Button fx:id="quickViewClientsBtn" text="View My Clients"
-                                style="-fx-background-color: #9b59b6; -fx-text-fill: white; -fx-padding: 12 25; -fx-font-size: 14px;" />
-                    </HBox>
-                </VBox>
-
-                <VBox spacing="10.0" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);">
-                    <Label text="Recent Messages" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #263238;" />
-
-                    <TableView fx:id="recentMessagesTable" prefHeight="200.0">
-                        <columns>
-                            <TableColumn fx:id="messageFromColumn" text="From" prefWidth="150.0" />
-                            <TableColumn fx:id="messageTextColumn" text="Message" prefWidth="350.0" />
-                            <TableColumn fx:id="messageDateColumn" text="Date" prefWidth="150.0" />
-                        </columns>
-                    </TableView>
-                </VBox>
-
             </VBox>
-        </ScrollPane>
+
+            <VBox spacing="10.0" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10;">
+                <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #263238;" text="Recent Messages" />
+
+                <TableView fx:id="recentMessagesTable" prefHeight="200.0">
+                    <columns>
+                        <TableColumn fx:id="messageFromColumn" prefWidth="150.0" text="From" />
+                        <TableColumn fx:id="messageTextColumn" prefWidth="350.0" text="Message" />
+                        <TableColumn fx:id="messageDateColumn" prefWidth="150.0" text="Date" />
+                    </columns>
+                </TableView>
+            </VBox>
+
+        </VBox>
     </center>
 
 </BorderPane>

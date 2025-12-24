@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            style="-fx-background-color: #F5F7FA;">
+
+    <top>
+        <VBox spacing="15.0" style="-fx-padding:  20; -fx-background-color: white;">
+            <Label text="Create Meal Plan" style="-fx-font-size:  24px; -fx-font-weight: bold; -fx-text-fill: #263238;" />
+
+            <HBox spacing="15.0" alignment="CENTER_LEFT">
+                <Label text="Select Client:" style="-fx-font-weight: bold;" />
+                <ComboBox fx:id="mealClientComboBox" promptText="Choose a client" prefWidth="250" />
+                <Label text="Plan Date:" style="-fx-font-weight: bold;" />
+                <DatePicker fx:id="mealDatePicker" prefWidth="150" />
+            </HBox>
+        </VBox>
+    </top>
+
+    <center>
+        <ScrollPane fitToWidth="true" fitToHeight="true" style="-fx-background-color:  transparent;">
+            <VBox spacing="20.0" style="-fx-padding: 30;">
+
+                <!-- Meal Plan Details -->
+                <VBox spacing="15" style="-fx-background-color: white; -fx-padding:  25; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+                    <Label text="Meal Information" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #263238;" />
+                    <Separator />
+
+                    <GridPane hgap="20" vgap="15">
+                        <Label text="Meal Type:" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-font-weight:  bold;" />
+                        <ComboBox fx:id="mealTypeComboBox" GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="200">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="BREAKFAST" />
+                                    <String fx:value="LUNCH" />
+                                    <String fx:value="DINNER" />
+                                    <String fx:value="SNACK" />
+                                </FXCollections>
+                            </items>
+                        </ComboBox>
+
+                        <Label text="Meal Time:" GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-font-weight:  bold;" />
+                        <TextField fx:id="mealTimeField" promptText="e.g., 08:00" GridPane.columnIndex="1" GridPane.rowIndex="1" prefWidth="200" />
+                    </GridPane>
+                </VBox>
+
+                <!-- Food Items -->
+                <VBox spacing="15" style="-fx-background-color:  white; -fx-padding: 25; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+                    <Label text="Foods" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #263238;" />
+                    <Separator />
+                    <TextArea fx:id="foodsTextArea" promptText="List foods (one per line)&#10;Example: &#10;- 2 eggs&#10;- 1 cup oatmeal&#10;- 1 banana"
+                              prefHeight="120" wrapText="true" />
+                </VBox>
+
+                <!-- Nutritional Values -->
+                <VBox spacing="15" style="-fx-background-color: white; -fx-padding: 25; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+                    <Label text="Nutritional Information" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill:  #263238;" />
+                    <Separator />
+
+                    <GridPane hgap="20" vgap="15">
+                        <Label text="Total Calories:" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-font-weight: bold;" />
+                        <TextField fx:id="totalCaloriesField" promptText="e.g., 450" GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="200" />
+
+                        <Label text="Protein (g):" GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-font-weight: bold;" />
+                        <TextField fx:id="mealProteinField" promptText="e.g., 25" GridPane.columnIndex="1" GridPane.rowIndex="1" prefWidth="200" />
+
+                        <Label text="Carbs (g):" GridPane.columnIndex="0" GridPane.rowIndex="2" style="-fx-font-weight: bold;" />
+                        <TextField fx:id="mealCarbsField" promptText="e.g., 50" GridPane.columnIndex="1" GridPane.rowIndex="2" prefWidth="200" />
+
+                        <Label text="Fats (g):" GridPane.columnIndex="0" GridPane.rowIndex="3" style="-fx-font-weight: bold;" />
+                        <TextField fx:id="mealFatsField" promptText="e.g., 10" GridPane.columnIndex="1" GridPane.rowIndex="3" prefWidth="200" />
+                    </GridPane>
+                </VBox>
+
+                <!-- Preparation Instructions -->
+                <VBox spacing="15" style="-fx-background-color: white; -fx-padding: 25; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+                    <Label text="Preparation Instructions" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #263238;" />
+                    <Separator />
+                    <TextArea fx:id="preparationArea" promptText="Enter preparation and cooking instructions..."
+                              prefHeight="100" wrapText="true" />
+                </VBox>
+
+                <!-- Action Buttons -->
+                <HBox spacing="15" alignment="CENTER">
+                    <Button fx:id="saveMealPlanBtn" text="Save Meal Plan"
+                            style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-padding: 12 40; -fx-font-size:  14px; -fx-font-weight: bold;" />
+                    <Button fx:id="clearMealFormBtn" text="Clear Form"
+                            style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-padding: 12 40; -fx-font-size: 14px;" />
+                </HBox>
+
+            </VBox>
+        </ScrollPane>
+    </center>
+
+</BorderPane>

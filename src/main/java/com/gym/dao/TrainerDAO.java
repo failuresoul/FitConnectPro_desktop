@@ -13,6 +13,8 @@ import java.time.LocalDateTime;
 import java.util. ArrayList;
 import java.util. Arrays;
 import java.util.List;
+import com.gym.models.ClientDetails;
+import com.gym.models.Member;
 
 public class TrainerDAO {
 
@@ -454,5 +456,149 @@ public class TrainerDAO {
         }
 
         return availableTrainers;
+    }
+    public List<ClientDetails> getMyAssignedClients(int trainerId) {
+        List<ClientDetails> clients = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DatabaseConnection. getInstance().getConnection();
+
+            String sql = "SELECT m.member_id, m.full_name, m.email, m.phone, " +
+                    "tma.assignment_date, tma. status, " +  // FIXED
+                    "m.membership_type, m.account_status, " +
+                    "(SELECT MAX(workout_date) FROM Workouts w WHERE w.member_id = m. member_id) as last_workout " +
+                    "FROM Trainer_Member_Assignment tma " +
+                    "JOIN Members m ON tma.member_id = m.member_id " +
+                    "WHERE tma.trainer_id = ? AND tma. status = 'ACTIVE' " +
+                    "ORDER BY tma.assignment_date DESC";  // FIXED
+
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, trainerId);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                ClientDetails client = new ClientDetails();
+                client.setMemberId(rs.getInt("member_id"));
+                client.setMemberName(rs.getString("full_name"));
+                client.setEmail(rs.getString("email"));
+                client.setPhone(rs.getString("phone"));
+                client.setGoal("Not Set");
+
+                String assignedDateStr = rs.getString("assignment_date");  // FIXED
+                if (assignedDateStr != null && !assignedDateStr.isEmpty()) {
+                    try {
+                        client. setAssignmentDate(LocalDate.parse(assignedDateStr));
+                    } catch (Exception e) {
+                        client.setAssignmentDate(null);
+                    }
+                }
+
+                String lastWorkoutStr = rs.getString("last_workout");
+                if (lastWorkoutStr != null && ! lastWorkoutStr.isEmpty()) {
+                    try {
+                        client.setLastWorkoutDate(LocalDate.parse(lastWorkoutStr));
+                    } catch (Exception e) {
+                        client.setLastWorkoutDate(null);
+                    }
+                }
+
+                client.setMembershipType(rs.getString("membership_type"));
+                client.setAccountStatus(rs.getString("account_status"));
+                client.setProgressPercentage(0.0);
+
+                clients.add(client);
+            }
+
+            System.out.println("✅ Loaded " + clients.size() + " clients");
+
+        } catch (SQLException e) {
+            System.err.println("❌ Error:  " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (pstmt != null) pstmt.close();
+                if (conn != null) DatabaseConnection.getInstance().releaseConnection(conn);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return clients;
+    }
+
+    public Member getClientDetails(int memberId) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        Member member = null;
+
+        try {
+            conn = DatabaseConnection.getInstance().getConnection();
+
+            String sql = "SELECT * FROM Members WHERE member_id = ? ";
+
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, memberId);
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                member = new Member();
+                member.setMemberId(rs.getInt("member_id"));
+                member.setUsername(rs.getString("username"));
+                member.setFullName(rs.getString("full_name"));
+                member.setEmail(rs.getString("email"));
+                member.setPhone(rs. getString("phone"));
+
+                String dobStr = rs.getString("date_of_birth");
+                if (dobStr != null && !dobStr.isEmpty()) {
+                    try {
+                        member.setDateOfBirth(LocalDate.parse(dobStr));
+                    } catch (Exception e) {
+                        member.setDateOfBirth(null);
+                    }
+                }
+
+                member.setGender(rs.getString("gender"));
+                member.setMembershipType(rs.getString("membership_type"));
+
+                String startStr = rs.getString("membership_start");
+                if (startStr != null && !startStr. isEmpty()) {
+                    try {
+                        member.setMembershipStart(LocalDate.parse(startStr));
+                    } catch (Exception e) {
+                        member. setMembershipStart(null);
+                    }
+                }
+
+                String endStr = rs. getString("membership_end");
+                if (endStr != null && ! endStr.isEmpty()) {
+                    try {
+                        member.setMembershipEnd(LocalDate. parse(endStr));
+                    } catch (Exception e) {
+                        member.setMembershipEnd(null);
+                    }
+                }
+
+                member.setAccountStatus(rs.getString("account_status"));
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error getting client details: " + e. getMessage());
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (pstmt != null) pstmt.close();
+                if (conn != null) DatabaseConnection. getInstance().releaseConnection(conn);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return member;
     }
 }
