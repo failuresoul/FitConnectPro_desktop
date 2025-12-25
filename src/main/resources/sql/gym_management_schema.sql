@@ -385,6 +385,69 @@ CREATE INDEX idx_friendships_member2 ON Friendships(member_id_2);
 CREATE INDEX idx_social_activities_member ON Social_Activities(member_id);
 
 -- SAMPLE DATA
+-- Step 1: Delete all exercises
+DELETE FROM Exercises_Library WHERE 1=1;
+
+-- Step 2: Reset the autoincrement counter
+DELETE FROM sqlite_sequence WHERE name='Exercises_Library';
+
+-- Step 3: Insert exercises (IDs will start from 1)
+INSERT INTO Exercises_Library (exercise_name, category, muscle_group, equipment_needed, difficulty_level, instructions) VALUES
+                                                                                                                            ('Barbell Bench Press', 'Strength', 'Chest', 'Barbell, Bench', 'Intermediate', 'Lie on bench, lower bar to chest, press up'),
+                                                                                                                            ('Dumbbell Bench Press', 'Strength', 'Chest', 'Dumbbells, Bench', 'Beginner', 'Lie on bench, press dumbbells up'),
+                                                                                                                            ('Incline Bench Press', 'Strength', 'Chest', 'Barbell, Incline Bench', 'Intermediate', 'Press on incline bench, targets upper chest'),
+                                                                                                                            ('Decline Bench Press', 'Strength', 'Chest', 'Barbell, Decline Bench', 'Intermediate', 'Press on decline bench, targets lower chest'),
+                                                                                                                            ('Push-Ups', 'Bodyweight', 'Chest', 'None', 'Beginner', 'Standard push-up position, lower and press up'),
+                                                                                                                            ('Dumbbell Flyes', 'Strength', 'Chest', 'Dumbbells, Bench', 'Intermediate', 'Lie on bench, arc dumbbells out and in'),
+                                                                                                                            ('Cable Crossover', 'Strength', 'Chest', 'Cable Machine', 'Intermediate', 'Pull cables across body in arc motion'),
+                                                                                                                            ('Dips (Chest)', 'Bodyweight', 'Chest', 'Dip Station', 'Intermediate', 'Lean forward, lower and press up'),
+                                                                                                                            ('Deadlift', 'Strength', 'Back', 'Barbell', 'Advanced', 'Lift barbell from ground to standing position'),
+                                                                                                                            ('Pull-Ups', 'Bodyweight', 'Back', 'Pull-up Bar', 'Intermediate', 'Hang from bar, pull body up'),
+                                                                                                                            ('Barbell Row', 'Strength', 'Back', 'Barbell', 'Intermediate', 'Bent over, pull barbell to torso'),
+                                                                                                                            ('Dumbbell Row', 'Strength', 'Back', 'Dumbbell, Bench', 'Beginner', 'One arm row, pull dumbbell to hip'),
+                                                                                                                            ('Lat Pulldown', 'Strength', 'Back', 'Cable Machine', 'Beginner', 'Pull bar down to chest'),
+                                                                                                                            ('Seated Cable Row', 'Strength', 'Back', 'Cable Machine', 'Beginner', 'Pull cable to torso'),
+                                                                                                                            ('T-Bar Row', 'Strength', 'Back', 'T-Bar', 'Intermediate', 'Pull T-bar to chest'),
+                                                                                                                            ('Face Pulls', 'Strength', 'Back', 'Cable Machine', 'Beginner', 'Pull rope to face level'),
+                                                                                                                            ('Barbell Squat', 'Strength', 'Legs', 'Barbell, Rack', 'Intermediate', 'Lower into squat, press back up'),
+                                                                                                                            ('Front Squat', 'Strength', 'Legs', 'Barbell, Rack', 'Advanced', 'Squat with bar on front shoulders'),
+                                                                                                                            ('Leg Press', 'Strength', 'Legs', 'Leg Press Machine', 'Beginner', 'Push platform away with legs'),
+                                                                                                                            ('Lunges', 'Strength', 'Legs', 'Dumbbells (optional)', 'Beginner', 'Step forward, lower back knee'),
+                                                                                                                            ('Romanian Deadlift', 'Strength', 'Legs', 'Barbell', 'Intermediate', 'Hinge at hips, lower barbell'),
+                                                                                                                            ('Leg Curl', 'Strength', 'Legs', 'Leg Curl Machine', 'Beginner', 'Curl legs up towards glutes'),
+                                                                                                                            ('Leg Extension', 'Strength', 'Legs', 'Leg Extension Machine', 'Beginner', 'Extend legs from bent position'),
+                                                                                                                            ('Calf Raises', 'Strength', 'Legs', 'Machine or Dumbbells', 'Beginner', 'Rise up on toes'),
+                                                                                                                            ('Bulgarian Split Squat', 'Strength', 'Legs', 'Dumbbells, Bench', 'Intermediate', 'Rear foot elevated, squat down'),
+                                                                                                                            ('Overhead Press', 'Strength', 'Shoulders', 'Barbell', 'Intermediate', 'Press barbell overhead'),
+                                                                                                                            ('Dumbbell Shoulder Press', 'Strength', 'Shoulders', 'Dumbbells', 'Beginner', 'Press dumbbells overhead'),
+                                                                                                                            ('Lateral Raises', 'Strength', 'Shoulders', 'Dumbbells', 'Beginner', 'Raise arms to sides'),
+                                                                                                                            ('Front Raises', 'Strength', 'Shoulders', 'Dumbbells', 'Beginner', 'Raise arms to front'),
+                                                                                                                            ('Rear Delt Flyes', 'Strength', 'Shoulders', 'Dumbbells', 'Beginner', 'Bend over, raise arms to sides'),
+                                                                                                                            ('Arnold Press', 'Strength', 'Shoulders', 'Dumbbells', 'Intermediate', 'Rotating shoulder press'),
+                                                                                                                            ('Upright Row', 'Strength', 'Shoulders', 'Barbell', 'Intermediate', 'Pull bar up along body'),
+                                                                                                                            ('Barbell Curl', 'Strength', 'Arms', 'Barbell', 'Beginner', 'Curl barbell to shoulders'),
+                                                                                                                            ('Dumbbell Curl', 'Strength', 'Arms', 'Dumbbells', 'Beginner', 'Curl dumbbells to shoulders'),
+                                                                                                                            ('Hammer Curl', 'Strength', 'Arms', 'Dumbbells', 'Beginner', 'Curl with neutral grip'),
+                                                                                                                            ('Tricep Dips', 'Bodyweight', 'Arms', 'Dip Station', 'Beginner', 'Lower and press up, arms focus'),
+                                                                                                                            ('Tricep Pushdown', 'Strength', 'Arms', 'Cable Machine', 'Beginner', 'Push cable down, extend arms'),
+                                                                                                                            ('Overhead Tricep Extension', 'Strength', 'Arms', 'Dumbbell', 'Beginner', 'Extend arms overhead'),
+                                                                                                                            ('Skull Crushers', 'Strength', 'Arms', 'Barbell, Bench', 'Intermediate', 'Lower bar to forehead, extend'),
+                                                                                                                            ('Cable Curl', 'Strength', 'Arms', 'Cable Machine', 'Beginner', 'Curl cable to shoulders'),
+                                                                                                                            ('Plank', 'Bodyweight', 'Core', 'None', 'Beginner', 'Hold push-up position, engage core'),
+                                                                                                                            ('Crunches', 'Bodyweight', 'Core', 'None', 'Beginner', 'Lift shoulders off ground'),
+                                                                                                                            ('Russian Twists', 'Bodyweight', 'Core', 'None', 'Beginner', 'Rotate torso side to side'),
+                                                                                                                            ('Leg Raises', 'Bodyweight', 'Core', 'None', 'Intermediate', 'Raise legs from lying position'),
+                                                                                                                            ('Mountain Climbers', 'Bodyweight', 'Core', 'None', 'Intermediate', 'Alternate bringing knees to chest'),
+                                                                                                                            ('Ab Wheel Rollout', 'Bodyweight', 'Core', 'Ab Wheel', 'Advanced', 'Roll wheel forward and back'),
+                                                                                                                            ('Cable Woodchop', 'Strength', 'Core', 'Cable Machine', 'Intermediate', 'Rotate torso pulling cable'),
+                                                                                                                            ('Hanging Knee Raises', 'Bodyweight', 'Core', 'Pull-up Bar', 'Intermediate', 'Raise knees while hanging'),
+                                                                                                                            ('Treadmill Running', 'Cardio', 'Full Body', 'Treadmill', 'Beginner', 'Run at steady pace'),
+                                                                                                                            ('Cycling', 'Cardio', 'Legs', 'Bike', 'Beginner', 'Pedal at steady pace'),
+                                                                                                                            ('Rowing Machine', 'Cardio', 'Full Body', 'Rowing Machine', 'Beginner', 'Pull and push in rowing motion'),
+                                                                                                                            ('Jump Rope', 'Cardio', 'Full Body', 'Jump Rope', 'Beginner', 'Jump continuously'),
+                                                                                                                            ('Burpees', 'Cardio', 'Full Body', 'None', 'Intermediate', 'Squat, jump, push-up, repeat'),
+                                                                                                                            ('Box Jumps', 'Cardio', 'Legs', 'Box', 'Intermediate', 'Jump onto elevated platform'),
+                                                                                                                            ('Battle Ropes', 'Cardio', 'Full Body', 'Battle Ropes', 'Intermediate', 'Wave ropes up and down');
 
 -- Insert default admin (password: admin123)
 INSERT INTO Admins (username, password_hash, full_name, email, phone, role, account_status, created_date)

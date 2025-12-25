@@ -1,7 +1,6 @@
 package com.gym.models;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class WorkoutPlan {
     private int planId;
@@ -12,27 +11,13 @@ public class WorkoutPlan {
     private int totalDuration;
     private int expectedCalories;
     private String instructions;
-    private LocalDateTime createdDate;
     private String status;
+    private LocalDate createdDate;
 
     public WorkoutPlan() {
     }
 
-    public WorkoutPlan(int planId, int trainerId, int memberId, LocalDate planDate, String focusArea,
-                       int totalDuration, int expectedCalories, String instructions,
-                       LocalDateTime createdDate, String status) {
-        this.planId = planId;
-        this.trainerId = trainerId;
-        this.memberId = memberId;
-        this.planDate = planDate;
-        this.focusArea = focusArea;
-        this.totalDuration = totalDuration;
-        this.expectedCalories = expectedCalories;
-        this.instructions = instructions;
-        this.createdDate = createdDate;
-        this.status = status;
-    }
-
+    // Getters and Setters
     public int getPlanId() {
         return planId;
     }
@@ -78,7 +63,7 @@ public class WorkoutPlan {
     }
 
     public void setTotalDuration(int totalDuration) {
-        this. totalDuration = totalDuration;
+        this.totalDuration = totalDuration;
     }
 
     public int getExpectedCalories() {
@@ -97,14 +82,6 @@ public class WorkoutPlan {
         this.instructions = instructions;
     }
 
-    public LocalDateTime getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(LocalDateTime createdDate) {
-        this.createdDate = createdDate;
-    }
-
     public String getStatus() {
         return status;
     }
@@ -113,19 +90,11 @@ public class WorkoutPlan {
         this.status = status;
     }
 
-    @Override
-    public String toString() {
-        return "WorkoutPlan{" +
-                "planId=" + planId +
-                ", trainerId=" + trainerId +
-                ", memberId=" + memberId +
-                ", planDate=" + planDate +
-                ", focusArea='" + focusArea + '\'' +
-                ", totalDuration=" + totalDuration +
-                ", expectedCalories=" + expectedCalories +
-                ", instructions='" + instructions + '\'' +
-                ", createdDate=" + createdDate +
-                ", status='" + status + '\'' +
-                '}';
+    public LocalDate getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(LocalDate createdDate) {
+        this.createdDate = createdDate;
     }
 }

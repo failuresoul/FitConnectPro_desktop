@@ -2,21 +2,17 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 
 <BorderPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
-            style="-fx-background-color: #F5F7FA;">
+            fx:controller="com.gym.controllers.trainer.CreateWorkoutPlanController"
+            style="-fx-background-color:  #F5F7FA;">
 
     <top>
         <VBox spacing="15.0" style="-fx-padding: 20; -fx-background-color: white;">
-            <Label text="Create Workout Plan" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #263238;" />
-
-            <HBox spacing="15.0" alignment="CENTER_LEFT">
-                <Label text="Select Client:" style="-fx-font-weight: bold;" />
-                <ComboBox fx:id="workoutClientComboBox" promptText="Choose a client" prefWidth="250" />
-                <Label text="Plan Date:" style="-fx-font-weight: bold;" />
-                <DatePicker fx:id="workoutDatePicker" prefWidth="150" />
-            </HBox>
+            <Label text="Create Workout Plan" style="-fx-font-size:  24px; -fx-font-weight:  bold; -fx-text-fill: #263238;" />
+            <Separator />
         </VBox>
     </top>
 
@@ -24,60 +20,100 @@
         <ScrollPane fitToWidth="true" fitToHeight="true" style="-fx-background-color: transparent;">
             <VBox spacing="20.0" style="-fx-padding: 30;">
 
-                <!-- Workout Details -->
-                <VBox spacing="15" style="-fx-background-color: white; -fx-padding: 25; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);">
-                    <Label text="Workout Information" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #263238;" />
+                <!-- Client & Date Selection -->
+                <VBox spacing="15" style="-fx-background-color: white; -fx-padding:  25; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+                    <Label text="Plan Details" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #263238;" />
                     <Separator />
 
                     <GridPane hgap="20" vgap="15">
-                        <Label text="Focus Area:" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-font-weight:  bold;" />
-                        <ComboBox fx:id="focusAreaComboBox" GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="200" />
+                        <Label text="Select Client:" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-font-weight: bold; -fx-min-width: 120;" />
+                        <ComboBox fx:id="clientComboBox" promptText="Choose a client" GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="300" />
 
-                        <Label text="Total Duration (min):" GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-font-weight: bold;" />
-                        <TextField fx:id="durationField" promptText="e. g., 60" GridPane.columnIndex="1" GridPane.rowIndex="1" prefWidth="200" />
+                        <Label text="Plan Date:" GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-font-weight: bold;" />
+                        <DatePicker fx:id="planDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="1" prefWidth="300" />
 
-                        <Label text="Expected Calories:" GridPane.columnIndex="0" GridPane.rowIndex="2" style="-fx-font-weight: bold;" />
-                        <TextField fx:id="caloriesField" promptText="e.g., 500" GridPane.columnIndex="1" GridPane.rowIndex="2" prefWidth="200" />
+                        <Label text="Focus Area:" GridPane.columnIndex="0" GridPane.rowIndex="2" style="-fx-font-weight:  bold;" />
+                        <TextField fx:id="focusAreaField" promptText="e.g., Chest and Triceps" GridPane.columnIndex="1" GridPane.rowIndex="2" prefWidth="300" />
                     </GridPane>
                 </VBox>
 
-                <!-- Exercises List -->
+                <!-- Add Exercise Section -->
                 <VBox spacing="15" style="-fx-background-color: white; -fx-padding: 25; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);">
-                    <HBox alignment="CENTER_LEFT" spacing="10">
-                        <Label text="Exercises" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #263238;" />
-                        <Region HBox.hgrow="ALWAYS" />
-                        <Button fx:id="addExerciseBtn" text="+ Add Exercise"
-                                style="-fx-background-color:  #3498db; -fx-text-fill: white; -fx-padding: 8 15;" />
-                    </HBox>
+                    <Label text="Add Exercises" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #263238;" />
                     <Separator />
 
-                    <TableView fx:id="exercisesTable" prefHeight="300">
+                    <GridPane hgap="15" vgap="15">
+                        <Label text="Exercise:" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-font-weight: bold; -fx-min-width: 100;" />
+                        <ComboBox fx:id="exerciseComboBox" promptText="Select exercise" GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="250" GridPane.columnSpan="3" />
+
+                        <Label text="Sets:" GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-font-weight: bold;" />
+                        <TextField fx:id="setsField" promptText="3" GridPane.columnIndex="1" GridPane.rowIndex="1" prefWidth="80" />
+
+                        <Label text="Reps:" GridPane.columnIndex="2" GridPane.rowIndex="1" style="-fx-font-weight: bold;" />
+                        <TextField fx:id="repsField" promptText="10-12" GridPane.columnIndex="3" GridPane.rowIndex="1" prefWidth="80" />
+
+                        <Label text="Weight (kg):" GridPane.columnIndex="0" GridPane.rowIndex="2" style="-fx-font-weight: bold;" />
+                        <TextField fx:id="weightField" promptText="20" GridPane.columnIndex="1" GridPane.rowIndex="2" prefWidth="80" />
+
+                        <Label text="Rest (sec):" GridPane.columnIndex="2" GridPane.rowIndex="2" style="-fx-font-weight: bold;" />
+                        <TextField fx:id="restField" promptText="60" GridPane.columnIndex="3" GridPane.rowIndex="2" prefWidth="80" />
+
+                        <Label text="Notes:" GridPane.columnIndex="0" GridPane.rowIndex="3" style="-fx-font-weight: bold;" />
+                        <TextField fx:id="notesField" promptText="Trainer notes..." GridPane.columnIndex="1" GridPane.rowIndex="3" prefWidth="250" GridPane.columnSpan="3" />
+                    </GridPane>
+
+                    <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 10 0 0 0;">
+                        <Button fx:id="addExerciseBtn" text="+ Add Exercise"
+                                style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-padding: 10 25; -fx-font-weight: bold;" />
+                    </HBox>
+                </VBox>
+
+                <!-- Exercise List Table -->
+                <VBox spacing="15" style="-fx-background-color: white; -fx-padding: 25; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+                    <Label text="Exercise List" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #263238;" />
+                    <Separator />
+
+                    <TableView fx:id="exercisesTable" prefHeight="250">
                         <columns>
-                            <TableColumn fx:id="exerciseNameColumn" text="Exercise" prefWidth="200" />
-                            <TableColumn fx:id="setsColumn" text="Sets" prefWidth="80" />
+                            <TableColumn fx:id="exerciseNameColumn" text="Exercise" prefWidth="180" />
+                            <TableColumn fx:id="setsColumn" text="Sets" prefWidth="60" />
                             <TableColumn fx:id="repsColumn" text="Reps" prefWidth="80" />
                             <TableColumn fx:id="weightColumn" text="Weight (kg)" prefWidth="100" />
                             <TableColumn fx:id="restColumn" text="Rest (sec)" prefWidth="100" />
-                            <TableColumn fx:id="notesExerciseColumn" text="Notes" prefWidth="200" />
+                            <TableColumn fx:id="notesColumn" text="Notes" prefWidth="180" />
+                            <TableColumn fx:id="actionColumn" text="Action" prefWidth="100" />
                         </columns>
                     </TableView>
                 </VBox>
 
-                <!-- General Instructions -->
+                <!-- Instructions & Totals -->
                 <VBox spacing="15" style="-fx-background-color: white; -fx-padding: 25; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);">
-                    <Label text="General Instructions" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill:  #263238;" />
+                    <Label text="Overall Instructions" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #263238;" />
                     <Separator />
-                    <TextArea fx:id="workoutInstructionsArea" promptText="Enter general workout instructions, warm-up notes, cool-down tips, etc..."
+
+                    <TextArea fx:id="instructionsArea" promptText="Enter warm-up, cool-down, and general workout instructions..."
                               prefHeight="100" wrapText="true" />
+
+                    <HBox spacing="40" alignment="CENTER" style="-fx-padding: 15 0 0 0;">
+                        <VBox spacing="5" alignment="CENTER">
+                            <Label text="Estimated Duration" style="-fx-font-size: 12px; -fx-text-fill: #7f8c8d;" />
+                            <Label fx:id="durationLabel" text="0 min" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #3498db;" />
+                        </VBox>
+
+                        <VBox spacing="5" alignment="CENTER">
+                            <Label text="Expected Calories" style="-fx-font-size: 12px; -fx-text-fill: #7f8c8d;" />
+                            <Label fx:id="caloriesLabel" text="0 kcal" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #27ae60;" />
+                        </VBox>
+                    </HBox>
                 </VBox>
 
                 <!-- Action Buttons -->
-                <HBox spacing="15" alignment="CENTER">
-                    <Button fx:id="saveWorkoutPlanBtn" text="Save Workout Plan"
-                            style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-padding:  12 40; -fx-font-size: 14px; -fx-font-weight:  bold;" />
-                    <Button fx:id="previewWorkoutBtn" text="Preview"
+                <HBox spacing="15" alignment="CENTER" style="-fx-padding: 10 0;">
+                    <Button fx:id="assignBtn" text="Assign to Client"
+                            style="-fx-background-color:  #27ae60; -fx-text-fill: white; -fx-padding: 12 40; -fx-font-size: 14px; -fx-font-weight: bold;" />
+                    <Button fx:id="saveTemplateBtn" text="Save as Template"
                             style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-padding: 12 40; -fx-font-size: 14px;" />
-                    <Button fx:id="clearWorkoutFormBtn" text="Clear Form"
+                    <Button fx:id="cancelBtn" text="Cancel / Clear"
                             style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-padding: 12 40; -fx-font-size: 14px;" />
                 </HBox>
 

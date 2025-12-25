@@ -147,7 +147,7 @@ public class AuthDAO {
                         trainer.setSalary(0.0);
                     }
 
-                    trainer.setHiredByAdminId(rs.getInt("hired_by_admin_id"));
+                    //trainer.setHiredByAdminId(rs.getInt("hired_by_admin_id"));
 
                     String hireDateStr = rs.getString("hire_date");
                     if (hireDateStr != null && !hireDateStr.isEmpty()) {
