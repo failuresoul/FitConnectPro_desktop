@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
+        <?import javafx.scene.control.*?>
+        <?import javafx.scene.layout.*?>
 
 <BorderPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.gym.controllers.trainer.TrainerProfileController"
             style="-fx-background-color:  #F5F7FA;">
 
     <top>
-        <VBox spacing="15.0" style="-fx-padding: 20; -fx-background-color:  white;">
-            <Label text="My Profile" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #263238;" />
+        <VBox spacing="15.0" style="-fx-padding: 20; -fx-background-color: white;">
+            <Label text="My Profile" style="-fx-font-size: 24px; -fx-font-weight:  bold; -fx-text-fill: #263238;" />
             <Separator />
         </VBox>
     </top>
@@ -19,82 +19,79 @@
         <ScrollPane fitToWidth="true" fitToHeight="true" style="-fx-background-color: transparent;">
             <VBox spacing="20.0" style="-fx-padding: 30;">
 
-                <!-- Profile Information Card -->
-                <VBox spacing="15.0" style="-fx-background-color: white; -fx-padding: 25; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+                <!-- Profile Information -->
+                <VBox spacing="15" style="-fx-background-color: white; -fx-padding: 25; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);">
                     <Label text="Profile Information" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #263238;" />
                     <Separator />
 
                     <GridPane hgap="20" vgap="15">
-                        <Label text="Full Name:" GridPane.columnIndex="0" GridPane.rowIndex="0"
-                               style="-fx-font-weight: bold; -fx-min-width: 150;" />
-                        <Label fx:id="fullNameLabel" text="John Trainer" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                        <Label text="Username:" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-font-weight: bold; -fx-min-width: 150;" />
+                        <Label fx:id="usernameLabel" text="-" GridPane.columnIndex="1" GridPane.rowIndex="0" style="-fx-text-fill: #7f8c8d;" />
 
-                        <Label text="Username:" GridPane.columnIndex="0" GridPane.rowIndex="1"
-                               style="-fx-font-weight: bold;" />
-                        <Label fx:id="usernameLabel" text="john_trainer" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label text="Full Name:" GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-font-weight: bold;" />
+                        <TextField fx:id="fullNameField" GridPane.columnIndex="1" GridPane.rowIndex="1" prefWidth="300" />
 
-                        <Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="2"
-                               style="-fx-font-weight: bold;" />
-                        <Label fx:id="emailLabel" text="john@gym.com" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="2" style="-fx-font-weight: bold;" />
+                        <TextField fx:id="emailField" GridPane.columnIndex="1" GridPane.rowIndex="2" prefWidth="300" />
 
-                        <Label text="Phone:" GridPane.columnIndex="0" GridPane.rowIndex="3"
-                               style="-fx-font-weight: bold;" />
-                        <Label fx:id="phoneLabel" text="1234567890" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Label text="Phone:" GridPane.columnIndex="0" GridPane.rowIndex="3" style="-fx-font-weight: bold;" />
+                        <TextField fx:id="phoneField" GridPane.columnIndex="1" GridPane.rowIndex="3" prefWidth="300" />
 
-                        <Label text="Specializations:" GridPane.columnIndex="0" GridPane.rowIndex="4"
-                               style="-fx-font-weight: bold;" />
-                        <Label fx:id="specializationsLabel" text="Weight Loss, Muscle Gain" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <Label text="Specializations:" GridPane.columnIndex="0" GridPane.rowIndex="4" style="-fx-font-weight: bold;" />
+                        <TextField fx:id="specializationsField" promptText="e.g., Weight Loss, Muscle Gain" GridPane.columnIndex="1" GridPane.rowIndex="4" prefWidth="300" />
 
-                        <Label text="Experience:" GridPane.columnIndex="0" GridPane.rowIndex="5"
-                               style="-fx-font-weight: bold;" />
-                        <Label fx:id="experienceLabel" text="5 years" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <Label text="Experience (years):" GridPane.columnIndex="0" GridPane.rowIndex="5" style="-fx-font-weight: bold;" />
+                        <Spinner fx:id="experienceSpinner" GridPane.columnIndex="1" GridPane.rowIndex="5" prefWidth="150" />
 
-                        <Label text="Current Clients:" GridPane.columnIndex="0" GridPane.rowIndex="6"
-                               style="-fx-font-weight: bold;" />
-                        <Label fx:id="currentClientsLabel" text="10 / 15" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-
-                        <Label text="Account Status:" GridPane.columnIndex="0" GridPane.rowIndex="7"
-                               style="-fx-font-weight: bold;" />
-                        <Label fx:id="statusLabel" text="ACTIVE" GridPane.columnIndex="1" GridPane.rowIndex="7"
-                               style="-fx-text-fill:  #27ae60; -fx-font-weight: bold;" />
+                        <Label text="Certifications:" GridPane.columnIndex="0" GridPane.rowIndex="6" style="-fx-font-weight: bold;" />
+                        <TextArea fx:id="certificationsArea" promptText="List your certifications..." GridPane.columnIndex="1" GridPane.rowIndex="6" prefHeight="80" prefWidth="300" wrapText="true" />
                     </GridPane>
 
-                    <HBox spacing="10" style="-fx-padding: 10 0 0 0;">
-                        <Button fx:id="editProfileBtn" text="Edit Profile"
-                                style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-padding: 10 25;" />
-                        <Button fx:id="changePasswordBtn" text="Change Password"
-                                style="-fx-background-color: #e67e22; -fx-text-fill: white; -fx-padding: 10 25;" />
+                    <HBox spacing="15" alignment="CENTER_LEFT">
+                        <Button fx:id="saveProfileBtn" text="Save Changes"
+                                style="-fx-background-color:  #27ae60; -fx-text-fill: white; -fx-padding: 12 40; -fx-font-size:  14px; -fx-font-weight: bold;" />
                     </HBox>
                 </VBox>
 
-                <!-- Certifications Card -->
-                <VBox spacing="15.0" style="-fx-background-color: white; -fx-padding: 25; -fx-background-radius:  10; -fx-effect:  dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);">
-                    <Label text="Certifications" style="-fx-font-size:  18px; -fx-font-weight: bold; -fx-text-fill: #263238;" />
+                <!-- Account Statistics -->
+                <VBox spacing="15" style="-fx-background-color: white; -fx-padding: 25; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+                    <Label text="Account Statistics" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #263238;" />
                     <Separator />
-                    <TextArea fx:id="certificationsArea" text="- Certified Personal Trainer (CPT)&#10;- Nutrition Specialist&#10;- Strength and Conditioning Coach"
-                              editable="false" prefHeight="100" style="-fx-background-color: #ecf0f1;" />
+
+                    <GridPane hgap="20" vgap="15">
+                        <Label text="Account Status:" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-font-weight: bold; -fx-min-width: 150;" />
+                        <Label fx:id="accountStatusLabel" text="-" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                        <Label text="Hire Date:" GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-font-weight: bold;" />
+                        <Label fx:id="hireDateLabel" text="-" GridPane.columnIndex="1" GridPane.rowIndex="1" style="-fx-text-fill:  #7f8c8d;" />
+
+                        <Label text="Current Clients:" GridPane.columnIndex="0" GridPane.rowIndex="2" style="-fx-font-weight: bold;" />
+                        <Label fx:id="currentClientsLabel" text="0" GridPane.columnIndex="1" GridPane.rowIndex="2" style="-fx-text-fill:  #7f8c8d;" />
+
+                        <Label text="Max Clients:" GridPane.columnIndex="0" GridPane.rowIndex="3" style="-fx-font-weight: bold;" />
+                        <Label fx:id="maxClientsLabel" text="0" GridPane.columnIndex="1" GridPane.rowIndex="3" style="-fx-text-fill: #7f8c8d;" />
+                    </GridPane>
                 </VBox>
 
-                <!-- Statistics Card -->
-                <VBox spacing="15.0" style="-fx-background-color: white; -fx-padding: 25; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);">
-                    <Label text="My Statistics" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #263238;" />
+                <!-- Change Password -->
+                <VBox spacing="15" style="-fx-background-color: white; -fx-padding:  25; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+                    <Label text="Change Password" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #263238;" />
                     <Separator />
 
-                    <HBox spacing="30">
-                        <VBox spacing="5" alignment="CENTER">
-                            <Label text="Total Workouts Created" style="-fx-font-size: 12px; -fx-text-fill: #7f8c8d;" />
-                            <Label fx:id="totalWorkoutsLabel" text="145" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #3498db;" />
-                        </VBox>
+                    <GridPane hgap="20" vgap="15">
+                        <Label text="Old Password:" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-font-weight: bold; -fx-min-width: 150;" />
+                        <PasswordField fx:id="oldPasswordField" GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="300" />
 
-                        <VBox spacing="5" alignment="CENTER">
-                            <Label text="Total Meal Plans" style="-fx-font-size: 12px; -fx-text-fill: #7f8c8d;" />
-                            <Label fx:id="totalMealsLabel" text="89" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #27ae60;" />
-                        </VBox>
+                        <Label text="New Password:" GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-font-weight: bold;" />
+                        <PasswordField fx:id="newPasswordField" GridPane.columnIndex="1" GridPane.rowIndex="1" prefWidth="300" />
 
-                        <VBox spacing="5" alignment="CENTER">
-                            <Label text="Client Success Rate" style="-fx-font-size: 12px; -fx-text-fill: #7f8c8d;" />
-                            <Label fx:id="successRateLabel" text="87%" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #f39c12;" />
-                        </VBox>
+                        <Label text="Confirm Password:" GridPane.columnIndex="0" GridPane.rowIndex="2" style="-fx-font-weight: bold;" />
+                        <PasswordField fx:id="confirmPasswordField" GridPane.columnIndex="1" GridPane.rowIndex="2" prefWidth="300" />
+                    </GridPane>
+
+                    <HBox spacing="15" alignment="CENTER_LEFT">
+                        <Button fx:id="changePasswordBtn" text="Change Password"
+                                style="-fx-background-color:  #e74c3c; -fx-text-fill: white; -fx-padding: 12 40; -fx-font-size: 14px; -fx-font-weight: bold;" />
                     </HBox>
                 </VBox>
 

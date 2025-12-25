@@ -12,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout. VBox;
 import javafx. stage.Stage;
 
@@ -42,7 +43,47 @@ public class TrainerDashboardController {
     @FXML private TableColumn<Message, String> messageFromColumn;
     @FXML private TableColumn<Message, String> messageTextColumn;
     @FXML private TableColumn<Message, String> messageDateColumn;
+    @FXML
+    private void handleMessages() {
+        loadView("/fxml/trainer/messages.fxml", "Messages");
+    }
 
+    @FXML
+    private void handleMyProfile() {
+        loadView("/fxml/trainer/trainer_profile.fxml", "My Profile");
+    }
+
+    // Make sure you have this loadView method
+    private void loadView(String fxmlPath, String title) {
+        try {
+            System.out.println("📂 Loading " + title + "...");
+            System.out.println("🔄 Loading view: " + fxmlPath);
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            Parent view = loader.load();
+
+            contentArea.getChildren().clear();
+            contentArea.getChildren().add(view);
+
+            AnchorPane.setTopAnchor(view, 0.0);
+            AnchorPane. setBottomAnchor(view, 0.0);
+            AnchorPane.setLeftAnchor(view, 0.0);
+            AnchorPane.setRightAnchor(view, 0.0);
+
+            System.out.println("✅ View loaded successfully:  " + fxmlPath);
+        } catch (Exception e) {
+            System.err.println("❌ Error loading view: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private void showComingSoon(String feature, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(feature);
+        alert.setHeaderText("Coming Soon!");
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
     private TrainerStatisticsDAO statisticsDAO;
     private Trainer currentTrainer;
 
@@ -264,7 +305,7 @@ public class TrainerDashboardController {
 
     private void loadMessages() {
         System.out.println("📂 Loading Messages...");
-        loadView("/fxml/trainer/trainer_messages.fxml");
+        loadView("/fxml/trainer/messages.fxml");
     }
 
     private void loadProfile() {
@@ -302,4 +343,5 @@ public class TrainerDashboardController {
             e.printStackTrace();
         }
     }
+
 }

@@ -68,7 +68,7 @@ CREATE TABLE Trainer_Member_Assignment (
                                            assignment_id INTEGER PRIMARY KEY AUTOINCREMENT,
                                            trainer_id INTEGER NOT NULL,
                                            member_id INTEGER NOT NULL,
-                                           assignment_date DATE NOT NULL,
+                                           assigned_date DATE NOT NULL,
                                            end_date DATE,
                                            status TEXT NOT NULL,
                                            assigned_by_admin_id INTEGER,

@@ -6,16 +6,20 @@ public class Message {
     private int messageId;
     private int senderId;
     private int receiverId;
-    private String senderType;
-    private String senderName;
+    private String senderType; // TRAINER or MEMBER
     private String messageText;
     private LocalDateTime sentDate;
     private boolean readStatus;
     private LocalDateTime readDate;
 
+    // For display purposes
+    private String senderName;
+    private String receiverName;
+
     public Message() {
     }
 
+    // Getters and Setters
     public int getMessageId() {
         return messageId;
     }
@@ -48,14 +52,6 @@ public class Message {
         this.senderType = senderType;
     }
 
-    public String getSenderName() {
-        return senderName;
-    }
-
-    public void setSenderName(String senderName) {
-        this.senderName = senderName;
-    }
-
     public String getMessageText() {
         return messageText;
     }
@@ -86,5 +82,21 @@ public class Message {
 
     public void setReadDate(LocalDateTime readDate) {
         this.readDate = readDate;
+    }
+
+    public String getSenderName() {
+        return senderName;
+    }
+
+    public void setSenderName(String senderName) {
+        this.senderName = senderName;
+    }
+
+    public String getReceiverName() {
+        return receiverName;
+    }
+
+    public void setReceiverName(String receiverName) {
+        this.receiverName = receiverName;
     }
 }
