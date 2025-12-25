@@ -3,98 +3,192 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<?import javafx.collections.FXCollections?>
-<?import java.lang.String?>
 <BorderPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.gym.controllers.trainer.CreateMealPlanController"
             style="-fx-background-color: #F5F7FA;">
 
     <top>
-        <VBox spacing="15.0" style="-fx-padding:  20; -fx-background-color: white;">
-            <Label text="Create Meal Plan" style="-fx-font-size:  24px; -fx-font-weight: bold; -fx-text-fill: #263238;" />
+        <VBox spacing="15.0" style="-fx-padding: 20; -fx-background-color: white;">
+            <Label text="Create Meal Plan" style="-fx-font-size:  24px; -fx-font-weight:  bold; -fx-text-fill: #263238;" />
 
             <HBox spacing="15.0" alignment="CENTER_LEFT">
                 <Label text="Select Client:" style="-fx-font-weight: bold;" />
-                <ComboBox fx:id="mealClientComboBox" promptText="Choose a client" prefWidth="250" />
+                <ComboBox fx:id="clientComboBox" promptText="Choose a client" prefWidth="250" />
                 <Label text="Plan Date:" style="-fx-font-weight: bold;" />
-                <DatePicker fx:id="mealDatePicker" prefWidth="150" />
+                <DatePicker fx:id="planDatePicker" prefWidth="150" />
             </HBox>
+            <Separator />
         </VBox>
     </top>
 
     <center>
-        <ScrollPane fitToWidth="true" fitToHeight="true" style="-fx-background-color:  transparent;">
-            <VBox spacing="20.0" style="-fx-padding: 30;">
+        <VBox spacing="20" style="-fx-padding: 20;">
 
-                <!-- Meal Plan Details -->
-                <VBox spacing="15" style="-fx-background-color: white; -fx-padding:  25; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);">
-                    <Label text="Meal Information" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #263238;" />
-                    <Separator />
+            <!-- Meal Tabs -->
+            <TabPane fx:id="mealTabPane" VBox.vgrow="ALWAYS">
 
-                    <GridPane hgap="20" vgap="15">
-                        <Label text="Meal Type:" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-font-weight:  bold;" />
-                        <ComboBox fx:id="mealTypeComboBox" GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="200">
-                            <items>
-                                <FXCollections fx:factory="observableArrayList">
-                                    <String fx:value="BREAKFAST" />
-                                    <String fx:value="LUNCH" />
-                                    <String fx:value="DINNER" />
-                                    <String fx:value="SNACK" />
-                                </FXCollections>
-                            </items>
-                        </ComboBox>
+                <!-- BREAKFAST TAB -->
+                <Tab text="🍳 Breakfast" fx:id="breakfastTab" closable="false">
+                    <ScrollPane fitToWidth="true">
+                        <VBox spacing="15" style="-fx-padding: 20;">
+                            <HBox spacing="10" alignment="CENTER_LEFT">
+                                <Label text="Meal Time:" style="-fx-font-weight: bold;" />
+                                <TextField fx:id="breakfastTimeField" promptText="e.g., 08:00" prefWidth="100" />
+                            </HBox>
 
-                        <Label text="Meal Time:" GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-font-weight:  bold;" />
-                        <TextField fx:id="mealTimeField" promptText="e.g., 08:00" GridPane.columnIndex="1" GridPane.rowIndex="1" prefWidth="200" />
-                    </GridPane>
-                </VBox>
+                            <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 5;">
+                                <Label text="Add Foods" style="-fx-font-weight: bold; -fx-font-size: 14px;" />
+                                <HBox spacing="10">
+                                    <ComboBox fx:id="breakfastFoodComboBox" promptText="Select food" prefWidth="300" />
+                                    <TextField fx:id="breakfastQuantityField" promptText="Qty" prefWidth="60" />
+                                    <Button fx:id="addBreakfastBtn" text="+ Add" style="-fx-background-color:  #3498db; -fx-text-fill: white;" />
+                                </HBox>
+                                <ListView fx:id="breakfastFoodsList" prefHeight="150" />
+                            </VBox>
 
-                <!-- Food Items -->
-                <VBox spacing="15" style="-fx-background-color:  white; -fx-padding: 25; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);">
-                    <Label text="Foods" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #263238;" />
-                    <Separator />
-                    <TextArea fx:id="foodsTextArea" promptText="List foods (one per line)&#10;Example: &#10;- 2 eggs&#10;- 1 cup oatmeal&#10;- 1 banana"
-                              prefHeight="120" wrapText="true" />
-                </VBox>
+                            <TextArea fx:id="breakfastInstructionsArea" promptText="Preparation instructions..." prefHeight="80" wrapText="true" />
 
-                <!-- Nutritional Values -->
-                <VBox spacing="15" style="-fx-background-color: white; -fx-padding: 25; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);">
-                    <Label text="Nutritional Information" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill:  #263238;" />
-                    <Separator />
+                            <HBox spacing="30" style="-fx-background-color:  #ecf0f1; -fx-padding: 15; -fx-background-radius: 5;">
+                                <Label fx:id="breakfastCaloriesLabel" text="Calories:  0" style="-fx-font-weight: bold;" />
+                                <Label fx:id="breakfastProteinLabel" text="Protein: 0g" style="-fx-font-weight: bold;" />
+                                <Label fx:id="breakfastCarbsLabel" text="Carbs: 0g" style="-fx-font-weight: bold;" />
+                                <Label fx:id="breakfastFatsLabel" text="Fats:  0g" style="-fx-font-weight: bold;" />
+                            </HBox>
+                        </VBox>
+                    </ScrollPane>
+                </Tab>
 
-                    <GridPane hgap="20" vgap="15">
-                        <Label text="Total Calories:" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-font-weight: bold;" />
-                        <TextField fx:id="totalCaloriesField" promptText="e.g., 450" GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="200" />
+                <!-- LUNCH TAB -->
+                <Tab text="🍽️ Lunch" fx:id="lunchTab" closable="false">
+                    <ScrollPane fitToWidth="true">
+                        <VBox spacing="15" style="-fx-padding:  20;">
+                            <HBox spacing="10" alignment="CENTER_LEFT">
+                                <Label text="Meal Time:" style="-fx-font-weight: bold;" />
+                                <TextField fx:id="lunchTimeField" promptText="e.g., 13:00" prefWidth="100" />
+                            </HBox>
 
-                        <Label text="Protein (g):" GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-font-weight: bold;" />
-                        <TextField fx:id="mealProteinField" promptText="e.g., 25" GridPane.columnIndex="1" GridPane.rowIndex="1" prefWidth="200" />
+                            <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 5;">
+                                <Label text="Add Foods" style="-fx-font-weight: bold; -fx-font-size: 14px;" />
+                                <HBox spacing="10">
+                                    <ComboBox fx:id="lunchFoodComboBox" promptText="Select food" prefWidth="300" />
+                                    <TextField fx:id="lunchQuantityField" promptText="Qty" prefWidth="60" />
+                                    <Button fx:id="addLunchBtn" text="+ Add" style="-fx-background-color: #3498db; -fx-text-fill: white;" />
+                                </HBox>
+                                <ListView fx:id="lunchFoodsList" prefHeight="150" />
+                            </VBox>
 
-                        <Label text="Carbs (g):" GridPane.columnIndex="0" GridPane.rowIndex="2" style="-fx-font-weight: bold;" />
-                        <TextField fx:id="mealCarbsField" promptText="e.g., 50" GridPane.columnIndex="1" GridPane.rowIndex="2" prefWidth="200" />
+                            <TextArea fx:id="lunchInstructionsArea" promptText="Preparation instructions..." prefHeight="80" wrapText="true" />
 
-                        <Label text="Fats (g):" GridPane.columnIndex="0" GridPane.rowIndex="3" style="-fx-font-weight: bold;" />
-                        <TextField fx:id="mealFatsField" promptText="e.g., 10" GridPane.columnIndex="1" GridPane.rowIndex="3" prefWidth="200" />
-                    </GridPane>
-                </VBox>
+                            <HBox spacing="30" style="-fx-background-color: #ecf0f1; -fx-padding:  15; -fx-background-radius: 5;">
+                                <Label fx:id="lunchCaloriesLabel" text="Calories: 0" style="-fx-font-weight: bold;" />
+                                <Label fx:id="lunchProteinLabel" text="Protein: 0g" style="-fx-font-weight: bold;" />
+                                <Label fx:id="lunchCarbsLabel" text="Carbs: 0g" style="-fx-font-weight:  bold;" />
+                                <Label fx:id="lunchFatsLabel" text="Fats:  0g" style="-fx-font-weight: bold;" />
+                            </HBox>
+                        </VBox>
+                    </ScrollPane>
+                </Tab>
 
-                <!-- Preparation Instructions -->
-                <VBox spacing="15" style="-fx-background-color: white; -fx-padding: 25; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);">
-                    <Label text="Preparation Instructions" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #263238;" />
-                    <Separator />
-                    <TextArea fx:id="preparationArea" promptText="Enter preparation and cooking instructions..."
-                              prefHeight="100" wrapText="true" />
-                </VBox>
+                <!-- DINNER TAB -->
+                <Tab text="🍖 Dinner" fx:id="dinnerTab" closable="false">
+                    <ScrollPane fitToWidth="true">
+                        <VBox spacing="15" style="-fx-padding: 20;">
+                            <HBox spacing="10" alignment="CENTER_LEFT">
+                                <Label text="Meal Time:" style="-fx-font-weight: bold;" />
+                                <TextField fx:id="dinnerTimeField" promptText="e.g., 19:00" prefWidth="100" />
+                            </HBox>
 
-                <!-- Action Buttons -->
-                <HBox spacing="15" alignment="CENTER">
-                    <Button fx:id="saveMealPlanBtn" text="Save Meal Plan"
-                            style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-padding: 12 40; -fx-font-size:  14px; -fx-font-weight: bold;" />
-                    <Button fx:id="clearMealFormBtn" text="Clear Form"
-                            style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-padding: 12 40; -fx-font-size: 14px;" />
+                            <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 5;">
+                                <Label text="Add Foods" style="-fx-font-weight: bold; -fx-font-size: 14px;" />
+                                <HBox spacing="10">
+                                    <ComboBox fx:id="dinnerFoodComboBox" promptText="Select food" prefWidth="300" />
+                                    <TextField fx:id="dinnerQuantityField" promptText="Qty" prefWidth="60" />
+                                    <Button fx:id="addDinnerBtn" text="+ Add" style="-fx-background-color: #3498db; -fx-text-fill:  white;" />
+                                </HBox>
+                                <ListView fx:id="dinnerFoodsList" prefHeight="150" />
+                            </VBox>
+
+                            <TextArea fx:id="dinnerInstructionsArea" promptText="Preparation instructions..." prefHeight="80" wrapText="true" />
+
+                            <HBox spacing="30" style="-fx-background-color: #ecf0f1; -fx-padding: 15; -fx-background-radius: 5;">
+                                <Label fx:id="dinnerCaloriesLabel" text="Calories: 0" style="-fx-font-weight: bold;" />
+                                <Label fx:id="dinnerProteinLabel" text="Protein: 0g" style="-fx-font-weight: bold;" />
+                                <Label fx:id="dinnerCarbsLabel" text="Carbs: 0g" style="-fx-font-weight: bold;" />
+                                <Label fx:id="dinnerFatsLabel" text="Fats: 0g" style="-fx-font-weight: bold;" />
+                            </HBox>
+                        </VBox>
+                    </ScrollPane>
+                </Tab>
+
+                <!-- SNACKS TAB -->
+                <Tab text="🍎 Snacks" fx:id="snacksTab" closable="false">
+                    <ScrollPane fitToWidth="true">
+                        <VBox spacing="15" style="-fx-padding:  20;">
+                            <HBox spacing="10" alignment="CENTER_LEFT">
+                                <Label text="Meal Time:" style="-fx-font-weight: bold;" />
+                                <TextField fx:id="snacksTimeField" promptText="e.g., 16:00" prefWidth="100" />
+                            </HBox>
+
+                            <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 5;">
+                                <Label text="Add Foods" style="-fx-font-weight: bold; -fx-font-size: 14px;" />
+                                <HBox spacing="10">
+                                    <ComboBox fx:id="snacksFoodComboBox" promptText="Select food" prefWidth="300" />
+                                    <TextField fx:id="snacksQuantityField" promptText="Qty" prefWidth="60" />
+                                    <Button fx:id="addSnacksBtn" text="+ Add" style="-fx-background-color: #3498db; -fx-text-fill: white;" />
+                                </HBox>
+                                <ListView fx:id="snacksFoodsList" prefHeight="150" />
+                            </VBox>
+
+                            <TextArea fx:id="snacksInstructionsArea" promptText="Preparation instructions..." prefHeight="80" wrapText="true" />
+
+                            <HBox spacing="30" style="-fx-background-color: #ecf0f1; -fx-padding: 15; -fx-background-radius: 5;">
+                                <Label fx:id="snacksCaloriesLabel" text="Calories: 0" style="-fx-font-weight: bold;" />
+                                <Label fx:id="snacksProteinLabel" text="Protein: 0g" style="-fx-font-weight: bold;" />
+                                <Label fx:id="snacksCarbsLabel" text="Carbs: 0g" style="-fx-font-weight:  bold;" />
+                                <Label fx:id="snacksFatsLabel" text="Fats: 0g" style="-fx-font-weight: bold;" />
+                            </HBox>
+                        </VBox>
+                    </ScrollPane>
+                </Tab>
+
+            </TabPane>
+
+            <!-- Daily Summary -->
+            <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius:  10;">
+                <Label text="Daily Totals" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+                <Separator />
+                <HBox spacing="40" alignment="CENTER">
+                    <VBox alignment="CENTER">
+                        <Label text="Total Calories" style="-fx-font-size: 12px; -fx-text-fill: #7f8c8d;" />
+                        <Label fx:id="dailyCaloriesLabel" text="0" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #e74c3c;" />
+                    </VBox>
+                    <VBox alignment="CENTER">
+                        <Label text="Total Protein" style="-fx-font-size: 12px; -fx-text-fill: #7f8c8d;" />
+                        <Label fx:id="dailyProteinLabel" text="0g" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill:  #3498db;" />
+                    </VBox>
+                    <VBox alignment="CENTER">
+                        <Label text="Total Carbs" style="-fx-font-size: 12px; -fx-text-fill: #7f8c8d;" />
+                        <Label fx:id="dailyCarbsLabel" text="0g" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #f39c12;" />
+                    </VBox>
+                    <VBox alignment="CENTER">
+                        <Label text="Total Fats" style="-fx-font-size: 12px; -fx-text-fill: #7f8c8d;" />
+                        <Label fx:id="dailyFatsLabel" text="0g" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill:  #27ae60;" />
+                    </VBox>
                 </HBox>
-
             </VBox>
-        </ScrollPane>
+
+            <!-- Action Buttons -->
+            <HBox spacing="15" alignment="CENTER">
+                <Button fx:id="assignMealPlanBtn" text="Assign Meal Plan"
+                        style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-padding: 12 40; -fx-font-size: 14px; -fx-font-weight: bold;" />
+                <Button fx:id="saveTemplateBtn" text="Save as Template"
+                        style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-padding: 12 40; -fx-font-size: 14px;" />
+                <Button fx:id="clearBtn" text="Clear All"
+                        style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-padding: 12 40; -fx-font-size: 14px;" />
+            </HBox>
+
+        </VBox>
     </center>
 
 </BorderPane>

@@ -2,21 +2,17 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 
 <BorderPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
-            style="-fx-background-color: #F5F7FA;">
+            fx:controller="com.gym.controllers.trainer.SetDailyGoalsController"
+            style="-fx-background-color:  #F5F7FA;">
 
     <top>
         <VBox spacing="15.0" style="-fx-padding: 20; -fx-background-color: white;">
-            <Label text="Set Daily Goals for Clients" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #263238;" />
-
-            <HBox spacing="15.0" alignment="CENTER_LEFT">
-                <Label text="Select Client:" style="-fx-font-weight: bold;" />
-                <ComboBox fx:id="clientSelectComboBox" promptText="Choose a client" prefWidth="250" />
-                <Label text="Date:" style="-fx-font-weight: bold;" />
-                <DatePicker fx:id="goalDatePicker" prefWidth="150" />
-            </HBox>
+            <Label text="Set Daily Goals for Clients" style="-fx-font-size: 24px; -fx-font-weight:  bold; -fx-text-fill: #263238;" />
+            <Separator />
         </VBox>
     </top>
 
@@ -24,56 +20,80 @@
         <ScrollPane fitToWidth="true" fitToHeight="true" style="-fx-background-color: transparent;">
             <VBox spacing="20.0" style="-fx-padding: 30;">
 
-                <!-- Workout Goals -->
-                <VBox spacing="15" style="-fx-background-color: white; -fx-padding:  25; -fx-background-radius:  10; -fx-effect:  dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);">
-                    <Label text="Workout Goals" style="-fx-font-size:  18px; -fx-font-weight: bold; -fx-text-fill: #263238;" />
+                <!-- Client & Date Selection -->
+                <VBox spacing="15" style="-fx-background-color: white; -fx-padding: 25; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+                    <Label text="Client and Date" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #263238;" />
                     <Separator />
 
                     <GridPane hgap="20" vgap="15">
-                        <Label text="Workout Duration (minutes):" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-font-weight:  bold;" />
-                        <TextField fx:id="workoutDurationField" promptText="e.g., 60" GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="200" />
+                        <Label text="Select Client:" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-font-weight: bold; -fx-min-width: 150;" />
+                        <ComboBox fx:id="clientComboBox" promptText="Choose a client" GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="300" />
 
-                        <Label text="Target Calories to Burn:" GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-font-weight: bold;" />
-                        <TextField fx:id="caloriesBurnField" promptText="e.g., 500" GridPane.columnIndex="1" GridPane.rowIndex="1" prefWidth="200" />
+                        <Label text="Goal Date:" GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-font-weight: bold;" />
+                        <DatePicker fx:id="goalDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="1" prefWidth="300" />
+                    </GridPane>
+                </VBox>
+
+                <!-- Workout Goals -->
+                <VBox spacing="15" style="-fx-background-color: white; -fx-padding: 25; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+                    <Label text="Workout Goals" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill:  #263238;" />
+                    <Separator />
+
+                    <GridPane hgap="20" vgap="15">
+                        <Label text="Workout Duration (min):" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-font-weight: bold; -fx-min-width: 180;" />
+                        <Spinner fx:id="workoutDurationSpinner" GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="150" />
+
+                        <Label text="Calorie Burn Target:" GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-font-weight: bold;" />
+                        <Spinner fx:id="calorieTargetSpinner" GridPane.columnIndex="1" GridPane.rowIndex="1" prefWidth="150" />
                     </GridPane>
                 </VBox>
 
                 <!-- Nutrition Goals -->
                 <VBox spacing="15" style="-fx-background-color: white; -fx-padding: 25; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);">
-                    <Label text="Nutrition Goals" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #263238;" />
+                    <Label text="Nutrition Goals" style="-fx-font-size: 18px; -fx-font-weight:  bold; -fx-text-fill: #263238;" />
                     <Separator />
 
                     <GridPane hgap="20" vgap="15">
-                        <Label text="Daily Calorie Limit:" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-font-weight: bold;" />
-                        <TextField fx:id="calorieLimitField" promptText="e.g., 2000" GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="200" />
+                        <Label text="Daily Calorie Limit:" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-font-weight: bold; -fx-min-width: 180;" />
+                        <Spinner fx:id="calorieLimitSpinner" GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="150" />
 
                         <Label text="Protein Target (g):" GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-font-weight: bold;" />
-                        <TextField fx:id="proteinField" promptText="e.g., 150" GridPane.columnIndex="1" GridPane.rowIndex="1" prefWidth="200" />
+                        <TextField fx:id="proteinField" promptText="e.g., 150" GridPane.columnIndex="1" GridPane.rowIndex="1" prefWidth="150" />
 
                         <Label text="Carbs Target (g):" GridPane.columnIndex="0" GridPane.rowIndex="2" style="-fx-font-weight: bold;" />
-                        <TextField fx:id="carbsField" promptText="e.g., 200" GridPane.columnIndex="1" GridPane.rowIndex="2" prefWidth="200" />
+                        <TextField fx:id="carbsField" promptText="e.g., 200" GridPane.columnIndex="1" GridPane.rowIndex="2" prefWidth="150" />
 
-                        <Label text="Fats Target (g):" GridPane.columnIndex="0" GridPane.rowIndex="3" style="-fx-font-weight:  bold;" />
-                        <TextField fx:id="fatsField" promptText="e. g., 60" GridPane.columnIndex="1" GridPane.rowIndex="3" prefWidth="200" />
+                        <Label text="Fats Target (g):" GridPane.columnIndex="0" GridPane.rowIndex="3" style="-fx-font-weight: bold;" />
+                        <TextField fx:id="fatsField" promptText="e.g., 60" GridPane.columnIndex="1" GridPane.rowIndex="3" prefWidth="150" />
 
                         <Label text="Water Intake (ml):" GridPane.columnIndex="0" GridPane.rowIndex="4" style="-fx-font-weight: bold;" />
-                        <TextField fx:id="waterIntakeField" promptText="e.g., 2000" GridPane.columnIndex="1" GridPane.rowIndex="4" prefWidth="200" />
+                        <VBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                            <Spinner fx:id="waterIntakeSpinner" prefWidth="150" />
+                            <HBox spacing="10">
+                                <Button fx:id="water2000Btn" text="2000ml" style="-fx-background-color:  #3498db; -fx-text-fill: white; -fx-padding: 5 10;" />
+                                <Button fx:id="water2500Btn" text="2500ml" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-padding: 5 10;" />
+                                <Button fx:id="water3000Btn" text="3000ml" style="-fx-background-color:  #3498db; -fx-text-fill: white; -fx-padding: 5 10;" />
+                                <Button fx:id="water3500Btn" text="3500ml" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-padding: 5 10;" />
+                            </HBox>
+                        </VBox>
                     </GridPane>
                 </VBox>
 
                 <!-- Special Instructions -->
                 <VBox spacing="15" style="-fx-background-color: white; -fx-padding: 25; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);">
-                    <Label text="Special Instructions / Notes" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #263238;" />
+                    <Label text="Special Instructions" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill:  #263238;" />
                     <Separator />
                     <TextArea fx:id="instructionsArea" promptText="Add any special instructions or notes for the client..."
                               prefHeight="100" wrapText="true" />
                 </VBox>
 
                 <!-- Action Buttons -->
-                <HBox spacing="15" alignment="CENTER">
-                    <Button fx:id="saveGoalsBtn" text="Save Goals"
-                            style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-padding: 12 40; -fx-font-size: 14px; -fx-font-weight: bold;" />
-                    <Button fx:id="clearGoalsBtn" text="Clear Form"
+                <HBox spacing="15" alignment="CENTER" style="-fx-padding: 10 0;">
+                    <Button fx:id="assignBtn" text="Assign Goals"
+                            style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-padding:  12 40; -fx-font-size: 14px; -fx-font-weight: bold;" />
+                    <Button fx:id="setWeekBtn" text="Set for Week (7 days)"
+                            style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-padding: 12 40; -fx-font-size:  14px; -fx-font-weight: bold;" />
+                    <Button fx:id="clearBtn" text="Clear Form"
                             style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-padding: 12 40; -fx-font-size: 14px;" />
                 </HBox>
 

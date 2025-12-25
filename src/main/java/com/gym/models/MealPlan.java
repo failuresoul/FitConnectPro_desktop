@@ -1,46 +1,27 @@
 package com.gym.models;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java. time.LocalTime;
 
 public class MealPlan {
     private int mealPlanId;
     private int trainerId;
     private int memberId;
     private LocalDate planDate;
-    private String mealType;
+    private String mealType; // BREAKFAST, LUNCH, DINNER, SNACK
     private LocalTime mealTime;
-    private String foods;
+    private String foods; // Comma-separated list
     private int totalCalories;
     private double totalProtein;
     private double totalCarbs;
     private double totalFats;
     private String preparationInstructions;
-    private LocalDateTime createdDate;
+    private LocalDate createdDate;
 
     public MealPlan() {
     }
 
-    public MealPlan(int mealPlanId, int trainerId, int memberId, LocalDate planDate, String mealType,
-                    LocalTime mealTime, String foods, int totalCalories, double totalProtein,
-                    double totalCarbs, double totalFats, String preparationInstructions,
-                    LocalDateTime createdDate) {
-        this.mealPlanId = mealPlanId;
-        this.trainerId = trainerId;
-        this.memberId = memberId;
-        this.planDate = planDate;
-        this.mealType = mealType;
-        this.mealTime = mealTime;
-        this.foods = foods;
-        this.totalCalories = totalCalories;
-        this.totalProtein = totalProtein;
-        this.totalCarbs = totalCarbs;
-        this.totalFats = totalFats;
-        this.preparationInstructions = preparationInstructions;
-        this.createdDate = createdDate;
-    }
-
+    // Getters and Setters
     public int getMealPlanId() {
         return mealPlanId;
     }
@@ -134,33 +115,14 @@ public class MealPlan {
     }
 
     public void setPreparationInstructions(String preparationInstructions) {
-        this. preparationInstructions = preparationInstructions;
+        this.preparationInstructions = preparationInstructions;
     }
 
-    public LocalDateTime getCreatedDate() {
+    public LocalDate getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(LocalDateTime createdDate) {
-        this. createdDate = createdDate;
-    }
-
-    @Override
-    public String toString() {
-        return "MealPlan{" +
-                "mealPlanId=" + mealPlanId +
-                ", trainerId=" + trainerId +
-                ", memberId=" + memberId +
-                ", planDate=" + planDate +
-                ", mealType='" + mealType + '\'' +
-                ", mealTime=" + mealTime +
-                ", foods='" + foods + '\'' +
-                ", totalCalories=" + totalCalories +
-                ", totalProtein=" + totalProtein +
-                ", totalCarbs=" + totalCarbs +
-                ", totalFats=" + totalFats +
-                ", preparationInstructions='" + preparationInstructions + '\'' +
-                ", createdDate=" + createdDate +
-                '}';
+    public void setCreatedDate(LocalDate createdDate) {
+        this.createdDate = createdDate;
     }
 }

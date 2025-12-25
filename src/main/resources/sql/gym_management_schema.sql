@@ -449,6 +449,147 @@ INSERT INTO Exercises_Library (exercise_name, category, muscle_group, equipment_
                                                                                                                             ('Box Jumps', 'Cardio', 'Legs', 'Box', 'Intermediate', 'Jump onto elevated platform'),
                                                                                                                             ('Battle Ropes', 'Cardio', 'Full Body', 'Battle Ropes', 'Intermediate', 'Wave ropes up and down');
 
+-- Populate Foods_Database with 100+ common foods
+
+DELETE FROM Foods_Database WHERE 1=1;
+
+INSERT INTO Foods_Database (food_name, serving_size, calories_per_serving, protein, carbs, fats, category, is_gym_recommended) VALUES
+
+-- PROTEINS (Gym Recommended)
+('Chicken Breast (Grilled)', '100g', 165, 31.0, 0.0, 3.6, 'Protein', 1),
+('Salmon (Baked)', '100g', 206, 22.0, 0.0, 13.0, 'Protein', 1),
+('Tuna (Canned in Water)', '100g', 116, 26.0, 0.0, 0.8, 'Protein', 1),
+('Egg (Whole)', '1 large', 72, 6.3, 0.4, 4.8, 'Protein', 1),
+('Egg White', '1 large', 17, 3.6, 0.2, 0.1, 'Protein', 1),
+('Greek Yogurt (Plain)', '100g', 59, 10.0, 3.6, 0.4, 'Protein', 1),
+('Cottage Cheese (Low-Fat)', '100g', 72, 12.4, 3.4, 1.0, 'Protein', 1),
+('Whey Protein Powder', '1 scoop (30g)', 120, 24.0, 3.0, 1.5, 'Protein', 1),
+('Turkey Breast', '100g', 135, 30.0, 0.0, 0.7, 'Protein', 1),
+('Tilapia', '100g', 128, 26.0, 0.0, 2.7, 'Protein', 1),
+('Shrimp', '100g', 99, 24.0, 0.2, 0.3, 'Protein', 1),
+('Lean Beef (Sirloin)', '100g', 201, 27.0, 0.0, 10.0, 'Protein', 1),
+('Tofu (Firm)', '100g', 144, 15.8, 3.5, 8.7, 'Protein', 1),
+('Tempeh', '100g', 193, 19.0, 9.4, 11.0, 'Protein', 1),
+('Edamame', '100g', 121, 11.2, 8.9, 5.2, 'Protein', 1),
+
+-- CARBOHYDRATES (Gym Recommended)
+('Brown Rice (Cooked)', '100g', 111, 2.6, 23.0, 0.9, 'Carbs', 1),
+('Quinoa (Cooked)', '100g', 120, 4.4, 21.3, 1.9, 'Carbs', 1),
+('Oatmeal (Cooked)', '100g', 71, 2.5, 12.0, 1.5, 'Carbs', 1),
+('Sweet Potato (Baked)', '100g', 90, 2.0, 20.7, 0.2, 'Carbs', 1),
+('White Potato (Baked)', '100g', 93, 2.5, 21.2, 0.1, 'Carbs', 1),
+('Whole Wheat Bread', '1 slice (28g)', 69, 3.6, 11.6, 0.9, 'Carbs', 1),
+('Whole Wheat Pasta (Cooked)', '100g', 124, 5.3, 26.5, 0.5, 'Carbs', 1),
+('Banana', '1 medium (118g)', 105, 1.3, 27.0, 0.4, 'Carbs', 1),
+('Apple', '1 medium (182g)', 95, 0.5, 25.0, 0.3, 'Carbs', 1),
+('Blueberries', '100g', 57, 0.7, 14.5, 0.3, 'Carbs', 1),
+('Strawberries', '100g', 32, 0.7, 7.7, 0.3, 'Carbs', 1),
+('Orange', '1 medium (131g)', 62, 1.2, 15.4, 0.2, 'Carbs', 1),
+('Grapes', '100g', 69, 0.7, 18.1, 0.2, 'Carbs', 1),
+('Mango', '100g', 60, 0.8, 15.0, 0.4, 'Carbs', 1),
+('Pineapple', '100g', 50, 0.5, 13.1, 0.1, 'Carbs', 1),
+
+-- VEGETABLES (Gym Recommended)
+('Broccoli (Cooked)', '100g', 35, 2.4, 7.2, 0.4, 'Vegetables', 1),
+('Spinach (Raw)', '100g', 23, 2.9, 3.6, 0.4, 'Vegetables', 1),
+('Kale (Raw)', '100g', 35, 2.9, 4.4, 1.5, 'Vegetables', 1),
+('Asparagus', '100g', 20, 2.2, 3.9, 0.1, 'Vegetables', 1),
+('Bell Pepper (Red)', '100g', 31, 1.0, 6.0, 0.3, 'Vegetables', 1),
+('Cauliflower', '100g', 25, 1.9, 5.0, 0.3, 'Vegetables', 1),
+('Zucchini', '100g', 17, 1.2, 3.1, 0.3, 'Vegetables', 1),
+('Cucumber', '100g', 15, 0.7, 3.6, 0.1, 'Vegetables', 1),
+('Tomato', '100g', 18, 0.9, 3.9, 0.2, 'Vegetables', 1),
+('Carrots', '100g', 41, 0.9, 9.6, 0.2, 'Vegetables', 1),
+('Green Beans', '100g', 31, 1.8, 7.0, 0.1, 'Vegetables', 1),
+('Brussels Sprouts', '100g', 43, 3.4, 9.0, 0.3, 'Vegetables', 1),
+('Lettuce (Romaine)', '100g', 17, 1.2, 3.3, 0.3, 'Vegetables', 1),
+('Celery', '100g', 14, 0.7, 3.0, 0.2, 'Vegetables', 1),
+
+-- HEALTHY FATS (Gym Recommended)
+('Avocado', '100g', 160, 2.0, 8.5, 14.7, 'Fats', 1),
+('Almonds', '28g (23 nuts)', 164, 6.0, 6.1, 14.2, 'Fats', 1),
+('Walnuts', '28g (14 halves)', 185, 4.3, 3.9, 18.5, 'Fats', 1),
+('Cashews', '28g', 157, 5.2, 8.6, 12.4, 'Fats', 1),
+('Peanut Butter (Natural)', '2 tbsp (32g)', 188, 8.0, 7.0, 16.0, 'Fats', 1),
+('Almond Butter', '2 tbsp (32g)', 196, 6.7, 6.0, 18.0, 'Fats', 1),
+('Chia Seeds', '28g', 138, 4.7, 12.0, 8.7, 'Fats', 1),
+('Flaxseeds (Ground)', '2 tbsp', 75, 2.6, 4.0, 6.0, 'Fats', 1),
+('Olive Oil', '1 tbsp (14g)', 119, 0.0, 0.0, 13.5, 'Fats', 1),
+('Coconut Oil', '1 tbsp (14g)', 117, 0.0, 0.0, 13.5, 'Fats', 1),
+('Dark Chocolate (70-85%)', '28g', 170, 2.2, 13.0, 12.0, 'Fats', 1),
+
+-- LEGUMES (Gym Recommended)
+('Lentils (Cooked)', '100g', 116, 9.0, 20.1, 0.4, 'Legumes', 1),
+('Chickpeas (Cooked)', '100g', 164, 8.9, 27.4, 2.6, 'Legumes', 1),
+('Black Beans (Cooked)', '100g', 132, 8.9, 23.7, 0.5, 'Legumes', 1),
+('Kidney Beans (Cooked)', '100g', 127, 8.7, 22.8, 0.5, 'Legumes', 1),
+('Pinto Beans (Cooked)', '100g', 143, 9.0, 26.2, 0.7, 'Legumes', 1),
+
+-- DAIRY
+('Milk (Whole)', '1 cup (244g)', 149, 7.7, 11.7, 7.9, 'Dairy', 0),
+('Milk (Skim)', '1 cup (244g)', 83, 8.3, 12.2, 0.2, 'Dairy', 1),
+('Cheddar Cheese', '28g', 113, 7.0, 0.4, 9.3, 'Dairy', 0),
+('Mozzarella Cheese (Part-Skim)', '28g', 72, 6.9, 0.8, 4.5, 'Dairy', 1),
+('Parmesan Cheese', '28g', 111, 10.0, 0.9, 7.3, 'Dairy', 0),
+
+-- PROCESSED/LESS HEALTHY (Not Gym Recommended)
+('White Rice (Cooked)', '100g', 130, 2.7, 28.2, 0.3, 'Carbs', 0),
+('White Bread', '1 slice (25g)', 67, 2.0, 13.0, 0.8, 'Carbs', 0),
+('Pizza (Cheese)', '1 slice (107g)', 272, 12.2, 33.6, 9.8, 'Fast Food', 0),
+('Burger (Fast Food)', '1 burger', 354, 14.6, 32.5, 17.9, 'Fast Food', 0),
+('French Fries', '100g', 312, 3.4, 41.4, 14.5, 'Fast Food', 0),
+('Soda (Cola)', '355ml', 140, 0.0, 39.0, 0.0, 'Beverages', 0),
+('Ice Cream (Vanilla)', '100g', 207, 3.5, 23.6, 11.0, 'Desserts', 0),
+('Chocolate Chip Cookie', '1 cookie (30g)', 140, 1.7, 18.0, 7.0, 'Desserts', 0),
+('Potato Chips', '28g', 152, 2.0, 15.0, 10.0, 'Snacks', 0),
+('Candy Bar', '1 bar (52g)', 250, 2.0, 34.0, 12.0, 'Desserts', 0),
+('Donut (Glazed)', '1 donut (52g)', 192, 2.3, 22.9, 10.3, 'Desserts', 0),
+('Bacon', '3 slices (24g)', 126, 9.0, 0.3, 9.9, 'Protein', 0),
+('Sausage', '1 link (25g)', 96, 4.1, 0.8, 8.4, 'Protein', 0),
+('Hot Dog', '1 hot dog (45g)', 151, 5.1, 1.8, 13.4, 'Fast Food', 0),
+
+-- BEVERAGES
+('Water', '1 cup (237ml)', 0, 0.0, 0.0, 0.0, 'Beverages', 1),
+('Green Tea (Unsweetened)', '1 cup (237ml)', 2, 0.0, 0.0, 0.0, 'Beverages', 1),
+('Black Coffee (Unsweetened)', '1 cup (237ml)', 2, 0.3, 0.0, 0.0, 'Beverages', 1),
+('Orange Juice (Fresh)', '1 cup (248g)', 112, 1.7, 25.8, 0.5, 'Beverages', 0),
+('Apple Juice', '1 cup (248g)', 114, 0.3, 28.0, 0.3, 'Beverages', 0),
+('Sports Drink', '1 cup (240ml)', 50, 0.0, 14.0, 0.0, 'Beverages', 0),
+('Protein Shake (Milk-Based)', '1 serving', 180, 20.0, 15.0, 3.0, 'Beverages', 1),
+
+-- CONDIMENTS & EXTRAS
+('Honey', '1 tbsp (21g)', 64, 0.1, 17.3, 0.0, 'Condiments', 0),
+('Maple Syrup', '1 tbsp (20g)', 52, 0.0, 13.4, 0.0, 'Condiments', 0),
+('Ketchup', '1 tbsp (17g)', 17, 0.2, 4.5, 0.0, 'Condiments', 0),
+('Mayonnaise', '1 tbsp (13. 8g)', 94, 0.1, 0.1, 10.3, 'Condiments', 0),
+('Mustard', '1 tsp (5g)', 3, 0.2, 0.3, 0.2, 'Condiments', 1),
+('Salsa', '2 tbsp (32g)', 9, 0.4, 2.0, 0.1, 'Condiments', 1),
+('Hummus', '2 tbsp (30g)', 70, 2.0, 6.0, 4.0, 'Condiments', 1),
+
+-- GRAINS & CEREALS
+('Granola', '100g', 471, 13.7, 64.4, 18.0, 'Carbs', 0),
+('Cornflakes', '100g', 357, 7.9, 84.1, 0.4, 'Carbs', 0),
+('Whole Wheat Tortilla', '1 tortilla (49g)', 130, 4.0, 22.0, 3.0, 'Carbs', 1),
+('Pita Bread (Whole Wheat)', '1 pita (64g)', 170, 6.0, 35.0, 1.5, 'Carbs', 1),
+('Bagel (Plain)', '1 bagel (89g)', 245, 9.0, 48.0, 1.5, 'Carbs', 0),
+('English Muffin (Whole Wheat)', '1 muffin (66g)', 134, 6.0, 27.0, 1.0, 'Carbs', 1),
+('Couscous (Cooked)', '100g', 112, 3.8, 23.2, 0.2, 'Carbs', 1),
+('Barley (Cooked)', '100g', 123, 2.3, 28.2, 0.4, 'Carbs', 1),
+
+-- FISH & SEAFOOD
+('Cod', '100g', 82, 18.0, 0.0, 0.7, 'Protein', 1),
+('Halibut', '100g', 111, 21.5, 0.0, 2.3, 'Protein', 1),
+('Mackerel', '100g', 205, 18.6, 0.0, 13.9, 'Protein', 1),
+('Sardines (Canned)', '100g', 208, 24.6, 0.0, 11.5, 'Protein', 1),
+('Lobster', '100g', 89, 19.0, 0.5, 0.9, 'Protein', 1),
+('Crab', '100g', 97, 19.4, 0.0, 1.5, 'Protein', 1),
+
+-- MISC
+('Popcorn (Air-Popped)', '100g', 387, 12.9, 77.8, 4.5, 'Snacks', 1),
+('Rice Cakes', '1 cake (9g)', 35, 0.7, 7.3, 0.3, 'Snacks', 1),
+('Protein Bar', '1 bar (60g)', 220, 20.0, 24.0, 7.0, 'Snacks', 1),
+('Energy Bar', '1 bar (40g)', 190, 4.0, 28.0, 7.0, 'Snacks', 0);
+
 -- Insert default admin (password: admin123)
 INSERT INTO Admins (username, password_hash, full_name, email, phone, role, account_status, created_date)
 VALUES ('admin', '$2a$10$xqYLkkP0RMKF0YdKhZGzAeZ. GD5YqWXHqVr3GlqN5o5yVqYqB6rqe',
