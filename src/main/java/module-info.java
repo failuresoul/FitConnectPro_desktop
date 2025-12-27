@@ -8,7 +8,8 @@ module com. gym {
     opens com.gym to javafx.fxml;
     opens com.gym.controllers to javafx.fxml;
     opens com.gym.controllers.admin to javafx.fxml;
-    opens com.gym.controllers.trainer to javafx.fxml;  // ADD THIS LINE
+    opens com.gym.controllers.trainer to javafx.fxml;
+    opens com.gym.controllers.member to javafx.fxml;
 
     exports com.gym;
     exports com.gym.controllers;
@@ -18,4 +19,5 @@ module com. gym {
     exports com.gym.services;
     exports com.gym.dao;
     exports com.gym.utils;
+    exports com.gym.controllers.member;
 }

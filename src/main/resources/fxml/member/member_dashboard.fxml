@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.gym.controllers.member.MemberDashboardController"
+            style="-fx-font-family: 'Segoe UI', Arial, sans-serif;">
+
+    <!-- Left Sidebar -->
+    <left>
+        <VBox prefWidth="220" spacing="8" style="-fx-background-color: #2c3e50;">
+            <padding>
+                <Insets top="20" right="15" bottom="20" left="15"/>
+            </padding>
+
+            <Label text="MEMBER MENU" style="-fx-text-fill: #ecf0f1; -fx-font-weight: bold; -fx-font-size: 15px;">
+                <padding><Insets bottom="15"/></padding>
+            </Label>
+
+            <Button fx:id="dashboardBtn" text="📊 Dashboard" maxWidth="Infinity"
+                    style="-fx-background-color: #34495e; -fx-text-fill: white; -fx-padding: 12; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-size: 13px;"
+                    onAction="#showDashboard"/>
+            <Button fx:id="workoutPlansBtn" text="💪 My Workout Plans" maxWidth="Infinity"
+                    style="-fx-background-color: #34495e; -fx-text-fill: white; -fx-padding: 12; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-size: 13px;"
+                    onAction="#showWorkoutPlans"/>
+            <Button fx:id="logWorkoutBtn" text="✍️ Log Workout" maxWidth="Infinity"
+                    style="-fx-background-color: #34495e; -fx-text-fill: white; -fx-padding: 12; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-size: 13px;"
+                    onAction="#showLogWorkout"/>
+            <Button fx:id="mealPlansBtn" text="🍽️ My Meal Plans" maxWidth="Infinity"
+                    style="-fx-background-color: #34495e; -fx-text-fill: white; -fx-padding: 12; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-size: 13px;"
+                    onAction="#showMealPlans"/>
+            <Button fx:id="logMealBtn" text="🥗 Log Meal" maxWidth="Infinity"
+                    style="-fx-background-color: #34495e; -fx-text-fill: white; -fx-padding: 12; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-size: 13px;"
+                    onAction="#showLogMeal"/>
+            <Button fx:id="waterTrackerBtn" text="💧 Water Tracker" maxWidth="Infinity"
+                    style="-fx-background-color: #34495e; -fx-text-fill: white; -fx-padding: 12; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-size: 13px;"
+                    onAction="#showWaterTracker"/>
+            <Button fx:id="progressBtn" text="📈 Progress" maxWidth="Infinity"
+                    style="-fx-background-color: #34495e; -fx-text-fill: white; -fx-padding: 12; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-size: 13px;"
+                    onAction="#showProgress"/>
+            <Button fx:id="socialBtn" text="👥 Social" maxWidth="Infinity"
+                    style="-fx-background-color: #34495e; -fx-text-fill: white; -fx-padding: 12; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-size: 13px;"
+                    onAction="#showSocial"/>
+            <Button fx:id="profileBtn" text="⚙️ Profile" maxWidth="Infinity"
+                    style="-fx-background-color: #34495e; -fx-text-fill: white; -fx-padding: 12; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-size: 13px;"
+                    onAction="#showProfile"/>
+
+            <Region VBox.vgrow="ALWAYS"/>
+
+            <Button fx:id="logoutBtn" text="🚪 Logout" maxWidth="Infinity"
+                    style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-padding: 12; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-size: 13px; -fx-font-weight: bold;"
+                    onAction="#handleLogout"/>
+        </VBox>
+    </left>
+
+    <!-- Main Content -->
+    <center>
+        <ScrollPane fitToWidth="true" style="-fx-background-color: #ecf0f1;">
+            <VBox spacing="20" style="-fx-background-color: #ecf0f1;">
+                <padding>
+                    <Insets top="25" right="25" bottom="25" left="25"/>
+                </padding>
+
+                <!-- Top Section: Welcome and Trainer Info -->
+                <HBox spacing="20" alignment="CENTER_LEFT"
+                      style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+                    <VBox spacing="8" HBox.hgrow="ALWAYS">
+                        <Label fx:id="welcomeLabel" text="Welcome back!"
+                               style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                        <Label fx:id="dateLabel" text="Loading..."
+                               style="-fx-font-size: 14px; -fx-text-fill: #7f8c8d;"/>
+                    </VBox>
+
+                    <VBox spacing="10" alignment="CENTER_RIGHT"
+                          style="-fx-background-color: #f8f9fa; -fx-padding: 15; -fx-background-radius: 10;">
+                        <Label text="Your Trainer"
+                               style="-fx-font-size: 12px; -fx-text-fill: #7f8c8d; -fx-font-weight: bold;"/>
+                        <Label fx:id="trainerNameLabel" text="Not Assigned"
+                               style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                        <Label fx:id="trainerSpecLabel" text=""
+                               style="-fx-font-size: 12px; -fx-text-fill: #95a5a6;"/>
+                        <Button fx:id="messageTrainerBtn" text="💬 Message Trainer"
+                                style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-padding: 8 16; -fx-background-radius: 6; -fx-cursor: hand;"
+                                onAction="#handleMessageTrainer"/>
+                    </VBox>
+                </HBox>
+
+                <!-- Grid Layout for Cards (2x2) -->
+                <GridPane hgap="20" vgap="20">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="50"/>
+                        <ColumnConstraints percentWidth="50"/>
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints/>
+                        <RowConstraints/>
+                    </rowConstraints>
+
+                    <!-- Card 1: Today's Goals -->
+                    <VBox spacing="12" GridPane.columnIndex="0" GridPane.rowIndex="0"
+                          style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+                        <Label text="🎯 Today's Goals"
+                               style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                        <Separator/>
+                        <ScrollPane fitToWidth="true" prefHeight="180" style="-fx-background-color: transparent; -fx-background: transparent;">
+                            <VBox fx:id="goalsContainer" spacing="12">
+                                <Label text="Loading goals..."
+                                       style="-fx-text-fill: #95a5a6; -fx-font-style: italic;"/>
+                            </VBox>
+                        </ScrollPane>
+                    </VBox>
+
+                    <!-- Card 2: Today's Workout Plan -->
+                    <VBox spacing="12" GridPane.columnIndex="1" GridPane.rowIndex="0"
+                          style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+                        <Label text="💪 Today's Workout Plan"
+                               style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                        <Separator/>
+                        <ScrollPane fitToWidth="true" prefHeight="140" style="-fx-background-color: transparent; -fx-background: transparent;">
+                            <VBox fx:id="workoutContainer" spacing="8">
+                                <Label text="Loading workout..."
+                                       style="-fx-text-fill: #95a5a6; -fx-font-style: italic;"/>
+                            </VBox>
+                        </ScrollPane>
+                        <Button fx:id="startWorkoutBtn" text="▶️ Start Workout" maxWidth="Infinity"
+                                style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-padding: 10 20; -fx-background-radius: 6; -fx-cursor: hand; -fx-font-weight: bold;"
+                                onAction="#handleStartWorkout"/>
+                    </VBox>
+
+                    <!-- Card 3: Today's Meal Plan -->
+                    <VBox spacing="12" GridPane.columnIndex="0" GridPane.rowIndex="1"
+                          style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+                        <Label text="🍽️ Today's Meal Plan"
+                               style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                        <Separator/>
+                        <ScrollPane fitToWidth="true" prefHeight="140" style="-fx-background-color: transparent; -fx-background: transparent;">
+                            <VBox fx:id="mealContainer" spacing="8">
+                                <Label text="Loading meals..."
+                                       style="-fx-text-fill: #95a5a6; -fx-font-style: italic;"/>
+                            </VBox>
+                        </ScrollPane>
+                        <Button fx:id="viewMealDetailsBtn" text="📋 View Details" maxWidth="Infinity"
+                                style="-fx-background-color: #2980b9; -fx-text-fill: white; -fx-padding: 10 20; -fx-background-radius: 6; -fx-cursor: hand; -fx-font-weight: bold;"
+                                onAction="#handleViewMealDetails"/>
+                    </VBox>
+
+                    <!-- Card 4: Quick Stats -->
+                    <VBox spacing="12" GridPane.columnIndex="1" GridPane.rowIndex="1"
+                          style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+                        <Label text="📊 Quick Stats"
+                               style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                        <Separator/>
+                        <HBox spacing="15" alignment="CENTER">
+                            <VBox spacing="8" alignment="CENTER" HBox.hgrow="ALWAYS"
+                                  style="-fx-background-color: #fff3cd; -fx-padding: 15; -fx-background-radius: 8;">
+                                <Label fx:id="streakLabel" text="0"
+                                       style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #f39c12;"/>
+                                <Label text="Day Streak"
+                                       style="-fx-font-size: 12px; -fx-text-fill: #7f8c8d;"/>
+                            </VBox>
+                            <VBox spacing="8" alignment="CENTER" HBox.hgrow="ALWAYS"
+                                  style="-fx-background-color: #d4edda; -fx-padding: 15; -fx-background-radius: 8;">
+                                <Label fx:id="totalWorkoutsLabel" text="0"
+                                       style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #27ae60;"/>
+                                <Label text="Workouts"
+                                       style="-fx-font-size: 12px; -fx-text-fill: #7f8c8d;"/>
+                            </VBox>
+                            <VBox spacing="8" alignment="CENTER" HBox.hgrow="ALWAYS"
+                                  style="-fx-background-color: #cce5ff; -fx-padding: 15; -fx-background-radius: 8;">
+                                <Label fx:id="weightLabel" text="0 kg"
+                                       style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #3498db;"/>
+                                <Label text="Weight"
+                                       style="-fx-font-size: 12px; -fx-text-fill: #7f8c8d;"/>
+                            </VBox>
+                        </HBox>
+                    </VBox>
+                </GridPane>
+
+                <!-- Bottom: Recent Activity Feed -->
+                <VBox spacing="12"
+                      style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+                    <Label text="📰 Recent Activity"
+                           style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                    <Separator/>
+                    <ScrollPane fitToWidth="true" prefHeight="200" style="-fx-background-color: transparent; -fx-background: transparent;">
+                        <VBox fx:id="activityFeedContainer" spacing="10">
+                            <Label text="Loading activities..."
+                                   style="-fx-text-fill: #95a5a6; -fx-font-style: italic;"/>
+                        </VBox>
+                    </ScrollPane>
+                </VBox>
+            </VBox>
+        </ScrollPane>
+    </center>
+</BorderPane>

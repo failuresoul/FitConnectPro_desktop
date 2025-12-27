@@ -1,6 +1,6 @@
-package com. gym.models;
+package com.gym.models;
 
-import java. time.LocalDate;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Member {
@@ -33,18 +33,35 @@ public class Member {
         this.username = username;
         this.passwordHash = passwordHash;
         this.fullName = fullName;
-        this. email = email;
-        this. phone = phone;
-        this. dateOfBirth = dateOfBirth;
+        this.email = email;
+        this.phone = phone;
+        this.dateOfBirth = dateOfBirth;
         this.gender = gender;
         this.profilePhoto = profilePhoto;
-        this. membershipType = membershipType;
+        this.membershipType = membershipType;
         this.membershipStart = membershipStart;
-        this. membershipEnd = membershipEnd;
+        this.membershipEnd = membershipEnd;
         this.accountStatus = accountStatus;
         this.createdByAdminId = createdByAdminId;
-        this. createdDate = createdDate;
+        this.createdDate = createdDate;
         this.lastLogin = lastLogin;
+    }
+
+    // Convenience methods for consistency with Session API
+    public int getId() {
+        return memberId;
+    }
+
+    public void setId(int id) {
+        this.memberId = id;
+    }
+
+    public String getName() {
+        return fullName;
+    }
+
+    public void setName(String name) {
+        this.fullName = name;
     }
 
     public int getMemberId() {
@@ -164,7 +181,7 @@ public class Member {
     }
 
     public void setCreatedDate(LocalDateTime createdDate) {
-        this. createdDate = createdDate;
+        this.createdDate = createdDate;
     }
 
     public LocalDateTime getLastLogin() {
@@ -172,7 +189,7 @@ public class Member {
     }
 
     public void setLastLogin(LocalDateTime lastLogin) {
-        this. lastLogin = lastLogin;
+        this.lastLogin = lastLogin;
     }
 
     @Override
