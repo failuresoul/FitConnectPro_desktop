@@ -297,8 +297,7 @@ public class MemberDashboardController {
 
     @FXML
     private void handleViewMealDetails() {
-        showAlert(Alert.AlertType.INFORMATION, "Meal Details",
-                "Detailed meal view coming soon!");
+        showMealPlans();
     }
 
     // Navigation Methods
@@ -335,7 +334,22 @@ public class MemberDashboardController {
 
     @FXML
     private void showMealPlans() {
-        showAlert(Alert.AlertType.INFORMATION, "Meal Plans", "Feature coming soon!");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/member/view_meal_plan.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) welcomeLabel.getScene().getWindow();
+
+            Scene currentScene = stage.getScene();
+            currentScene.setRoot(root);
+
+            stage.setTitle("FitConnectPro - My Meal Plans");
+            System.out.println("✅ Navigated to Meal Plans view");
+        } catch (Exception e) {
+            System.err.println("❌ Error loading meal plans view: " + e.getMessage());
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error",
+                    "Failed to load meal plans view: " + e.getMessage());
+        }
     }
 
     @FXML
@@ -345,7 +359,22 @@ public class MemberDashboardController {
 
     @FXML
     private void showWaterTracker() {
-        showAlert(Alert.AlertType.INFORMATION, "Water Tracker", "Feature coming soon!");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/member/water_tracker.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) welcomeLabel.getScene().getWindow();
+
+            Scene currentScene = stage.getScene();
+            currentScene.setRoot(root);
+
+            stage.setTitle("FitConnectPro - Water Tracker");
+            System.out.println("✅ Navigated to Water Tracker view");
+        } catch (Exception e) {
+            System.err.println("❌ Error loading water tracker view: " + e.getMessage());
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error",
+                    "Failed to load water tracker: " + e.getMessage());
+        }
     }
 
     @FXML

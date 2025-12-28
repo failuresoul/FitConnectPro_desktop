@@ -3,255 +3,468 @@ package com.gym.dao;
 import com.gym.utils.DatabaseConnection;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDate;
+import java.util.*;
 
 public class MemberDashboardDAO {
 
-    // Get trainer info for member
     public Map<String, Object> getTrainerInfo(int memberId) {
         Map<String, Object> trainerInfo = new HashMap<>();
-        String query = "SELECT t.trainer_id, t.full_name, t.email, t.specializations " +
-                "FROM trainers t " +
-                "INNER JOIN Trainer_Member_Assignment tma ON t.trainer_id = tma.trainer_id " +
-                "WHERE tma.member_id = ? AND tma.status = 'ACTIVE' " +
-                "ORDER BY tma.assigned_date DESC LIMIT 1";
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-                PreparedStatement stmt = conn.prepareStatement(query)) {
+        try {
+            conn = DatabaseConnection.getInstance().getConnection();
 
-            stmt.setInt(1, memberId);
-            ResultSet rs = stmt.executeQuery();
+            String sql = "SELECT t.trainer_id, t.full_name, t.specializations " +
+                    "FROM Trainer_Member_Assignment tma " +
+                    "JOIN Trainers t ON tma.trainer_id = t.trainer_id " +
+                    "WHERE tma.member_id = ? AND tma.status = 'ACTIVE' " +
+                    "ORDER BY tma.assigned_date DESC LIMIT 1";
+
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, memberId);
+            rs = pstmt.executeQuery();
 
             if (rs.next()) {
                 trainerInfo.put("id", rs.getInt("trainer_id"));
                 trainerInfo.put("name", rs.getString("full_name"));
-                trainerInfo.put("email", rs.getString("email"));
                 trainerInfo.put("specialization", rs.getString("specializations"));
             }
-        } catch (SQLException e) {
-            System.err.println("Error loading trainer info: " + e.getMessage());
+
+        } catch (Exception e) {
+            System.err.println("Error getting trainer info: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (pstmt != null) pstmt.close();
+                if (conn != null) DatabaseConnection.getInstance().releaseConnection(conn);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
         return trainerInfo;
     }
 
-    // Get today's goals
     public List<Map<String, Object>> getTodaysGoals(int memberId) {
         List<Map<String, Object>> goals = new ArrayList<>();
-        String query = "SELECT workout_duration, calorie_target, water_intake_ml, " +
-                "calorie_limit, protein_target, carbs_target, fats_target " +
-                "FROM Trainer_Daily_Goals " +
-                "WHERE member_id = ? AND goal_date = DATE('now')";
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-                PreparedStatement stmt = conn.prepareStatement(query)) {
+        try {
+            conn = DatabaseConnection.getInstance().getConnection();
+            String today = LocalDate.now().toString();
 
-            stmt.setInt(1, memberId);
-            ResultSet rs = stmt.executeQuery();
+            // Get trainer daily goals for today
+            String sql = "SELECT workout_duration, calorie_target, water_intake_ml, " +
+                    "calorie_limit, protein_target, carbs_target, fats_target " +
+                    "FROM Trainer_Daily_Goals " +
+                    "WHERE member_id = ? AND goal_date = ?";
+
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, memberId);
+            pstmt.setString(2, today);
+            rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                // Water intake goal
-                if (rs.getInt("water_intake_ml") > 0) {
-                    Map<String, Object> waterGoal = new HashMap<>();
-                    waterGoal.put("goalType", "Water Intake");
-                    waterGoal.put("targetValue", rs.getDouble("water_intake_ml") / 1000.0); // Convert ml to L
-                    waterGoal.put("currentValue", 0.0);
-                    waterGoal.put("unit", "L");
-                    goals.add(waterGoal);
-                }
-
-                // Calorie target goal
-                if (rs.getInt("calorie_target") > 0) {
-                    Map<String, Object> calorieGoal = new HashMap<>();
-                    calorieGoal.put("goalType", "Calorie Target");
-                    calorieGoal.put("targetValue", (double) rs.getInt("calorie_target"));
-                    calorieGoal.put("currentValue", 0.0);
-                    calorieGoal.put("unit", "kcal");
-                    goals.add(calorieGoal);
-                }
-
-                // Protein target
-                if (rs.getInt("protein_target") > 0) {
-                    Map<String, Object> proteinGoal = new HashMap<>();
-                    proteinGoal.put("goalType", "Protein");
-                    proteinGoal.put("targetValue", (double) rs.getInt("protein_target"));
-                    proteinGoal.put("currentValue", 0.0);
-                    proteinGoal.put("unit", "g");
-                    goals.add(proteinGoal);
-                }
-
-                // Workout duration
+                // Workout Duration Goal
                 if (rs.getInt("workout_duration") > 0) {
-                    Map<String, Object> workoutGoal = new HashMap<>();
-                    workoutGoal.put("goalType", "Workout Duration");
-                    workoutGoal.put("targetValue", (double) rs.getInt("workout_duration"));
-                    workoutGoal.put("currentValue", 0.0);
-                    workoutGoal.put("unit", "min");
-                    goals.add(workoutGoal);
+                    Map<String, Object> goal = new HashMap<>();
+                    goal.put("goalType", "Workout Duration");
+                    goal.put("targetValue", (double) rs.getInt("workout_duration"));
+                    goal.put("currentValue", getCurrentWorkoutMinutes(memberId, today));
+                    goal.put("unit", "min");
+                    goals.add(goal);
+                }
+
+                // Calorie Burn Goal
+                if (rs.getInt("calorie_target") > 0) {
+                    Map<String, Object> goal = new HashMap<>();
+                    goal.put("goalType", "Calories Burned");
+                    goal.put("targetValue", (double) rs.getInt("calorie_target"));
+                    goal.put("currentValue", getCurrentCaloriesBurned(memberId, today));
+                    goal.put("unit", "kcal");
+                    goals.add(goal);
+                }
+
+                // Water Intake Goal
+                if (rs.getInt("water_intake_ml") > 0) {
+                    Map<String, Object> goal = new HashMap<>();
+                    goal.put("goalType", "Water Intake");
+                    goal.put("targetValue", (double) rs.getInt("water_intake_ml"));
+                    goal.put("currentValue", getCurrentWaterIntake(memberId, today));
+                    goal.put("unit", "ml");
+                    goals.add(goal);
+                }
+
+                // Calorie Intake Goal (Limit)
+                if (rs.getInt("calorie_limit") > 0) {
+                    Map<String, Object> goal = new HashMap<>();
+                    goal.put("goalType", "Calorie Intake");
+                    goal.put("targetValue", (double) rs.getInt("calorie_limit"));
+                    goal.put("currentValue", getCurrentCalorieIntake(memberId, today));
+                    goal.put("unit", "kcal");
+                    goals.add(goal);
                 }
             }
 
-            System.out.println("✅ Found " + goals.size() + " goals for today");
-        } catch (SQLException e) {
-            System.err.println("Error loading today's goals: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Error getting today's goals: " + e.getMessage());
             e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (pstmt != null) pstmt.close();
+                if (conn != null) DatabaseConnection.getInstance().releaseConnection(conn);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
         return goals;
     }
 
-    // Get today's workout plan
+    private double getCurrentWorkoutMinutes(int memberId, String date) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DatabaseConnection.getInstance().getConnection();
+            String sql = "SELECT COALESCE(SUM(total_duration), 0) as total FROM Workouts " +
+                    "WHERE member_id = ? AND workout_date = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, memberId);
+            pstmt.setString(2, date);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getDouble("total");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (pstmt != null) pstmt.close();
+                if (conn != null) DatabaseConnection.getInstance().releaseConnection(conn);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return 0.0;
+    }
+
+    private double getCurrentCaloriesBurned(int memberId, String date) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DatabaseConnection.getInstance().getConnection();
+            String sql = "SELECT COALESCE(SUM(total_calories), 0) as total FROM Workouts " +
+                    "WHERE member_id = ? AND workout_date = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, memberId);
+            pstmt.setString(2, date);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getDouble("total");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (pstmt != null) pstmt.close();
+                if (conn != null) DatabaseConnection.getInstance().releaseConnection(conn);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return 0.0;
+    }
+
+    private double getCurrentWaterIntake(int memberId, String date) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DatabaseConnection.getInstance().getConnection();
+            String sql = "SELECT COALESCE(SUM(amount_ml), 0) as total FROM Water_Logs " +
+                    "WHERE member_id = ? AND log_date = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, memberId);
+            pstmt.setString(2, date);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getDouble("total");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (pstmt != null) pstmt.close();
+                if (conn != null) DatabaseConnection.getInstance().releaseConnection(conn);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return 0.0;
+    }
+
+    private double getCurrentCalorieIntake(int memberId, String date) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DatabaseConnection.getInstance().getConnection();
+            String sql = "SELECT COALESCE(SUM(total_calories), 0) as total FROM Meals " +
+                    "WHERE member_id = ? AND meal_date = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, memberId);
+            pstmt.setString(2, date);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getDouble("total");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (pstmt != null) pstmt.close();
+                if (conn != null) DatabaseConnection.getInstance().releaseConnection(conn);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return 0.0;
+    }
+
     public List<Map<String, Object>> getTodaysWorkout(int memberId) {
         List<Map<String, Object>> exercises = new ArrayList<>();
-        String query = "SELECT el.exercise_name, tpe.sets, tpe.reps, tpe.weight, tpe.trainer_notes " +
-                "FROM Trainer_Workout_Plans twp " +
-                "INNER JOIN Trainer_Plan_Exercises tpe ON twp.plan_id = tpe.plan_id " +
-                "INNER JOIN Exercises_Library el ON tpe.exercise_id = el.exercise_id " +
-                "WHERE twp.member_id = ? AND twp.plan_date = DATE('now') " +
-                "ORDER BY tpe.order_number";
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-                PreparedStatement stmt = conn.prepareStatement(query)) {
+        try {
+            conn = DatabaseConnection.getInstance().getConnection();
+            String today = LocalDate.now().toString();
 
-            stmt.setInt(1, memberId);
-            ResultSet rs = stmt.executeQuery();
+            String sql = "SELECT el.exercise_name, tpe.sets, tpe.reps, tpe.rest_seconds " +
+                    "FROM Trainer_Workout_Plans twp " +
+                    "JOIN Trainer_Plan_Exercises tpe ON twp.plan_id = tpe.plan_id " +
+                    "JOIN Exercises_Library el ON tpe.exercise_id = el.exercise_id " +
+                    "WHERE twp.member_id = ? AND twp.plan_date = ? " +
+                    "ORDER BY tpe.order_number";
+
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, memberId);
+            pstmt.setString(2, today);
+            rs = pstmt.executeQuery();
 
             while (rs.next()) {
                 Map<String, Object> exercise = new HashMap<>();
-                exercise.put("name", rs.getString("exercise_name") != null ? rs.getString("exercise_name") : "");
+                exercise.put("name", rs.getString("exercise_name"));
                 exercise.put("sets", rs.getInt("sets"));
-                exercise.put("reps", rs.getString("reps")); // Changed from getInt to getString
-                exercise.put("weight", rs.getDouble("weight"));
-                exercise.put("notes", rs.getString("trainer_notes") != null ? rs.getString("trainer_notes") : "");
-                exercise.put("duration", 0); // Add default duration
+                exercise.put("reps", rs.getString("reps"));
+                exercise.put("duration", rs.getInt("rest_seconds") / 60); // Convert to minutes
                 exercises.add(exercise);
             }
 
-            rs.close();
-            System.out.println("✅ Dashboard loaded " + exercises.size() + " exercises for today");
-        } catch (SQLException e) {
-            System.err.println("Error loading today's workout: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Error getting today's workout: " + e.getMessage());
             e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (pstmt != null) pstmt.close();
+                if (conn != null) DatabaseConnection.getInstance().releaseConnection(conn);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
         return exercises;
     }
 
-    // Get today's meal plan
     public List<Map<String, Object>> getTodaysMealPlan(int memberId) {
         List<Map<String, Object>> meals = new ArrayList<>();
-        String query = "SELECT meal_type, foods, total_calories, total_protein, total_carbs, total_fats " +
-                "FROM Trainer_Meal_Plans " +
-                "WHERE member_id = ? AND plan_date = DATE('now') " +
-                "ORDER BY CASE meal_type " +
-                "WHEN 'Breakfast' THEN 1 " +
-                "WHEN 'Lunch' THEN 2 " +
-                "WHEN 'Dinner' THEN 3 " +
-                "WHEN 'Snack' THEN 4 END";
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-                PreparedStatement stmt = conn.prepareStatement(query)) {
+        try {
+            conn = DatabaseConnection.getInstance().getConnection();
+            String today = LocalDate.now().toString();
 
-            stmt.setInt(1, memberId);
-            ResultSet rs = stmt.executeQuery();
+            String sql = "SELECT meal_type, foods, total_calories " +
+                    "FROM Trainer_Meal_Plans " +
+                    "WHERE member_id = ? AND plan_date = ? " +
+                    "ORDER BY meal_time";
+
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, memberId);
+            pstmt.setString(2, today);
+            rs = pstmt.executeQuery();
 
             while (rs.next()) {
                 Map<String, Object> meal = new HashMap<>();
-                meal.put("mealType", rs.getString("meal_type") != null ? rs.getString("meal_type") : "");
-                meal.put("foodItems", rs.getString("foods") != null ? rs.getString("foods") : "");
+                meal.put("mealType", rs.getString("meal_type"));
+                meal.put("foodItems", rs.getString("foods"));
                 meal.put("calories", rs.getInt("total_calories"));
-                meal.put("protein", rs.getDouble("total_protein"));
-                meal.put("carbs", rs.getDouble("total_carbs"));
-                meal.put("fats", rs.getDouble("total_fats"));
                 meals.add(meal);
             }
 
-            rs.close();
-            System.out.println("✅ Found " + meals.size() + " meals for today");
-        } catch (SQLException e) {
-            System.err.println("Error loading today's meal plan: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Error getting today's meal plan: " + e.getMessage());
             e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (pstmt != null) pstmt.close();
+                if (conn != null) DatabaseConnection.getInstance().releaseConnection(conn);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
         return meals;
     }
 
-    // Get quick stats
     public Map<String, Object> getQuickStats(int memberId) {
         Map<String, Object> stats = new HashMap<>();
-        stats.put("streak", 0);
-        stats.put("totalWorkouts", 0);
-        stats.put("weight", 0.0);
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
+        try {
+            conn = DatabaseConnection.getInstance().getConnection();
+
+            // Get workout streak
+            stats.put("streak", calculateWorkoutStreak(memberId));
+
             // Get total workouts
-            String workoutQuery = "SELECT COUNT(*) as total FROM Workouts WHERE member_id = ?";
-            try (PreparedStatement stmt = conn.prepareStatement(workoutQuery)) {
-                stmt.setInt(1, memberId);
-                try (ResultSet rs = stmt.executeQuery()) {
-                    if (rs.next()) {
-                        stats.put("totalWorkouts", rs.getInt("total"));
-                    }
-                }
+            String workoutSql = "SELECT COUNT(*) as total FROM Workouts WHERE member_id = ?";
+            pstmt = conn.prepareStatement(workoutSql);
+            pstmt.setInt(1, memberId);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                stats.put("totalWorkouts", rs.getInt("total"));
+            }
+            rs.close();
+            pstmt.close();
+
+            // Get current weight
+            String weightSql = "SELECT current_weight FROM Member_Profiles WHERE member_id = ?";
+            pstmt = conn.prepareStatement(weightSql);
+            pstmt.setInt(1, memberId);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                stats.put("weight", rs.getDouble("current_weight"));
             }
 
-            // Get current weight from Body_Measurements
-            String weightQuery = "SELECT weight FROM Body_Measurements " +
-                    "WHERE member_id = ? ORDER BY measurement_date DESC LIMIT 1";
-            try (PreparedStatement stmt = conn.prepareStatement(weightQuery)) {
-                stmt.setInt(1, memberId);
-                try (ResultSet rs = stmt.executeQuery()) {
-                    if (rs.next()) {
-                        stats.put("weight", rs.getDouble("weight"));
-                    }
-                }
+        } catch (Exception e) {
+            System.err.println("Error getting quick stats: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (pstmt != null) pstmt.close();
+                if (conn != null) DatabaseConnection.getInstance().releaseConnection(conn);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
-            // Calculate streak
-            String streakQuery = "SELECT JULIANDAY('now') - JULIANDAY(MAX(workout_date)) as days_since_last " +
-                    "FROM Workouts WHERE member_id = ?";
-            try (PreparedStatement stmt = conn.prepareStatement(streakQuery)) {
-                stmt.setInt(1, memberId);
-                try (ResultSet rs = stmt.executeQuery()) {
-                    if (rs.next()) {
-                        int daysSince = rs.getInt("days_since_last");
-                        stats.put("streak", daysSince <= 1 ? 1 : 0);
-                    }
-                }
-            }
-
-        } catch (SQLException e) {
-            System.err.println("Error loading quick stats: " + e.getMessage());
         }
 
         return stats;
     }
 
-    // Get recent activities
+    private int calculateWorkoutStreak(int memberId) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        int streak = 0;
+
+        try {
+            conn = DatabaseConnection.getInstance().getConnection();
+            String sql = "SELECT DISTINCT workout_date FROM Workouts " +
+                    "WHERE member_id = ? ORDER BY workout_date DESC LIMIT 30";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, memberId);
+            rs = pstmt.executeQuery();
+
+            LocalDate lastDate = LocalDate.now();
+            while (rs.next()) {
+                LocalDate workoutDate = LocalDate.parse(rs.getString("workout_date"));
+                if (workoutDate.equals(lastDate) || workoutDate.equals(lastDate.minusDays(1))) {
+                    streak++;
+                    lastDate = workoutDate;
+                } else {
+                    break;
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (pstmt != null) pstmt.close();
+                if (conn != null) DatabaseConnection.getInstance().releaseConnection(conn);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return streak;
+    }
+
     public List<Map<String, Object>> getRecentActivities(int memberId) {
         List<Map<String, Object>> activities = new ArrayList<>();
-        String query = "SELECT activity_type, activity_description, timestamp " +
-                "FROM Social_Activities " +
-                "WHERE member_id = ? " +
-                "ORDER BY timestamp DESC LIMIT 10";
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection();
-                PreparedStatement stmt = conn.prepareStatement(query)) {
+        try {
+            conn = DatabaseConnection.getInstance().getConnection();
 
-            stmt.setInt(1, memberId);
-            ResultSet rs = stmt.executeQuery();
+            String sql = "SELECT activity_description, timestamp " +
+                    "FROM Social_Activities " +
+                    "WHERE member_id = ? " +
+                    "ORDER BY timestamp DESC LIMIT 5";
+
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, memberId);
+            rs = pstmt.executeQuery();
 
             while (rs.next()) {
                 Map<String, Object> activity = new HashMap<>();
-                activity.put("type", rs.getString("activity_type") != null ? rs.getString("activity_type") : "");
-                activity.put("description",
-                        rs.getString("activity_description") != null ? rs.getString("activity_description") : "");
-                activity.put("date", rs.getTimestamp("timestamp"));
+                activity.put("description", rs.getString("activity_description"));
+                activity.put("date", rs.getString("timestamp"));
                 activities.add(activity);
             }
-        } catch (SQLException e) {
-            System.err.println("Error loading recent activities: " + e.getMessage());
+
+        } catch (Exception e) {
+            System.err.println("Error getting recent activities: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (pstmt != null) pstmt.close();
+                if (conn != null) DatabaseConnection.getInstance().releaseConnection(conn);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
         return activities;
     }
-
 }

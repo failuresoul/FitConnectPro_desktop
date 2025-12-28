@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.shape.Circle?>
+
+<ScrollPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.gym.controllers.member.WaterTrackerController"
+            fitToWidth="true" style="-fx-background: transparent;">
+
+<VBox spacing="20" style="-fx-background-color: linear-gradient(to bottom, #f8f9fa, #e9ecef); -fx-padding: 25;">
+
+    <!-- Header -->
+    <HBox alignment="CENTER_LEFT" spacing="15" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+        <Button fx:id="backButton" text="← Back" onAction="#handleBack" style="-fx-background-color: #ecf0f1; -fx-text-fill: #2c3e50; -fx-font-size: 13px; -fx-font-weight: bold; -fx-padding: 8 15; -fx-background-radius: 5; -fx-cursor: hand;">
+            <cursor><javafx.scene.Cursor fx:constant="HAND"/></cursor>
+        </Button>
+        <Separator orientation="VERTICAL"/>
+        <Label text="💧 Water Intake Tracker" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+    </HBox>
+
+    <!-- Progress Circle and Goal -->
+    <VBox alignment="CENTER" spacing="15" style="-fx-background-color: white; -fx-padding: 30; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 12, 0, 0, 3);">
+        <StackPane>
+            <Circle radius="100" fill="transparent" stroke="#e3f2fd" strokeWidth="15"/>
+            <Circle fx:id="progressCircle" radius="100" fill="transparent" stroke="#2196f3" strokeWidth="15" strokeDashArray="628.318" strokeDashOffset="628.318"/>
+            <VBox alignment="CENTER" spacing="5">
+                <Label fx:id="currentAmountLabel" text="0 ml" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #2196f3;"/>
+                <Label fx:id="goalAmountLabel" text="/ 3500 ml" style="-fx-font-size: 16px; -fx-text-fill: #7f8c8d;"/>
+                <Label fx:id="percentageLabel" text="0%" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2196f3;"/>
+            </VBox>
+        </StackPane>
+        <Label fx:id="trainerGoalLabel" text="Goal set by Trainer: 3500ml" style="-fx-font-size: 14px; -fx-text-fill: #7f8c8d; -fx-font-weight: 600;"/>
+    </VBox>
+
+    <!-- Quick Add Buttons -->
+    <VBox spacing="15" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+        <Label text="Quick Add" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+        <HBox spacing="15" alignment="CENTER">
+            <Button text="+ 250ml" onAction="#addWater250" style="-fx-background-color: #64b5f6; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-padding: 10 20; -fx-background-radius: 8; -fx-cursor: hand; -fx-pref-width: 120;">
+                <cursor><javafx.scene.Cursor fx:constant="HAND"/></cursor>
+            </Button>
+            <Button text="+ 500ml" onAction="#addWater500" style="-fx-background-color: #42a5f5; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-padding: 10 20; -fx-background-radius: 8; -fx-cursor: hand; -fx-pref-width: 120;">
+                <cursor><javafx.scene.Cursor fx:constant="HAND"/></cursor>
+            </Button>
+            <Button text="+ 750ml" onAction="#addWater750" style="-fx-background-color: #2196f3; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-padding: 10 20; -fx-background-radius: 8; -fx-cursor: hand; -fx-pref-width: 120;">
+                <cursor><javafx.scene.Cursor fx:constant="HAND"/></cursor>
+            </Button>
+        </HBox>
+        <HBox spacing="10" alignment="CENTER">
+            <TextField fx:id="customAmountField" promptText="Custom amount (ml)" style="-fx-pref-width: 200; -fx-font-size: 13px;"/>
+            <Button text="Add Custom" onAction="#addCustomWater" style="-fx-background-color: #1976d2; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-padding: 10 20; -fx-background-radius: 8; -fx-cursor: hand;">
+                <cursor><javafx.scene.Cursor fx:constant="HAND"/></cursor>
+            </Button>
+        </HBox>
+    </VBox>
+
+    <!-- Today's Log -->
+    <VBox spacing="15" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+        <Label text="Today's Log" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+        <ListView fx:id="todayLogsListView" prefHeight="200" style="-fx-border-color: #e0e0e0; -fx-border-radius: 5; -fx-background-radius: 5;"/>
+    </VBox>
+
+    <!-- Last 7 Days Chart -->
+    <VBox spacing="15" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+        <Label text="Last 7 Days" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+        <BarChart fx:id="weeklyChart" prefHeight="300">
+            <xAxis>
+                <CategoryAxis side="BOTTOM"/>
+            </xAxis>
+            <yAxis>
+                <NumberAxis side="LEFT" label="Water (ml)"/>
+            </yAxis>
+        </BarChart>
+    </VBox>
+
+    <!-- Reminder Button -->
+    <Button text="🔔 Set Personal Reminder" onAction="#setReminder" style="-fx-background-color: linear-gradient(to bottom, #ff9800, #f57c00); -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 12 30; -fx-background-radius: 8; -fx-cursor: hand;">
+        <cursor><javafx.scene.Cursor fx:constant="HAND"/></cursor>
+    </Button>
+
+</VBox>
+
+</ScrollPane>
+
