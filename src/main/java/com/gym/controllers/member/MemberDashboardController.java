@@ -20,20 +20,34 @@ import java.util.Map;
 
 public class MemberDashboardController {
 
-    @FXML private Label welcomeLabel;
-    @FXML private Label dateLabel;
-    @FXML private Label trainerNameLabel;
-    @FXML private Label trainerSpecLabel;
-    @FXML private Button messageTrainerBtn;
-    @FXML private VBox goalsContainer;
-    @FXML private VBox workoutContainer;
-    @FXML private VBox mealContainer;
-    @FXML private Label streakLabel;
-    @FXML private Label totalWorkoutsLabel;
-    @FXML private Label weightLabel;
-    @FXML private VBox activityFeedContainer;
-    @FXML private Button startWorkoutBtn;
-    @FXML private Button viewMealDetailsBtn;
+    @FXML
+    private Label welcomeLabel;
+    @FXML
+    private Label dateLabel;
+    @FXML
+    private Label trainerNameLabel;
+    @FXML
+    private Label trainerSpecLabel;
+    @FXML
+    private Button messageTrainerBtn;
+    @FXML
+    private VBox goalsContainer;
+    @FXML
+    private VBox workoutContainer;
+    @FXML
+    private VBox mealContainer;
+    @FXML
+    private Label streakLabel;
+    @FXML
+    private Label totalWorkoutsLabel;
+    @FXML
+    private Label weightLabel;
+    @FXML
+    private VBox activityFeedContainer;
+    @FXML
+    private Button startWorkoutBtn;
+    @FXML
+    private Button viewMealDetailsBtn;
 
     private MemberDashboardDAO dashboardDAO;
     private int memberId;
@@ -108,14 +122,14 @@ public class MemberDashboardController {
 
             if (goals.isEmpty()) {
                 Label noGoalsLabel = new Label("No goals set for today");
-                noGoalsLabel.setStyle("-fx-text-fill: #95a5a6; -fx-font-style: italic;");
+                noGoalsLabel.setStyle("-fx-text-fill: #ffffff; -fx-font-style: italic;");
                 goalsContainer.getChildren().add(noGoalsLabel);
                 return;
             }
 
             for (Map<String, Object> goal : goals) {
                 VBox goalBox = new VBox(8);
-                goalBox.setStyle("-fx-background-color: #f8f9fa; -fx-padding: 12; -fx-background-radius: 8;");
+                goalBox.setStyle("-fx-background-color: #0c0707; -fx-padding: 12; -fx-background-radius: 8;");
 
                 Label goalLabel = new Label((String) goal.get("goalType"));
                 goalLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 13px;");
@@ -132,7 +146,7 @@ public class MemberDashboardController {
                 String unit = (String) goal.get("unit");
                 Label progressLabel = new Label(String.format("%.0f / %.0f %s (%.0f%%)",
                         current, target, unit, progress * 100));
-                progressLabel.setStyle("-fx-font-size: 11px; -fx-text-fill: #7f8c8d;");
+                progressLabel.setStyle("-fx-font-size: 11px; -fx-text-fill: #ffffff;");
 
                 goalBox.getChildren().addAll(goalLabel, progressBar, progressLabel);
                 goalsContainer.getChildren().add(goalBox);
@@ -148,7 +162,7 @@ public class MemberDashboardController {
 
             if (exercises.isEmpty()) {
                 Label noWorkoutLabel = new Label("No workout plan for today");
-                noWorkoutLabel.setStyle("-fx-text-fill: #95a5a6; -fx-font-style: italic;");
+                noWorkoutLabel.setStyle("-fx-text-fill: #000000; -fx-font-style: italic;");
                 workoutContainer.getChildren().add(noWorkoutLabel);
                 startWorkoutBtn.setDisable(true);
                 return;
@@ -156,16 +170,15 @@ public class MemberDashboardController {
 
             for (Map<String, Object> exercise : exercises) {
                 HBox exerciseBox = new HBox(10);
-                exerciseBox.setStyle("-fx-background-color: #f8f9fa; -fx-padding: 10; -fx-background-radius: 6;");
+                exerciseBox.setStyle("-fx-background-color: #030405; -fx-padding: 10; -fx-background-radius: 6;");
 
                 String name = (String) exercise.get("name");
                 int sets = (Integer) exercise.get("sets");
-                int reps = (Integer) exercise.get("reps");
+                String reps = (String) exercise.get("reps"); // Changed from Integer to String
                 int duration = (Integer) exercise.get("duration");
 
-                String details = sets > 0 ?
-                        String.format("%s - %d sets × %d reps", name, sets, reps) :
-                        String.format("%s - %d minutes", name, duration);
+                String details = sets > 0 ? String.format("%s - %d sets × %s reps", name, sets, reps)
+                        : String.format("%s - %d minutes", name, duration);
 
                 Label exerciseLabel = new Label("• " + details);
                 exerciseLabel.setWrapText(true);
@@ -195,7 +208,7 @@ public class MemberDashboardController {
 
             for (Map<String, Object> meal : meals) {
                 VBox mealBox = new VBox(5);
-                mealBox.setStyle("-fx-background-color: #f8f9fa; -fx-padding: 10; -fx-background-radius: 6;");
+                mealBox.setStyle("-fx-background-color: #0c0707; -fx-padding: 10; -fx-background-radius: 6;");
 
                 String mealType = (String) meal.get("mealType");
                 String foodItems = (String) meal.get("foodItems");
@@ -244,14 +257,14 @@ public class MemberDashboardController {
 
             if (activities.isEmpty()) {
                 Label noActivityLabel = new Label("No recent activities");
-                noActivityLabel.setStyle("-fx-text-fill: #95a5a6; -fx-font-style: italic;");
+                noActivityLabel.setStyle("-fx-text-fill: #050505; -fx-font-style: italic;");
                 activityFeedContainer.getChildren().add(noActivityLabel);
                 return;
             }
 
             for (Map<String, Object> activity : activities) {
                 HBox activityBox = new HBox(15);
-                activityBox.setStyle("-fx-background-color: #f8f9fa; -fx-padding: 12; -fx-background-radius: 6;");
+                activityBox.setStyle("-fx-background-color: #000000; -fx-padding: 12; -fx-background-radius: 6;");
 
                 VBox contentBox = new VBox(3);
                 Label descLabel = new Label((String) activity.get("description"));
@@ -278,8 +291,8 @@ public class MemberDashboardController {
 
     @FXML
     private void handleStartWorkout() {
-        showAlert(Alert.AlertType.INFORMATION, "Start Workout",
-                "Workout tracking will begin!\nFeature under development.");
+        // Navigate to workout plans view
+        showWorkoutPlans();
     }
 
     @FXML
@@ -296,7 +309,23 @@ public class MemberDashboardController {
 
     @FXML
     private void showWorkoutPlans() {
-        showAlert(Alert.AlertType.INFORMATION, "Workout Plans", "Feature coming soon!");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/member/view_workout_plan.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) welcomeLabel.getScene().getWindow();
+
+            // Reuse existing scene to maintain window size
+            Scene currentScene = stage.getScene();
+            currentScene.setRoot(root);
+
+            stage.setTitle("FitConnectPro - My Workout Plans");
+            System.out.println("✅ Navigated to Workout Plans view");
+        } catch (Exception e) {
+            System.err.println("❌ Error loading workout plans view: " + e.getMessage());
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error",
+                    "Failed to load workout plans view: " + e.getMessage());
+        }
     }
 
     @FXML

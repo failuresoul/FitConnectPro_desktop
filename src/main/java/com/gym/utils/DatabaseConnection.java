@@ -2,9 +2,9 @@ package com.gym.utils;
 
 import org.mindrot.jbcrypt.BCrypt;
 
-import java.sql. Connection;
-import java.sql. DriverManager;
-import java. sql.PreparedStatement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import java.util.List;
 public class DatabaseConnection {
     private static DatabaseConnection instance;
     private static final String DB_URL = "jdbc:sqlite:gym_system.db";
-    private static final int POOL_SIZE = 10;
+    private static final int POOL_SIZE = 30; // Increased to handle concurrent requests
     private List<Connection> connectionPool;
     private List<Connection> usedConnections = new ArrayList<>();
 
@@ -89,7 +89,7 @@ public class DatabaseConnection {
                     "FOREIGN KEY (admin_id) REFERENCES Admins(admin_id))");
 
             // TRAINER TABLES
-            stmt. execute("CREATE TABLE IF NOT EXISTS Trainers (" +
+            stmt.execute("CREATE TABLE IF NOT EXISTS Trainers (" +
                     "trainer_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "username TEXT NOT NULL UNIQUE, " +
                     "password_hash TEXT NOT NULL, " +
@@ -155,7 +155,7 @@ public class DatabaseConnection {
                     "plan_id INTEGER NOT NULL, " +
                     "exercise_id INTEGER NOT NULL, " +
                     "sets INTEGER, " +
-                    "reps INTEGER, " +
+                    "reps TEXT, " + // Changed from INTEGER to TEXT to support ranges like "10-12"
                     "weight REAL, " +
                     "rest_seconds INTEGER, " +
                     "trainer_notes TEXT, " +
@@ -224,7 +224,7 @@ public class DatabaseConnection {
                     "read_date DATETIME)");
 
             // MEMBER TABLES
-            stmt. execute("CREATE TABLE IF NOT EXISTS Members (" +
+            stmt.execute("CREATE TABLE IF NOT EXISTS Members (" +
                     "member_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "username TEXT NOT NULL UNIQUE, " +
                     "password_hash TEXT NOT NULL, " +
@@ -331,7 +331,7 @@ public class DatabaseConnection {
                     "category TEXT, " +
                     "is_gym_recommended INTEGER DEFAULT 0)");
 
-            stmt. execute("CREATE TABLE IF NOT EXISTS Meal_Items (" +
+            stmt.execute("CREATE TABLE IF NOT EXISTS Meal_Items (" +
                     "meal_item_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "meal_id INTEGER NOT NULL, " +
                     "food_id INTEGER NOT NULL, " +
@@ -389,31 +389,37 @@ public class DatabaseConnection {
             stmt.execute("CREATE INDEX IF NOT EXISTS idx_admin_logs_timestamp ON Admin_Logs(timestamp)");
             stmt.execute("CREATE INDEX IF NOT EXISTS idx_trainers_email ON Trainers(email)");
             stmt.execute("CREATE INDEX IF NOT EXISTS idx_trainers_status ON Trainers(account_status)");
-            stmt. execute("CREATE INDEX IF NOT EXISTS idx_trainer_applications_status ON Trainer_Applications(status)");
-            stmt.execute("CREATE INDEX IF NOT EXISTS idx_trainer_member_assignment_trainer ON Trainer_Member_Assignment(trainer_id)");
-            stmt. execute("CREATE INDEX IF NOT EXISTS idx_trainer_member_assignment_member ON Trainer_Member_Assignment(member_id)");
-            stmt.execute("CREATE INDEX IF NOT EXISTS idx_trainer_workout_plans_trainer ON Trainer_Workout_Plans(trainer_id)");
-            stmt.execute("CREATE INDEX IF NOT EXISTS idx_trainer_workout_plans_member ON Trainer_Workout_Plans(member_id)");
-            stmt. execute("CREATE INDEX IF NOT EXISTS idx_trainer_daily_goals_member ON Trainer_Daily_Goals(member_id)");
+            stmt.execute("CREATE INDEX IF NOT EXISTS idx_trainer_applications_status ON Trainer_Applications(status)");
+            stmt.execute(
+                    "CREATE INDEX IF NOT EXISTS idx_trainer_member_assignment_trainer ON Trainer_Member_Assignment(trainer_id)");
+            stmt.execute(
+                    "CREATE INDEX IF NOT EXISTS idx_trainer_member_assignment_member ON Trainer_Member_Assignment(member_id)");
+            stmt.execute(
+                    "CREATE INDEX IF NOT EXISTS idx_trainer_workout_plans_trainer ON Trainer_Workout_Plans(trainer_id)");
+            stmt.execute(
+                    "CREATE INDEX IF NOT EXISTS idx_trainer_workout_plans_member ON Trainer_Workout_Plans(member_id)");
+            stmt.execute("CREATE INDEX IF NOT EXISTS idx_trainer_daily_goals_member ON Trainer_Daily_Goals(member_id)");
             stmt.execute("CREATE INDEX IF NOT EXISTS idx_trainer_meal_plans_member ON Trainer_Meal_Plans(member_id)");
             stmt.execute("CREATE INDEX IF NOT EXISTS idx_trainer_salaries_trainer ON Trainer_Salaries(trainer_id)");
-            stmt.execute("CREATE INDEX IF NOT EXISTS idx_trainer_messages_sender ON Trainer_Member_Messages(sender_id)");
-            stmt.execute("CREATE INDEX IF NOT EXISTS idx_trainer_messages_receiver ON Trainer_Member_Messages(receiver_id)");
+            stmt.execute(
+                    "CREATE INDEX IF NOT EXISTS idx_trainer_messages_sender ON Trainer_Member_Messages(sender_id)");
+            stmt.execute(
+                    "CREATE INDEX IF NOT EXISTS idx_trainer_messages_receiver ON Trainer_Member_Messages(receiver_id)");
             stmt.execute("CREATE INDEX IF NOT EXISTS idx_members_email ON Members(email)");
             stmt.execute("CREATE INDEX IF NOT EXISTS idx_members_status ON Members(account_status)");
             stmt.execute("CREATE INDEX IF NOT EXISTS idx_goals_member ON Goals(member_id)");
             stmt.execute("CREATE INDEX IF NOT EXISTS idx_workouts_member ON Workouts(member_id)");
             stmt.execute("CREATE INDEX IF NOT EXISTS idx_workouts_date ON Workouts(workout_date)");
             stmt.execute("CREATE INDEX IF NOT EXISTS idx_workout_exercises_workout ON Workout_Exercises(workout_id)");
-            stmt. execute("CREATE INDEX IF NOT EXISTS idx_meals_member ON Meals(member_id)");
+            stmt.execute("CREATE INDEX IF NOT EXISTS idx_meals_member ON Meals(member_id)");
             stmt.execute("CREATE INDEX IF NOT EXISTS idx_meals_date ON Meals(meal_date)");
-            stmt. execute("CREATE INDEX IF NOT EXISTS idx_meal_items_meal ON Meal_Items(meal_id)");
+            stmt.execute("CREATE INDEX IF NOT EXISTS idx_meal_items_meal ON Meal_Items(meal_id)");
             stmt.execute("CREATE INDEX IF NOT EXISTS idx_water_logs_member ON Water_Logs(member_id)");
-            stmt. execute("CREATE INDEX IF NOT EXISTS idx_water_logs_date ON Water_Logs(log_date)");
+            stmt.execute("CREATE INDEX IF NOT EXISTS idx_water_logs_date ON Water_Logs(log_date)");
             stmt.execute("CREATE INDEX IF NOT EXISTS idx_body_measurements_member ON Body_Measurements(member_id)");
-            stmt. execute("CREATE INDEX IF NOT EXISTS idx_friendships_member1 ON Friendships(member_id_1)");
+            stmt.execute("CREATE INDEX IF NOT EXISTS idx_friendships_member1 ON Friendships(member_id_1)");
             stmt.execute("CREATE INDEX IF NOT EXISTS idx_friendships_member2 ON Friendships(member_id_2)");
-            stmt. execute("CREATE INDEX IF NOT EXISTS idx_social_activities_member ON Social_Activities(member_id)");
+            stmt.execute("CREATE INDEX IF NOT EXISTS idx_social_activities_member ON Social_Activities(member_id)");
 
             stmt.close();
             System.out.println("Database initialized successfully!");
@@ -437,14 +443,14 @@ public class DatabaseConnection {
             pstmt.setString(1, "admin");
             pstmt.setString(2, passwordHash);
             pstmt.setString(3, "System Administrator");
-            pstmt. setString(4, "admin@gymsystem.com");
+            pstmt.setString(4, "admin@gymsystem.com");
             pstmt.setString(5, "Super Admin");
 
             int rowsInserted = pstmt.executeUpdate();
             if (rowsInserted > 0) {
-                System.out. println("Sample admin user created successfully!");
+                System.out.println("Sample admin user created successfully!");
             } else {
-                System.out. println("Admin user already exists.");
+                System.out.println("Admin user already exists.");
             }
 
             pstmt.close();
@@ -466,7 +472,7 @@ public class DatabaseConnection {
             }
             for (Connection conn : connectionPool) {
                 if (conn != null && !conn.isClosed()) {
-                    conn. close();
+                    conn.close();
                 }
             }
         } catch (SQLException e) {

@@ -14,7 +14,17 @@ public class PlanExercise {
 
     public PlanExercise() {
     }
+    private boolean completed; // Add this field
 
+    // Existing constructors and getters/setters...
+
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
+    }
     public PlanExercise(int exerciseId, String exerciseName, int sets, String reps,
                         double weight, int restSeconds, String trainerNotes) {
         this.exerciseId = exerciseId;

@@ -20,7 +20,7 @@ public class MemberDashboardDAO {
                 "ORDER BY tma.assigned_date DESC LIMIT 1";
 
         try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
+                PreparedStatement stmt = conn.prepareStatement(query)) {
 
             stmt.setInt(1, memberId);
             ResultSet rs = stmt.executeQuery();
@@ -46,7 +46,7 @@ public class MemberDashboardDAO {
                 "WHERE member_id = ? AND goal_date = DATE('now')";
 
         try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
+                PreparedStatement stmt = conn.prepareStatement(query)) {
 
             stmt.setInt(1, memberId);
             ResultSet rs = stmt.executeQuery();
@@ -92,12 +92,14 @@ public class MemberDashboardDAO {
                     goals.add(workoutGoal);
                 }
             }
+
+            System.out.println("✅ Found " + goals.size() + " goals for today");
         } catch (SQLException e) {
             System.err.println("Error loading today's goals: " + e.getMessage());
+            e.printStackTrace();
         }
         return goals;
     }
-
 
     // Get today's workout plan
     public List<Map<String, Object>> getTodaysWorkout(int memberId) {
@@ -110,7 +112,7 @@ public class MemberDashboardDAO {
                 "ORDER BY tpe.order_number";
 
         try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
+                PreparedStatement stmt = conn.prepareStatement(query)) {
 
             stmt.setInt(1, memberId);
             ResultSet rs = stmt.executeQuery();
@@ -119,14 +121,18 @@ public class MemberDashboardDAO {
                 Map<String, Object> exercise = new HashMap<>();
                 exercise.put("name", rs.getString("exercise_name") != null ? rs.getString("exercise_name") : "");
                 exercise.put("sets", rs.getInt("sets"));
-                exercise.put("reps", rs.getInt("reps"));
+                exercise.put("reps", rs.getString("reps")); // Changed from getInt to getString
                 exercise.put("weight", rs.getDouble("weight"));
                 exercise.put("notes", rs.getString("trainer_notes") != null ? rs.getString("trainer_notes") : "");
                 exercise.put("duration", 0); // Add default duration
                 exercises.add(exercise);
             }
+
+            rs.close();
+            System.out.println("✅ Dashboard loaded " + exercises.size() + " exercises for today");
         } catch (SQLException e) {
             System.err.println("Error loading today's workout: " + e.getMessage());
+            e.printStackTrace();
         }
         return exercises;
     }
@@ -144,7 +150,7 @@ public class MemberDashboardDAO {
                 "WHEN 'Snack' THEN 4 END";
 
         try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
+                PreparedStatement stmt = conn.prepareStatement(query)) {
 
             stmt.setInt(1, memberId);
             ResultSet rs = stmt.executeQuery();
@@ -159,8 +165,12 @@ public class MemberDashboardDAO {
                 meal.put("fats", rs.getDouble("total_fats"));
                 meals.add(meal);
             }
+
+            rs.close();
+            System.out.println("✅ Found " + meals.size() + " meals for today");
         } catch (SQLException e) {
             System.err.println("Error loading today's meal plan: " + e.getMessage());
+            e.printStackTrace();
         }
         return meals;
     }
@@ -225,15 +235,16 @@ public class MemberDashboardDAO {
                 "ORDER BY timestamp DESC LIMIT 10";
 
         try (Connection conn = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query);
-             ResultSet rs = stmt.executeQuery()) {
+                PreparedStatement stmt = conn.prepareStatement(query)) {
 
             stmt.setInt(1, memberId);
+            ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
                 Map<String, Object> activity = new HashMap<>();
                 activity.put("type", rs.getString("activity_type") != null ? rs.getString("activity_type") : "");
-                activity.put("description", rs.getString("activity_description") != null ? rs.getString("activity_description") : "");
+                activity.put("description",
+                        rs.getString("activity_description") != null ? rs.getString("activity_description") : "");
                 activity.put("date", rs.getTimestamp("timestamp"));
                 activities.add(activity);
             }
