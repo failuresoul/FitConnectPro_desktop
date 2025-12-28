@@ -88,15 +88,15 @@ public class MealPlanDAO {
 
             while (rs.next()) {
                 Food food = new Food();
-                food. setFoodId(rs.getInt("food_id"));
+                food.setFoodId(rs.getInt("food_id"));
                 food.setFoodName(rs.getString("food_name"));
                 food.setServingSize(rs.getString("serving_size"));
                 food.setCaloriesPerServing(rs.getInt("calories_per_serving"));
                 food.setProtein(rs.getDouble("protein"));
-                food.setCarbs(rs. getDouble("carbs"));
-                food.setFats(rs. getDouble("fats"));
+                food.setCarbs(rs.getDouble("carbs"));
+                food.setFats(rs.getDouble("fats"));
                 food.setCategory(rs.getString("category"));
-                food.setGymRecommended(rs. getInt("is_gym_recommended") == 1);
+                food.setGymRecommended(rs.getInt("is_gym_recommended") == 1);
                 foods.add(food);
             }
 
@@ -132,18 +132,18 @@ public class MealPlanDAO {
             pstmt.setString(1, "%" + keyword + "%");
             rs = pstmt.executeQuery();
 
-            while (rs. next()) {
+            while (rs.next()) {
                 Food food = new Food();
                 food.setFoodId(rs.getInt("food_id"));
-                food.setFoodName(rs. getString("food_name"));
+                food.setFoodName(rs.getString("food_name"));
                 food.setServingSize(rs.getString("serving_size"));
                 food.setCaloriesPerServing(rs.getInt("calories_per_serving"));
-                food.setProtein(rs. getDouble("protein"));
+                food.setProtein(rs.getDouble("protein"));
                 food.setCarbs(rs.getDouble("carbs"));
                 food.setFats(rs.getDouble("fats"));
                 food.setCategory(rs.getString("category"));
                 food.setGymRecommended(rs.getInt("is_gym_recommended") == 1);
-                foods. add(food);
+                foods.add(food);
             }
 
             System.out.println("✅ Found " + foods.size() + " foods matching:  " + keyword);

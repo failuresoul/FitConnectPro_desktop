@@ -15,12 +15,10 @@ public class ProgressReport {
     private double weightChange;
     private String goalAchievementSummary;
     private String trainerFeedback;
-    private LocalDate createdDate;
 
     public ProgressReport() {
     }
 
-    // Getters and Setters
     public int getReportId() {
         return reportId;
     }
@@ -117,11 +115,20 @@ public class ProgressReport {
         this.trainerFeedback = trainerFeedback;
     }
 
-    public LocalDate getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(LocalDate createdDate) {
-        this.createdDate = createdDate;
+    @Override
+    public String toString() {
+        return "ProgressReport{" +
+                "reportId=" + reportId +
+                ", trainerId=" + trainerId +
+                ", memberId=" + memberId +
+                ", reportDate=" + reportDate +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", workoutCompletionRate=" + workoutCompletionRate +
+                ", mealsLoggedCount=" + mealsLoggedCount +
+                ", waterIntakeCompliance=" + waterIntakeCompliance +
+                ", weightChange=" + weightChange +
+                ", trainerFeedback='" + trainerFeedback + '\'' +
+                '}';
     }
 }

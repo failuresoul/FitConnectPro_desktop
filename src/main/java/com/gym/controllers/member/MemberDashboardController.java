@@ -1,6 +1,7 @@
 package com.gym.controllers.member;
 
 import com.gym.dao.MemberDashboardDAO;
+import com.gym.models.Member;
 import com.gym.services.Session;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -10,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -109,7 +111,7 @@ public class MemberDashboardController {
             } else {
                 trainerNameLabel.setText("Not Assigned");
                 trainerSpecLabel.setText("");
-                messageTrainerBtn.setDisable(true);
+                messageTrainerBtn.setDisable(true;
             }
         });
     }
@@ -193,43 +195,58 @@ public class MemberDashboardController {
     }
 
     private void loadTodaysMealPlan() {
-        List<Map<String, Object>> meals = dashboardDAO.getTodaysMealPlan(memberId);
+        try {
+            Member member = (Member) Session.getInstance().getCurrentUser();
+            List<Map<String, Object>> meals = dashboardDAO.getTodaysMealPlan(member.getMemberId());
 
-        Platform.runLater(() -> {
             mealContainer.getChildren().clear();
 
             if (meals.isEmpty()) {
-                Label noMealLabel = new Label("No meal plan for today");
-                noMealLabel.setStyle("-fx-text-fill: #95a5a6; -fx-font-style: italic;");
-                mealContainer.getChildren().add(noMealLabel);
-                viewMealDetailsBtn.setDisable(true);
-                return;
+                Label noMealsLabel = new Label("No meals planned for today");
+                noMealsLabel.setStyle("-fx-text-fill: #95a5a6; -fx-font-style: italic;");
+                mealContainer.getChildren().add(noMealsLabel);
+            } else {
+                for (Map<String, Object> meal : meals) {
+                    VBox mealCard = new VBox(5);
+                    mealCard.setStyle("-fx-background-color: #f8f9fa; -fx-padding: 10; -fx-background-radius: 5;");
+
+                    HBox headerBox = new HBox(10);
+                    headerBox.setStyle("-fx-alignment: CENTER_LEFT;");
+
+                    Label typeLabel = new Label(meal.get("mealType").toString());
+                    typeLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 13px; -fx-text-fill: #2c3e50;");
+
+                    Label sourceLabel = new Label("(" + meal.get("source").toString() + ")");
+                    sourceLabel.setStyle("-fx-font-size: 10px; -fx-text-fill: #7f8c8d; -fx-font-style: italic;");
+
+                    Label caloriesLabel = new Label(meal.get("calories") + " kcal");
+                    caloriesLabel.setStyle("-fx-font-size: 11px; -fx-text-fill: #e74c3c; -fx-font-weight: bold;");
+
+                    Region spacer = new Region();
+                    HBox.setHgrow(spacer, javafx.scene.layout.Priority.ALWAYS);
+
+                    headerBox.getChildren().addAll(typeLabel, sourceLabel, spacer, caloriesLabel);
+
+                    Label foodsLabel = new Label(meal.get("foodItems").toString());
+                    foodsLabel.setStyle("-fx-font-size: 11px; -fx-text-fill: #7f8c8d;");
+                    foodsLabel.setWrapText(true);
+
+                    mealCard.getChildren().addAll(headerBox, foodsLabel);
+                    mealContainer.getChildren().add(mealCard);
+                }
             }
 
-            for (Map<String, Object> meal : meals) {
-                VBox mealBox = new VBox(5);
-                mealBox.setStyle("-fx-background-color: #0c0707; -fx-padding: 10; -fx-background-radius: 6;");
+            System.out.println("✅ Today's meal plan loaded: " + meals.size() + " meals");
 
-                String mealType = (String) meal.get("mealType");
-                String foodItems = (String) meal.get("foodItems");
-                int calories = (Integer) meal.get("calories");
+        } catch (Exception e) {
+            System.err.println("❌ Error loading today's meal plan: " + e.getMessage());
+            e.printStackTrace();
 
-                Label mealTypeLabel = new Label(mealType);
-                mealTypeLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 12px;");
-
-                Label foodLabel = new Label(foodItems);
-                foodLabel.setWrapText(true);
-                foodLabel.setStyle("-fx-font-size: 11px;");
-
-                Label caloriesLabel = new Label(calories + " cal");
-                caloriesLabel.setStyle("-fx-font-size: 10px; -fx-text-fill: #e74c3c;");
-
-                mealBox.getChildren().addAll(mealTypeLabel, foodLabel, caloriesLabel);
-                mealContainer.getChildren().add(mealBox);
-            }
-
-            viewMealDetailsBtn.setDisable(false);
-        });
+            Label errorLabel = new Label("Error loading meal plan");
+            errorLabel.setStyle("-fx-text-fill: #e74c3c; -fx-font-style: italic;");
+            mealContainer.getChildren().clear();
+            mealContainer.getChildren().add(errorLabel);
+        }
     }
 
     private void loadQuickStats() {
@@ -354,7 +371,22 @@ public class MemberDashboardController {
 
     @FXML
     private void showLogMeal() {
-        showAlert(Alert.AlertType.INFORMATION, "Log Meal", "Feature coming soon!");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/member/log_meal.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) welcomeLabel.getScene().getWindow();
+
+            Scene currentScene = stage.getScene();
+            currentScene.setRoot(root);
+
+            stage.setTitle("FitConnectPro - Log Meal");
+            System.out.println("✅ Navigated to Log Meal view");
+        } catch (Exception e) {
+            System.err.println("❌ Error loading log meal view: " + e.getMessage());
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error",
+                    "Failed to load log meal view: " + e.getMessage());
+        }
     }
 
     @FXML
@@ -379,17 +411,62 @@ public class MemberDashboardController {
 
     @FXML
     private void showProgress() {
-        showAlert(Alert.AlertType.INFORMATION, "Progress", "Feature coming soon!");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/member/member_progress.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) welcomeLabel.getScene().getWindow();
+
+            Scene currentScene = stage.getScene();
+            currentScene.setRoot(root);
+
+            stage.setTitle("FitConnectPro - My Progress");
+            System.out.println("✅ Navigated to Progress view");
+        } catch (Exception e) {
+            System.err.println("❌ Error loading progress view: " + e.getMessage());
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error",
+                    "Failed to load progress view: " + e.getMessage());
+        }
     }
 
     @FXML
     private void showSocial() {
-        showAlert(Alert.AlertType.INFORMATION, "Social", "Feature coming soon!");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/member/member_directory.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) welcomeLabel.getScene().getWindow();
+
+            Scene currentScene = stage.getScene();
+            currentScene.setRoot(root);
+
+            stage.setTitle("FitConnectPro - Member Directory");
+            System.out.println("✅ Navigated to Member Directory view");
+        } catch (Exception e) {
+            System.err.println("❌ Error loading member directory view: " + e.getMessage());
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error",
+                    "Failed to load member directory: " + e.getMessage());
+        }
     }
 
     @FXML
     private void showProfile() {
-        showAlert(Alert.AlertType.INFORMATION, "Profile", "Feature coming soon!");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/member/member_profile.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) welcomeLabel.getScene().getWindow();
+
+            Scene currentScene = stage.getScene();
+            currentScene.setRoot(root);
+
+            stage.setTitle("FitConnectPro - My Profile");
+            System.out.println("✅ Navigated to Profile view");
+        } catch (Exception e) {
+            System.err.println("❌ Error loading profile view: " + e.getMessage());
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error",
+                    "Failed to load profile view: " + e.getMessage());
+        }
     }
 
     @FXML

@@ -305,12 +305,13 @@ public class MemberDashboardDAO {
             conn = DatabaseConnection.getInstance().getConnection();
             String today = LocalDate.now().toString();
 
-            String sql = "SELECT meal_type, foods, total_calories " +
+            // First, get trainer meal plans
+            String trainerSql = "SELECT meal_type, foods, total_calories, 'PLANNED' as source " +
                     "FROM Trainer_Meal_Plans " +
                     "WHERE member_id = ? AND plan_date = ? " +
                     "ORDER BY meal_time";
 
-            pstmt = conn.prepareStatement(sql);
+            pstmt = conn.prepareStatement(trainerSql);
             pstmt.setInt(1, memberId);
             pstmt.setString(2, today);
             rs = pstmt.executeQuery();
@@ -320,6 +321,33 @@ public class MemberDashboardDAO {
                 meal.put("mealType", rs.getString("meal_type"));
                 meal.put("foodItems", rs.getString("foods"));
                 meal.put("calories", rs.getInt("total_calories"));
+                meal.put("source", "Trainer Plan");
+                meals.add(meal);
+            }
+            rs.close();
+            pstmt.close();
+
+            // Then, get logged meals
+            String loggedSql = "SELECT m.meal_type, m.total_calories, m.meal_time, " +
+                    "GROUP_CONCAT(fd.food_name, ', ') as foods " +
+                    "FROM Meals m " +
+                    "LEFT JOIN Meal_Items mi ON m.meal_id = mi.meal_id " +
+                    "LEFT JOIN Foods_Database fd ON mi.food_id = fd.food_id " +
+                    "WHERE m.member_id = ? AND m.meal_date = ? " +
+                    "GROUP BY m.meal_id " +
+                    "ORDER BY m.meal_time";
+
+            pstmt = conn.prepareStatement(loggedSql);
+            pstmt.setInt(1, memberId);
+            pstmt.setString(2, today);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Map<String, Object> meal = new HashMap<>();
+                meal.put("mealType", rs.getString("meal_type"));
+                meal.put("foodItems", rs.getString("foods") != null ? rs.getString("foods") : "Custom meal");
+                meal.put("calories", rs.getInt("total_calories"));
+                meal.put("source", "Logged");
                 meals.add(meal);
             }
 
@@ -395,24 +423,34 @@ public class MemberDashboardDAO {
 
         try {
             conn = DatabaseConnection.getInstance().getConnection();
-            String sql = "SELECT DISTINCT workout_date FROM Workouts " +
-                    "WHERE member_id = ? ORDER BY workout_date DESC LIMIT 30";
+            // Use date() function to extract only date part
+            String sql = "SELECT DISTINCT date(workout_date) as workout_date FROM Workouts " +
+                    "WHERE member_id = ? ORDER BY date(workout_date) DESC LIMIT 30";
             pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, memberId);
             rs = pstmt.executeQuery();
 
             LocalDate lastDate = LocalDate.now();
+            boolean foundToday = false;
+
             while (rs.next()) {
-                LocalDate workoutDate = LocalDate.parse(rs.getString("workout_date"));
-                if (workoutDate.equals(lastDate) || workoutDate.equals(lastDate.minusDays(1))) {
+                String dateStr = rs.getString("workout_date");
+                LocalDate workoutDate = LocalDate.parse(dateStr);
+
+                if (!foundToday && workoutDate.equals(LocalDate.now())) {
+                    foundToday = true;
+                    streak = 1;
+                    lastDate = workoutDate;
+                } else if (foundToday && workoutDate.equals(lastDate.minusDays(1))) {
                     streak++;
                     lastDate = workoutDate;
-                } else {
+                } else if (foundToday) {
                     break;
                 }
             }
 
         } catch (Exception e) {
+            System.err.println("Error calculating workout streak: " + e.getMessage());
             e.printStackTrace();
         } finally {
             try {

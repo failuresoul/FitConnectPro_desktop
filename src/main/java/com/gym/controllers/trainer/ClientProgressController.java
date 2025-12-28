@@ -1,14 +1,12 @@
 package com.gym.controllers.trainer;
 
-import com.gym.dao. ProgressDAO;
-import com. gym.dao.TrainerDAO;
+import com.gym.dao.ProgressDAO;
+import com.gym.dao.TrainerDAO;
 import com.gym.models.*;
 import com.gym.services.Session;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.XYChart;
-import javafx.scene. control.*;
+import javafx.scene.control.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -32,9 +30,7 @@ public class ClientProgressController {
     @FXML private Label waterComplianceLabel;
     @FXML private Label waterDetailsLabel;
 
-    @FXML private LineChart<String, Number> weightChart;
     @FXML private Label weightChangeLabel;
-
     @FXML private Label goalSummaryLabel;
 
     @FXML private TextArea trainerFeedbackArea;
@@ -145,7 +141,7 @@ public class ClientProgressController {
             }
 
             // Load progress data
-            currentProgress = progressDAO. getClientProgress(selectedClient.getMemberId(), startDate, endDate);
+            currentProgress = progressDAO.getClientProgress(selectedClient.getMemberId(), startDate, endDate);
 
             // Display progress
             displayProgress();
@@ -161,41 +157,38 @@ public class ClientProgressController {
 
     private void displayProgress() {
         if (currentProgress == null || currentProgress.isEmpty()) {
-            showAlert("No Data", "No progress data found for selected period", Alert.AlertType. INFORMATION);
+            showAlert("No Data", "No progress data found for selected period", Alert.AlertType.INFORMATION);
             return;
         }
 
         // 1. Workout Completion Rate
-        double workoutRate = (double) currentProgress.getOrDefault("workoutCompletionRate", 0.0);
-        int totalWorkouts = (int) currentProgress.getOrDefault("totalWorkouts", 0);
+        double workoutRate = getDoubleValue(currentProgress, "workoutCompletionRate", 0.0);
+        int totalWorkouts = getIntValue(currentProgress, "totalWorkouts", 0);
 
         workoutProgressBar.setProgress(workoutRate / 100.0);
         workoutCompletionLabel.setText(String.format("%.0f%%", workoutRate));
         workoutDetailsLabel.setText(totalWorkouts + " workouts completed");
 
         // 2. Meals Logged
-        int mealsLogged = (int) currentProgress.getOrDefault("mealsLoggedCount", 0);
+        int mealsLogged = getIntValue(currentProgress, "mealsLoggedCount", 0);
         mealsLoggedLabel.setText(mealsLogged + " meals logged");
 
         // 3. Water Intake Compliance
-        double waterCompliance = (double) currentProgress.getOrDefault("waterIntakeCompliance", 0.0);
-        int waterDaysMet = (int) currentProgress.getOrDefault("waterDaysMet", 0);
-        int totalDays = (int) currentProgress.getOrDefault("totalDays", 1);
+        double waterCompliance = getDoubleValue(currentProgress, "waterIntakeCompliance", 0.0);
+        int waterDaysMet = getIntValue(currentProgress, "waterDaysMet", 0);
+        int totalDays = getIntValue(currentProgress, "totalDays", 1);
 
         waterProgressBar.setProgress(waterCompliance / 100.0);
         waterComplianceLabel.setText(String.format("%.0f%%", waterCompliance));
         waterDetailsLabel.setText(waterDaysMet + " of " + totalDays + " days met goal");
 
-        // 4. Weight Change Chart
-        List<BodyMeasurement> measurements = (List<BodyMeasurement>) currentProgress.get("measurements");
-        displayWeightChart(measurements);
-
-        double weightChange = (double) currentProgress.getOrDefault("weightChange", 0.0);
+        // 4. Weight Change
+        double weightChange = getDoubleValue(currentProgress, "weightChange", 0.0);
         String weightChangeText;
         if (weightChange > 0) {
             weightChangeText = String.format("+%.1f kg", weightChange);
         } else if (weightChange < 0) {
-            weightChangeText = String. format("%.1f kg", weightChange);
+            weightChangeText = String.format("%.1f kg", weightChange);
         } else {
             weightChangeText = "No change";
         }
@@ -206,24 +199,21 @@ public class ClientProgressController {
         goalSummaryLabel.setText(goalSummary);
     }
 
-    private void displayWeightChart(List<BodyMeasurement> measurements) {
-        weightChart.getData().clear();
-
-        if (measurements == null || measurements.isEmpty()) {
-            weightChart.setTitle("No weight data available");
-            return;
+    // Helper methods for safe type conversion
+    private double getDoubleValue(Map<String, Object> map, String key, double defaultValue) {
+        Object value = map.get(key);
+        if (value instanceof Number) {
+            return ((Number) value).doubleValue();
         }
+        return defaultValue;
+    }
 
-        XYChart.Series<String, Number> series = new XYChart.Series<>();
-        series.setName("Weight (kg)");
-
-        for (BodyMeasurement measurement :  measurements) {
-            String dateStr = measurement.getMeasurementDate().toString();
-            series. getData().add(new XYChart.Data<>(dateStr, measurement.getWeight()));
+    private int getIntValue(Map<String, Object> map, String key, int defaultValue) {
+        Object value = map.get(key);
+        if (value instanceof Number) {
+            return ((Number) value).intValue();
         }
-
-        weightChart.getData().add(series);
-        weightChart.setTitle("Weight Progress");
+        return defaultValue;
     }
 
     private void generateWeeklyReport() {
@@ -239,8 +229,8 @@ public class ClientProgressController {
                 return;
             }
 
-            String feedback = trainerFeedbackArea. getText().trim();
-            if (feedback. isEmpty()) {
+            String feedback = trainerFeedbackArea.getText().trim();
+            if (feedback.isEmpty()) {
                 showAlert("Validation Error", "Please enter trainer feedback", Alert.AlertType.WARNING);
                 return;
             }
@@ -252,11 +242,11 @@ public class ClientProgressController {
             report.setReportDate(LocalDate.now());
             report.setStartDate(startDatePicker.getValue());
             report.setEndDate(endDatePicker.getValue());
-            report.setWorkoutCompletionRate((double) currentProgress.get("workoutCompletionRate"));
-            report.setMealsLoggedCount((int) currentProgress.get("mealsLoggedCount"));
-            report.setWaterIntakeCompliance((double) currentProgress.get("waterIntakeCompliance"));
-            report.setWeightChange((double) currentProgress.get("weightChange"));
-            report.setGoalAchievementSummary((String) currentProgress.get("goalAchievementSummary"));
+            report.setWorkoutCompletionRate(getDoubleValue(currentProgress, "workoutCompletionRate", 0.0));
+            report.setMealsLoggedCount(getIntValue(currentProgress, "mealsLoggedCount", 0));
+            report.setWaterIntakeCompliance(getDoubleValue(currentProgress, "waterIntakeCompliance", 0.0));
+            report.setWeightChange(getDoubleValue(currentProgress, "weightChange", 0.0));
+            report.setGoalAchievementSummary((String) currentProgress.getOrDefault("goalAchievementSummary", "No summary"));
             report.setTrainerFeedback(feedback);
 
             // Save report
@@ -274,7 +264,7 @@ public class ClientProgressController {
         } catch (Exception e) {
             System.err.println("❌ Error generating report: " + e.getMessage());
             e.printStackTrace();
-            showAlert("Error", "An error occurred:  " + e.getMessage(), Alert.AlertType.ERROR);
+            showAlert("Error", "An error occurred: " + e.getMessage(), Alert.AlertType.ERROR);
         }
     }
 
@@ -286,3 +276,4 @@ public class ClientProgressController {
         alert.showAndWait();
     }
 }
+

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.gym.controllers.member.MemberProgressController"
+      spacing="20" style="-fx-background-color: linear-gradient(to bottom, #f8f9fa, #e9ecef); -fx-padding: 25;">
+
+    <!-- Header -->
+    <HBox alignment="CENTER_LEFT" spacing="15" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+        <Button fx:id="backButton" text="← Back" onAction="#handleBack" style="-fx-background-color: #ecf0f1; -fx-text-fill: #2c3e50; -fx-font-size: 13px; -fx-font-weight: bold; -fx-padding: 8 15; -fx-background-radius: 5; -fx-cursor: hand;">
+            <cursor><javafx.scene.Cursor fx:constant="HAND"/></cursor>
+        </Button>
+        <Separator orientation="VERTICAL"/>
+        <Label text="📈 My Progress" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Label text="Date Range:" style="-fx-font-size: 13px; -fx-text-fill: #7f8c8d;"/>
+        <DatePicker fx:id="startDatePicker" promptText="Start Date" style="-fx-font-size: 12px;"/>
+        <Label text="to" style="-fx-font-size: 13px; -fx-text-fill: #7f8c8d;"/>
+        <DatePicker fx:id="endDatePicker" promptText="End Date" style="-fx-font-size: 12px;"/>
+        <Button text="🔄 Refresh" onAction="#handleRefresh" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold; -fx-padding: 8 15; -fx-background-radius: 5; -fx-cursor: hand;">
+            <cursor><javafx.scene.Cursor fx:constant="HAND"/></cursor>
+        </Button>
+    </HBox>
+
+    <!-- Tab Pane -->
+    <TabPane fx:id="progressTabPane" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+
+        <!-- Tab 1: Workout Stats -->
+        <Tab text="💪 Workout Stats">
+            <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;">
+                <VBox spacing="20" style="-fx-padding: 20;">
+
+                    <!-- Workout Statistics Cards -->
+                    <HBox spacing="15" alignment="CENTER">
+                        <VBox spacing="5" alignment="CENTER" HBox.hgrow="ALWAYS" style="-fx-background-color: #e1f5fe; -fx-padding: 20; -fx-background-radius: 10;">
+                            <Label text="Total Workouts" style="-fx-font-size: 12px; -fx-text-fill: #0277bd;"/>
+                            <Label fx:id="totalWorkoutsLabel" text="0" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #01579b;"/>
+                        </VBox>
+                        <VBox spacing="5" alignment="CENTER" HBox.hgrow="ALWAYS" style="-fx-background-color: #e8eaf6; -fx-padding: 20; -fx-background-radius: 10;">
+                            <Label text="Avg Per Week" style="-fx-font-size: 12px; -fx-text-fill: #3f51b5;"/>
+                            <Label fx:id="avgWorkoutsPerWeekLabel" text="0" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #303f9f;"/>
+                        </VBox>
+                        <VBox spacing="5" alignment="CENTER" HBox.hgrow="ALWAYS" style="-fx-background-color: #fff9c4; -fx-padding: 20; -fx-background-radius: 10;">
+                            <Label text="Total Calories Burned" style="-fx-font-size: 12px; -fx-text-fill: #f57f17;"/>
+                            <Label fx:id="totalCaloriesBurnedLabel" text="0" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #f57f17;"/>
+                        </VBox>
+                        <VBox spacing="5" alignment="CENTER" HBox.hgrow="ALWAYS" style="-fx-background-color: #e0f2f1; -fx-padding: 20; -fx-background-radius: 10;">
+                            <Label text="Total Active Time" style="-fx-font-size: 12px; -fx-text-fill: #00695c;"/>
+                            <Label fx:id="totalActiveTimeLabel" text="0 min" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #004d40;"/>
+                        </VBox>
+                    </HBox>
+
+                    <!-- Charts Row -->
+                    <HBox spacing="20">
+                        <!-- Workout Type Distribution -->
+                        <VBox spacing="10" HBox.hgrow="ALWAYS" style="-fx-background-color: #fafafa; -fx-padding: 20; -fx-background-radius: 10;">
+                            <Label text="Workout Type Distribution" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                            <PieChart fx:id="workoutTypePieChart" prefHeight="350" legendSide="BOTTOM"/>
+                        </VBox>
+
+                        <!-- Workout Frequency by Day -->
+                        <VBox spacing="10" HBox.hgrow="ALWAYS" style="-fx-background-color: #fafafa; -fx-padding: 20; -fx-background-radius: 10;">
+                            <Label text="Workout Frequency by Day" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                            <BarChart fx:id="workoutFrequencyChart" prefHeight="350">
+                                <xAxis>
+                                    <CategoryAxis label="Day of Week" side="BOTTOM"/>
+                                </xAxis>
+                                <yAxis>
+                                    <NumberAxis label="Workouts" side="LEFT"/>
+                                </yAxis>
+                            </BarChart>
+                        </VBox>
+                    </HBox>
+                </VBox>
+            </ScrollPane>
+        </Tab>
+
+        <!-- Tab 2: Nutrition Analysis -->
+        <Tab text="🍽️ Nutrition Analysis">
+            <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;">
+                <VBox spacing="20" style="-fx-padding: 20;">
+
+                    <!-- Nutrition Statistics Cards -->
+                    <HBox spacing="15" alignment="CENTER">
+                        <VBox spacing="5" alignment="CENTER" HBox.hgrow="ALWAYS" style="-fx-background-color: #fff3e0; -fx-padding: 20; -fx-background-radius: 10;">
+                            <Label text="Avg Daily Calories" style="-fx-font-size: 12px; -fx-text-fill: #e65100;"/>
+                            <Label fx:id="avgDailyCaloriesLabel" text="0 kcal" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #bf360c;"/>
+                        </VBox>
+                        <VBox spacing="5" alignment="CENTER" HBox.hgrow="ALWAYS" style="-fx-background-color: #e8f5e9; -fx-padding: 20; -fx-background-radius: 10;">
+                            <Label text="Avg Daily Protein" style="-fx-font-size: 12px; -fx-text-fill: #2e7d32;"/>
+                            <Label fx:id="avgDailyProteinLabel" text="0 g" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #1b5e20;"/>
+                        </VBox>
+                        <VBox spacing="5" alignment="CENTER" HBox.hgrow="ALWAYS" style="-fx-background-color: #e3f2fd; -fx-padding: 20; -fx-background-radius: 10;">
+                            <Label text="Avg Daily Carbs" style="-fx-font-size: 12px; -fx-text-fill: #1565c0;"/>
+                            <Label fx:id="avgDailyCarbsLabel" text="0 g" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #0d47a1;"/>
+                        </VBox>
+                        <VBox spacing="5" alignment="CENTER" HBox.hgrow="ALWAYS" style="-fx-background-color: #fce4ec; -fx-padding: 20; -fx-background-radius: 10;">
+                            <Label text="Avg Daily Fats" style="-fx-font-size: 12px; -fx-text-fill: #c2185b;"/>
+                            <Label fx:id="avgDailyFatsLabel" text="0 g" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #880e4f;"/>
+                        </VBox>
+                        <VBox spacing="5" alignment="CENTER" HBox.hgrow="ALWAYS" style="-fx-background-color: #f3e5f5; -fx-padding: 20; -fx-background-radius: 10;">
+                            <Label text="Logging Consistency" style="-fx-font-size: 12px; -fx-text-fill: #6a1b9a;"/>
+                            <Label fx:id="loggingConsistencyLabel" text="0 %" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #4a148c;"/>
+                        </VBox>
+                    </HBox>
+
+                    <!-- Charts Row -->
+                    <HBox spacing="20">
+                        <!-- Macronutrient Distribution -->
+                        <VBox spacing="10" HBox.hgrow="ALWAYS" style="-fx-background-color: #fafafa; -fx-padding: 20; -fx-background-radius: 10;">
+                            <Label text="Macronutrient Distribution" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                            <PieChart fx:id="macrosPieChart" prefHeight="350" legendSide="BOTTOM"/>
+                        </VBox>
+
+                        <!-- Nutrition Goals Comparison -->
+                        <VBox spacing="10" HBox.hgrow="ALWAYS" style="-fx-background-color: #fafafa; -fx-padding: 20; -fx-background-radius: 10;">
+                            <Label text="Nutrition vs Goals" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                            <BarChart fx:id="nutritionGoalsChart" prefHeight="350">
+                                <xAxis>
+                                    <CategoryAxis label="Nutrient" side="BOTTOM"/>
+                                </xAxis>
+                                <yAxis>
+                                    <NumberAxis label="Amount" side="LEFT"/>
+                                </yAxis>
+                            </BarChart>
+                        </VBox>
+                    </HBox>
+                </VBox>
+            </ScrollPane>
+        </Tab>
+
+        <!-- Tab 3: Goal Achievement -->
+        <Tab text="🎯 Goal Achievement">
+            <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;">
+                <VBox spacing="20" style="-fx-padding: 20;">
+
+                    <!-- Goal Achievement Cards -->
+                    <HBox spacing="15" alignment="CENTER">
+                        <VBox spacing="5" alignment="CENTER" HBox.hgrow="ALWAYS" style="-fx-background-color: #e8f5e9; -fx-padding: 20; -fx-background-radius: 10;">
+                            <Label text="Daily Goal Rate" style="-fx-font-size: 12px; -fx-text-fill: #2e7d32;"/>
+                            <Label fx:id="dailyGoalRateLabel" text="0 %" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #1b5e20;"/>
+                        </VBox>
+                        <VBox spacing="5" alignment="CENTER" HBox.hgrow="ALWAYS" style="-fx-background-color: #e3f2fd; -fx-padding: 20; -fx-background-radius: 10;">
+                            <Label text="Weekly Goal Rate" style="-fx-font-size: 12px; -fx-text-fill: #1565c0;"/>
+                            <Label fx:id="weeklyGoalRateLabel" text="0 %" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #0d47a1;"/>
+                        </VBox>
+                        <VBox spacing="5" alignment="CENTER" HBox.hgrow="ALWAYS" style="-fx-background-color: #fff3e0; -fx-padding: 20; -fx-background-radius: 10;">
+                            <Label text="Monthly Achievement" style="-fx-font-size: 12px; -fx-text-fill: #e65100;"/>
+                            <Label fx:id="monthlyGoalRateLabel" text="0 %" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #bf360c;"/>
+                        </VBox>
+                        <VBox spacing="5" alignment="CENTER" HBox.hgrow="ALWAYS" style="-fx-background-color: #f3e5f5; -fx-padding: 20; -fx-background-radius: 10;">
+                            <Label text="Overall Progress" style="-fx-font-size: 12px; -fx-text-fill: #6a1b9a;"/>
+                            <Label fx:id="overallProgressLabel" text="0 %" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #4a148c;"/>
+                        </VBox>
+                    </HBox>
+
+                    <!-- Achievement Timeline -->
+                    <VBox spacing="10" style="-fx-background-color: #fafafa; -fx-padding: 20; -fx-background-radius: 10;">
+                        <Label text="Achievement Timeline" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                        <ScrollPane fitToWidth="true" prefHeight="400" style="-fx-background-color: transparent;">
+                            <VBox fx:id="achievementTimelineContainer" spacing="15"/>
+                        </ScrollPane>
+                    </VBox>
+                </VBox>
+            </ScrollPane>
+        </Tab>
+
+    </TabPane>
+
+</VBox>

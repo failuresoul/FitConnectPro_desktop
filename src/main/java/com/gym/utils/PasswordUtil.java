@@ -14,6 +14,31 @@ public class PasswordUtil {
     }
 
     /**
+     * Verify a password against a hashed password
+     * @param plainPassword - the plain text password to verify
+     * @param hashedPassword - the hashed password to compare against
+     * @return true if the password matches, false otherwise
+     */
+    public static boolean verifyPassword(String plainPassword, String hashedPassword) {
+        try {
+            return BCrypt.checkpw(plainPassword, hashedPassword);
+        } catch (Exception e) {
+            System.err.println("Error verifying password: " + e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Check if a password needs to be rehashed (if using an old hashing algorithm)
+     * @param hashedPassword - the hashed password to check
+     * @return true if the password needs rehashing
+     */
+    public static boolean needsRehash(String hashedPassword) {
+        // BCrypt hashes always start with $2a$, $2b$, or $2y$
+        return !hashedPassword.startsWith("$2");
+    }
+
+    /**
      * Check if a plain password matches a hashed password
      * @param plainPassword - the plain text password to check
      * @param hashedPassword - the hashed password to compare against

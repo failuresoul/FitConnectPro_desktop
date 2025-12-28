@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.gym.controllers.member.MemberProfileController"
+      spacing="20" style="-fx-background-color: linear-gradient(to bottom, #f8f9fa, #e9ecef); -fx-padding: 25;">
+
+    <!-- Header -->
+    <HBox alignment="CENTER_LEFT" spacing="15" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+        <Button fx:id="backButton" text="← Back" onAction="#handleBack" style="-fx-background-color: #ecf0f1; -fx-text-fill: #2c3e50; -fx-font-size: 13px; -fx-font-weight: bold; -fx-padding: 8 15; -fx-background-radius: 5; -fx-cursor: hand;">
+            <cursor><javafx.scene.Cursor fx:constant="HAND"/></cursor>
+        </Button>
+        <Separator orientation="VERTICAL"/>
+        <Label text="👤 My Profile" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+    </HBox>
+
+    <!-- Profile Content -->
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent;">
+        <VBox spacing="20" style="-fx-padding: 10;">
+
+            <!-- Personal Information Card -->
+            <VBox spacing="15" style="-fx-background-color: white; -fx-padding: 25; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+                <Label text="Personal Information" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                <Separator/>
+
+                <GridPane hgap="20" vgap="15">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="20"/>
+                        <ColumnConstraints percentWidth="30"/>
+                        <ColumnConstraints percentWidth="20"/>
+                        <ColumnConstraints percentWidth="30"/>
+                    </columnConstraints>
+
+                    <!-- Row 1 -->
+                    <Label text="Full Name:" style="-fx-font-size: 13px; -fx-text-fill: #7f8c8d;" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                    <TextField fx:id="fullNameField" promptText="Enter full name" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                    <Label text="Email:" style="-fx-font-size: 13px; -fx-text-fill: #7f8c8d;" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+                    <TextField fx:id="emailField" promptText="Enter email" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+
+                    <!-- Row 2 -->
+                    <Label text="Phone:" style="-fx-font-size: 13px; -fx-text-fill: #7f8c8d;" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                    <TextField fx:id="phoneField" promptText="Enter phone number" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                    <Label text="Date of Birth:" style="-fx-font-size: 13px; -fx-text-fill: #7f8c8d;" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                    <DatePicker fx:id="dobPicker" promptText="Select date" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+
+                    <!-- Row 3 -->
+                    <Label text="Gender:" style="-fx-font-size: 13px; -fx-text-fill: #7f8c8d;" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                    <ComboBox fx:id="genderComboBox" promptText="Select gender" GridPane.columnIndex="1" GridPane.rowIndex="2" prefWidth="200"/>
+
+                    <Label text="Address:" style="-fx-font-size: 13px; -fx-text-fill: #7f8c8d;" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+                    <TextField fx:id="addressField" promptText="Enter address" GridPane.columnIndex="3" GridPane.rowIndex="2"/>
+                </GridPane>
+            </VBox>
+
+            <!-- Health Information Card -->
+            <VBox spacing="15" style="-fx-background-color: white; -fx-padding: 25; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+                <Label text="Health Information" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                <Separator/>
+
+                <GridPane hgap="20" vgap="15">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="20"/>
+                        <ColumnConstraints percentWidth="30"/>
+                        <ColumnConstraints percentWidth="20"/>
+                        <ColumnConstraints percentWidth="30"/>
+                    </columnConstraints>
+
+                    <!-- Row 1 -->
+                    <Label text="Current Weight:" style="-fx-font-size: 13px; -fx-text-fill: #7f8c8d;" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                    <HBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                        <TextField fx:id="currentWeightField" promptText="0.0" prefWidth="150"/>
+                        <Label text="kg" style="-fx-font-size: 13px; -fx-text-fill: #7f8c8d; -fx-alignment: center-left;"/>
+                    </HBox>
+
+                    <Label text="Target Weight:" style="-fx-font-size: 13px; -fx-text-fill: #7f8c8d;" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+                    <HBox spacing="5" GridPane.columnIndex="3" GridPane.rowIndex="0">
+                        <TextField fx:id="targetWeightField" promptText="0.0" prefWidth="150"/>
+                        <Label text="kg" style="-fx-font-size: 13px; -fx-text-fill: #7f8c8d; -fx-alignment: center-left;"/>
+                    </HBox>
+
+                    <!-- Row 2 -->
+                    <Label text="Height:" style="-fx-font-size: 13px; -fx-text-fill: #7f8c8d;" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                    <HBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <TextField fx:id="heightField" promptText="0.0" prefWidth="150"/>
+                        <Label text="cm" style="-fx-font-size: 13px; -fx-text-fill: #7f8c8d; -fx-alignment: center-left;"/>
+                    </HBox>
+
+                    <Label text="Fitness Goal:" style="-fx-font-size: 13px; -fx-text-fill: #7f8c8d;" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                    <ComboBox fx:id="goalComboBox" promptText="Select goal" GridPane.columnIndex="3" GridPane.rowIndex="1" prefWidth="200"/>
+                </GridPane>
+            </VBox>
+
+            <!-- Membership Information Card -->
+            <VBox spacing="15" style="-fx-background-color: white; -fx-padding: 25; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+                <Label text="Membership Information" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                <Separator/>
+
+                <GridPane hgap="20" vgap="15">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="20"/>
+                        <ColumnConstraints percentWidth="30"/>
+                        <ColumnConstraints percentWidth="20"/>
+                        <ColumnConstraints percentWidth="30"/>
+                    </columnConstraints>
+
+                    <!-- Row 1 -->
+                    <Label text="Member ID:" style="-fx-font-size: 13px; -fx-text-fill: #7f8c8d;" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                    <Label fx:id="memberIdLabel" text="--" style="-fx-font-size: 13px; -fx-font-weight: bold;" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                    <Label text="Join Date:" style="-fx-font-size: 13px; -fx-text-fill: #7f8c8d;" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+                    <Label fx:id="joinDateLabel" text="--" style="-fx-font-size: 13px; -fx-font-weight: bold;" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+
+                    <!-- Row 2 -->
+                    <Label text="Membership Type:" style="-fx-font-size: 13px; -fx-text-fill: #7f8c8d;" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                    <Label fx:id="membershipTypeLabel" text="--" style="-fx-font-size: 13px; -fx-font-weight: bold;" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                    <Label text="Status:" style="-fx-font-size: 13px; -fx-text-fill: #7f8c8d;" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                    <Label fx:id="statusLabel" text="--" style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #27ae60;" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+                </GridPane>
+            </VBox>
+
+            <!-- Action Buttons -->
+            <HBox spacing="15" alignment="CENTER">
+                <Button text="💾 Save Changes" onAction="#handleSaveProfile" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 12 30; -fx-background-radius: 5; -fx-cursor: hand;">
+                    <cursor><javafx.scene.Cursor fx:constant="HAND"/></cursor>
+                </Button>
+                <Button text="🔐 Change Password" onAction="#handleChangePassword" style="-fx-background-color: #e67e22; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 12 30; -fx-background-radius: 5; -fx-cursor: hand;">
+                    <cursor><javafx.scene.Cursor fx:constant="HAND"/></cursor>
+                </Button>
+                <Button text="🔄 Reset" onAction="#handleReset" style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 12 30; -fx-background-radius: 5; -fx-cursor: hand;">
+                    <cursor><javafx.scene.Cursor fx:constant="HAND"/></cursor>
+                </Button>
+            </HBox>
+
+        </VBox>
+    </ScrollPane>
+
+</VBox>
+

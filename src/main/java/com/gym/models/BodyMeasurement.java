@@ -17,7 +17,6 @@ public class BodyMeasurement {
     public BodyMeasurement() {
     }
 
-    // Getters and Setters
     public int getMeasurementId() {
         return measurementId;
     }
