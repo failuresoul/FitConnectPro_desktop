@@ -1,0 +1,262 @@
+/* Minimal styles for execute_workout.fxml
+   Add or replace with your real styles as needed.
+*/
+
+.root {
+  -fx-font-family: "Segoe UI", Arial, sans-serif;
+  -fx-font-size: 14px;
+  -fx-background-color: #f7f7f7;
+}
+
+#topBar {
+  -fx-background-color: linear-gradient(to bottom, #2c3e50, #34495e);
+  -fx-padding: 10;
+  -fx-text-fill: white;
+}
+
+.button {
+  -fx-background-color: #2980b9;
+  -fx-text-fill: white;
+  -fx-background-radius: 4;
+}
+
+.button:hover {
+  -fx-background-color: #1f6fa3;
+}
+
+/* Placeholder IDs/classes referenced from the FXML — adjust to match actual IDs */
+#workoutPane {
+  -fx-padding: 16;
+  -fx-spacing: 10;
+}
+
+/* Root Container */
+.root-container {
+    -fx-background-color: linear-gradient(to bottom right, #667eea 0%, #764ba2 100%);
+}
+
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+/* Top Bar */
+.top-bar {
+    -fx-background-color: rgba(255, 255, 255, 0.15);
+    -fx-border-color: rgba(255, 255, 255, 0.2);
+    -fx-border-width: 0 0 2 0;
+}
+
+.back-btn {
+    -fx-background-color: rgba(255, 255, 255, 0.2);
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 10 20;
+    -fx-background-radius: 20;
+    -fx-border-color: rgba(255, 255, 255, 0.3);
+    -fx-border-radius: 20;
+    -fx-cursor: hand;
+}
+
+.back-btn:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.3);
+}
+
+.progress-label {
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.progress-bar {
+    -fx-accent: #4CAF50;
+}
+
+/* Content Container */
+.content-container {
+    -fx-background-color: transparent;
+}
+
+/* Exercise Name */
+.exercise-name {
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.exercise-number {
+    -fx-font-size: 16px;
+    -fx-text-fill: rgba(255, 255, 255, 0.8);
+}
+
+/* Cards */
+.info-card {
+    -fx-background-color: white;
+    -fx-background-radius: 15;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 15, 0, 0, 5);
+    -fx-max-width: 900px;
+}
+
+.timer-card {
+    -fx-background-color: #fff3cd;
+    -fx-background-radius: 15;
+    -fx-border-color: #ffc107;
+    -fx-border-radius: 15;
+    -fx-border-width: 2;
+    -fx-max-width: 500px;
+}
+
+/* Section Titles */
+.section-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+/* Field Labels */
+.field-label {
+    -fx-font-size: 13px;
+    -fx-text-fill: #7f8c8d;
+    -fx-font-weight: 600;
+}
+
+.target-value {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #667eea;
+}
+
+.hint-label {
+    -fx-font-size: 11px;
+    -fx-text-fill: #95a5a6;
+    -fx-font-style: italic;
+}
+
+/* Input Fields */
+.input-field {
+    -fx-font-size: 16px;
+    -fx-padding: 10;
+    -fx-background-radius: 8;
+    -fx-border-color: #e0e0e0;
+    -fx-border-radius: 8;
+    -fx-border-width: 1.5;
+}
+
+.input-field:focused {
+    -fx-border-color: #667eea;
+    -fx-border-width: 2;
+}
+
+.notes-area {
+    -fx-font-size: 13px;
+    -fx-background-radius: 8;
+    -fx-border-color: #e0e0e0;
+    -fx-border-radius: 8;
+    -fx-control-inner-background: #f8f9fa;
+}
+
+/* Timer */
+.timer-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #856404;
+}
+
+.timer-value {
+    -fx-font-size: 48px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #e67e22;
+}
+
+.timer-subtitle {
+    -fx-font-size: 14px;
+    -fx-text-fill: #856404;
+}
+
+.timer-btn {
+    -fx-background-color: #ffc107;
+    -fx-text-fill: #856404;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 10 25;
+    -fx-background-radius: 20;
+    -fx-cursor: hand;
+}
+
+.timer-btn:hover {
+    -fx-background-color: #ffca28;
+}
+
+.timer-btn-secondary {
+    -fx-background-color: transparent;
+    -fx-text-fill: #856404;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 10 25;
+    -fx-background-radius: 20;
+    -fx-border-color: #ffc107;
+    -fx-border-radius: 20;
+    -fx-border-width: 2;
+    -fx-cursor: hand;
+}
+
+.timer-btn-secondary:hover {
+    -fx-background-color: rgba(255, 193, 7, 0.1);
+}
+
+/* Bottom Bar */
+.bottom-bar {
+    -fx-background-color: rgba(255, 255, 255, 0.15);
+    -fx-border-color: rgba(255, 255, 255, 0.2);
+    -fx-border-width: 2 0 0 0;
+}
+
+.nav-btn-primary {
+    -fx-background-color: white;
+    -fx-text-fill: #667eea;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-padding: 12 30;
+    -fx-background-radius: 25;
+    -fx-cursor: hand;
+}
+
+.nav-btn-primary:hover {
+    -fx-background-color: #f0f0f0;
+}
+
+.nav-btn-secondary {
+    -fx-background-color: rgba(255, 255, 255, 0.2);
+    -fx-text-fill: white;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-padding: 12 30;
+    -fx-background-radius: 25;
+    -fx-border-color: rgba(255, 255, 255, 0.3);
+    -fx-border-radius: 25;
+    -fx-border-width: 2;
+    -fx-cursor: hand;
+}
+
+.nav-btn-secondary:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.3);
+}
+
+.finish-btn {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-padding: 12 35;
+    -fx-background-radius: 25;
+    -fx-cursor: hand;
+}
+
+.finish-btn:hover {
+    -fx-background-color: #45a049;
+}
