@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.gym.controllers.trainer.SalaryController"
+      spacing="0"
+      style="-fx-background-color: #f5f5f5;">
+
+    <!-- Header -->
+    <HBox alignment="CENTER_LEFT" spacing="15"
+          style="-fx-background-color: white; -fx-padding: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);">
+        <Label text="💰 My Salary"
+               style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;">
+            <font>
+                <Font name="System Bold" size="24.0"/>
+            </font>
+        </Label>
+        <Region HBox.hgrow="ALWAYS"/>
+
+        <!-- Stats Summary -->
+        <VBox alignment="CENTER_RIGHT" spacing="5">
+            <Label text="Total Pending:" style="-fx-font-size: 11px; -fx-text-fill: #7f8c8d;"/>
+            <Label fx:id="totalPendingLabel" text="\$0.00"
+
+                   style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #3498db;"/>
+        </VBox>
+
+        <Separator orientation="VERTICAL"/>
+
+        <VBox alignment="CENTER_RIGHT" spacing="5">
+            <Label text="Total Paid:" style="-fx-font-size: 11px; -fx-text-fill: #7f8c8d;"/>
+            <Label fx:id="totalPaidLabel" text="\$0.00"
+                   style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #27ae60;"/>
+        </VBox>
+    </HBox>
+
+    <!-- Next Payment Info -->
+    <HBox alignment="CENTER_LEFT" spacing="10"
+          style="-fx-background-color: #e8f5e9; -fx-padding: 15 20; -fx-border-color: #c8e6c9; -fx-border-width: 0 0 1 0;">
+        <Label text="📅" style="-fx-font-size: 20px;"/>
+        <Label fx:id="nextPaymentLabel" text="Next payment date will appear here"
+               style="-fx-font-size: 14px; -fx-text-fill: #2e7d32; -fx-font-weight: bold;"/>
+    </HBox>
+
+    <!-- Tabs for Pending and Paid -->
+    <TabPane fx:id="salaryTabPane" VBox.vgrow="ALWAYS" tabClosingPolicy="UNAVAILABLE"
+             style="-fx-background-color: #f5f5f5;">
+
+        <!-- Pending Salaries Tab -->
+        <Tab text="Pending Payments">
+            <ScrollPane fitToWidth="true"
+                        style="-fx-background-color: transparent; -fx-border-color: transparent;">
+                <VBox fx:id="salariesContainer" spacing="15"
+                      style="-fx-background-color: #f5f5f5; -fx-padding: 20;"/>
+            </ScrollPane>
+        </Tab>
+
+        <!-- Paid Salaries Tab -->
+        <Tab text="Payment History">
+            <ScrollPane fitToWidth="true"
+                        style="-fx-background-color: transparent; -fx-border-color: transparent;">
+                <VBox spacing="15"
+                      style="-fx-background-color: #f5f5f5; -fx-padding: 20;"/>
+            </ScrollPane>
+        </Tab>
+
+    </TabPane>
+
+</VBox>
+

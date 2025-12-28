@@ -104,7 +104,7 @@ public class MessageDAO {
         return conversations;
     }
 
-    public List<Message> getConversation(int memberId, int trainerId, String trainerType) {
+    public List<Message> getConversation(int trainerId, int memberId, String trainerType) {
         List<Message> messages = new ArrayList<>();
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -127,6 +127,9 @@ public class MessageDAO {
             pstmt.setInt(2, memberId);
             pstmt.setInt(3, memberId);
             pstmt.setInt(4, trainerId);
+
+            System.out.println("📧 Loading messages between Trainer ID: " + trainerId + " and Member ID: " + memberId);
+
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
@@ -146,6 +149,8 @@ public class MessageDAO {
 
                 messages.add(message);
             }
+
+            System.out.println("✅ Loaded " + messages.size() + " messages");
 
         } catch (SQLException e) {
             System.err.println("❌ Error loading messages: " + e.getMessage());

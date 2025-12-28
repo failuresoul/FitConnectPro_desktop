@@ -37,6 +37,11 @@
 
             <Button fx:id="profileBtn" maxWidth="Infinity" style="-fx-background-color: transparent; -fx-text-fill:  white; -fx-alignment: CENTER_LEFT; -fx-padding:  12 20; -fx-font-size: 14px; -fx-cursor: hand;" text="👤 My Profile" />
 
+            <Button fx:id="salaryBtn" maxWidth="Infinity" onAction="#showSalary"
+                    style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT;
+                           -fx-padding: 12 20; -fx-font-size: 14px; -fx-cursor: hand;"
+                    text="💵 My Salary" />
+
         </VBox>
     </left>
 

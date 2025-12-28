@@ -68,12 +68,6 @@
                 </font>
             </Button>
 
-            <Button fx:id="applicationsBtn" styleClass="nav-button" text="📋 Applications">
-                <font>
-                    <Font name="Arial" size="13" />
-                </font>
-            </Button>
-
             <Button fx:id="reportsBtn" styleClass="nav-button" text="📊 Reports">
                 <font>
                     <Font name="Arial" size="13" />
@@ -155,36 +149,6 @@
                             <Insets bottom="20" left="20" right="20" top="20" />
                         </padding>
 
-                        <Label styleClass="stat-icon" text="📋">
-                            <font>
-                                <Font size="36" />
-                            </font>
-                        </Label>
-
-                        <Label fx:id="pendingApplicationsLabel" styleClass="stat-value" text="0">
-                            <font>
-                                <Font name="Arial Bold" size="32" />
-                            </font>
-                            <padding>
-                                <Insets top="10" />
-                            </padding>
-                        </Label>
-
-                        <Label styleClass="stat-label" text="Pending Applications">
-                            <font>
-                                <Font name="Arial" size="13" />
-                            </font>
-                            <padding>
-                                <Insets top="5" />
-                            </padding>
-                        </Label>
-                    </VBox>
-
-                    <VBox prefHeight="150" prefWidth="250" styleClass="stat-card">
-                        <padding>
-                            <Insets bottom="20" left="20" right="20" top="20" />
-                        </padding>
-
                         <Label styleClass="stat-icon" text="💵">
                             <font>
                                 <Font size="36" />
@@ -211,9 +175,6 @@
                     </VBox>
                 </HBox>
 
-                <!-- ============================================ -->
-                <!-- QUICK ACTIONS SECTION - NEW CODE STARTS HERE -->
-                <!-- ============================================ -->
                 <Separator />
 
                 <VBox spacing="15">
@@ -242,15 +203,6 @@
                             </padding>
                         </Button>
 
-                        <Button fx:id="viewApplicationsButton" styleClass="quick-action-button" text="View Applications">
-                            <font>
-                                <Font name="Arial" size="13" />
-                            </font>
-                            <padding>
-                                <Insets bottom="12" left="25" right="25" top="12" />
-                            </padding>
-                        </Button>
-
                         <Button fx:id="assignTrainerButton" styleClass="quick-action-button-primary" text="Assign Trainer">
                             <font>
                                 <Font name="Arial Bold" size="13" />
@@ -263,9 +215,6 @@
                 </VBox>
 
                 <Separator />
-                <!-- ============================================ -->
-                <!-- QUICK ACTIONS SECTION - NEW CODE ENDS HERE -->
-                <!-- ============================================ -->
 
                 <VBox spacing="15" styleClass="activity-section">
                     <Label styleClass="section-title" text="Recent Activity">

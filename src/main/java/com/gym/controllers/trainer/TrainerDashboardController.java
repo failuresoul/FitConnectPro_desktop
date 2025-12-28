@@ -1,9 +1,11 @@
 package com.gym.controllers.trainer;
 
 import com.gym.dao. TrainerStatisticsDAO;
+import com.gym.dao.PaymentDAO;
 import com.gym.models.Message;
 import com.gym.models.Trainer;
 import com. gym.services.Session;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx. collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -32,6 +34,7 @@ public class TrainerDashboardController {
     @FXML private Button progressReportsBtn;
     @FXML private Button messagesBtn;
     @FXML private Button profileBtn;
+    @FXML private Button salaryBtn;
     @FXML private VBox contentArea;
     @FXML private Label totalClientsLabel;
     @FXML private Label todayWorkoutsLabel;
@@ -85,22 +88,25 @@ public class TrainerDashboardController {
         alert.showAndWait();
     }
     private TrainerStatisticsDAO statisticsDAO;
+    private PaymentDAO paymentDAO;
     private Trainer currentTrainer;
 
     public TrainerDashboardController() {
         statisticsDAO = new TrainerStatisticsDAO();
+        paymentDAO = new PaymentDAO();
     }
 
     @FXML
     public void initialize() {
         System.out.println("========================================");
-        System.out. println("✅ TrainerDashboardController initialized");
-        System.out. println("========================================");
+        System.out.println("✅ TrainerDashboardController initialized");
+        System.out.println("========================================");
 
         loadTrainerInfo();
         loadStatistics();
         setupTableColumns();
         setupEventHandlers();
+        checkSalaryNotifications();
     }
 
     private void loadTrainerInfo() {
@@ -186,6 +192,44 @@ public class TrainerDashboardController {
         }
     }
 
+    private void checkSalaryNotifications() {
+        new Thread(() -> {
+            try {
+                paymentDAO.updateOverduePayments();
+                int unpaidCount = paymentDAO.getUnpaidCount(currentTrainer.getTrainerId(), "TRAINER");
+
+                if (unpaidCount > 0) {
+                    Platform.runLater(() -> {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Salary Notification");
+                        alert.setHeaderText("💰 You have pending salary payments!");
+                        alert.setContentText(String.format(
+                            "You have %d pending salary payment(s).\n" +
+                            "Please check the Salary section for more details.",
+                            unpaidCount));
+
+                        ButtonType viewSalary = new ButtonType("View Salary");
+                        ButtonType later = new ButtonType("Later", ButtonBar.ButtonData.CANCEL_CLOSE);
+                        alert.getButtonTypes().setAll(viewSalary, later);
+
+                        alert.showAndWait().ifPresent(response -> {
+                            if (response == viewSalary) {
+                                loadSalary();
+                            }
+                        });
+                    });
+                }
+            } catch (Exception e) {
+                System.err.println("❌ Error checking salary: " + e.getMessage());
+            }
+        }).start();
+    }
+
+    private void loadSalary() {
+        System.out.println("📂 Loading Salary...");
+        loadView("/fxml/trainer/salary.fxml");
+    }
+
     private void setupEventHandlers() {
         if (logoutButton != null) {
             logoutButton.setOnAction(e -> handleLogout());
@@ -223,6 +267,10 @@ public class TrainerDashboardController {
             profileBtn.setOnAction(e -> loadProfile());
         }
 
+        if (salaryBtn != null) {
+            salaryBtn.setOnAction(e -> showSalary());
+        }
+
         if (quickCreateWorkoutBtn != null) {
             quickCreateWorkoutBtn.setOnAction(e -> loadCreateWorkoutPlan());
         }
@@ -238,16 +286,15 @@ public class TrainerDashboardController {
 
     private void handleLogout() {
         try {
-            Session. getInstance().logout();
+            Session.getInstance().logout();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
             Parent loginRoot = loader.load();
 
-            Scene loginScene = new Scene(loginRoot);
             Stage window = (Stage) logoutButton.getScene().getWindow();
-            window.setScene(loginScene);
+            Scene currentScene = window.getScene();
+            currentScene.setRoot(loginRoot);
             window.setTitle("Premium Gym Management System - Login");
             window.centerOnScreen();
-            window.show();
 
             System.out.println("✅ Trainer logged out successfully!");
         } catch (IOException e) {
@@ -263,17 +310,15 @@ public class TrainerDashboardController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/trainer/trainer_dashboard.fxml"));
             Parent dashboardRoot = loader.load();
 
-            Scene dashboardScene = new Scene(dashboardRoot);
             Stage window = (Stage) dashboardBtn.getScene().getWindow();
-            window. setScene(dashboardScene);
+            Scene currentScene = window.getScene();
+            currentScene.setRoot(dashboardRoot);
             window.setTitle("Trainer Dashboard - Premium Gym Management System");
-            window.setMaximized(true);
-            window.show();
 
             System.out.println("✅ Dashboard reloaded!");
 
         } catch (IOException e) {
-            System.err. println("❌ Error reloading dashboard: " + e.getMessage());
+            System.err.println("❌ Error reloading dashboard: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -313,6 +358,12 @@ public class TrainerDashboardController {
         loadView("/fxml/trainer/trainer_profile.fxml");
     }
 
+    @FXML
+    private void showSalary() {
+        System.out.println("📂 Loading Salary view...");
+        loadView("/fxml/trainer/salary.fxml");
+    }
+
     private void loadView(String fxmlPath) {
         try {
             System.out.println("🔄 Loading view: " + fxmlPath);
@@ -345,3 +396,4 @@ public class TrainerDashboardController {
     }
 
 }
+

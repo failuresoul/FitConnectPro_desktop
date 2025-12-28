@@ -72,36 +72,6 @@ public class StatisticsDAO {
         return count;
     }
 
-    public int getPendingApplicationsCount() {
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        int count = 0;
-
-        try {
-            conn = DatabaseConnection.getInstance().getConnection();
-            String sql = "SELECT COUNT(*) as total FROM Trainer_Applications WHERE status = 'PENDING'";
-            pstmt = conn.prepareStatement(sql);
-            rs = pstmt.executeQuery();
-
-            if (rs.next()) {
-                count = rs.getInt("total");
-            }
-        } catch (SQLException e) {
-            System. err.println("Error getting pending applications: " + e.getMessage());
-            e.printStackTrace();
-        } finally {
-            try {
-                if (rs != null) rs. close();
-                if (pstmt != null) pstmt. close();
-                if (conn != null) DatabaseConnection.getInstance().releaseConnection(conn);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return count;
-    }
 
     public double getMonthlyRevenue() {
         Connection conn = null;

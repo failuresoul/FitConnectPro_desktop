@@ -122,7 +122,7 @@ public class LoginController {
                 System.out.println("Session created successfully!");
                 System.out.println("=====================\n");
 
-                loadDashboard(event, userType);
+                loadDashboard(userType, event);
 
             } else {
                 ValidationUtil.showAlert("Login Failed",
@@ -139,11 +139,11 @@ public class LoginController {
         }
     }
 
-    private void loadDashboard(ActionEvent event, String userType) {
+    private void loadDashboard(String role, ActionEvent event) {
         try {
             String fxmlPath = "";
 
-            switch (userType) {
+            switch (role) {
                 case "ADMIN":
                     fxmlPath = "/fxml/admin/admin_dashboard.fxml";
                     System.out.println("📂 Loading ADMIN dashboard: " + fxmlPath);
@@ -157,7 +157,7 @@ public class LoginController {
                     System.out.println("📂 Loading MEMBER dashboard: " + fxmlPath);
                     break;
                 default:
-                    throw new IllegalArgumentException("Unknown user type: " + userType);
+                    throw new IllegalArgumentException("Unknown user type: " + role);
             }
 
             System.out.println("Loading dashboard from: " + fxmlPath);
@@ -165,20 +165,21 @@ public class LoginController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent dashboardRoot = loader.load();
 
-            Scene dashboardScene = new Scene(dashboardRoot);
-            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            window.setScene(dashboardScene);
-            window.setTitle(userType + " Dashboard - Premium Gym Management System");
-            window.setMaximized(true);
-            window.centerOnScreen();
-            window.show();
+            Stage window = (Stage) loginButton.getScene().getWindow();
 
-            System.out.println("✅ Dashboard loaded successfully!");
+            // Set a consistent starting size
+            Scene scene = new Scene(dashboardRoot);
+            window.setScene(scene);
+            window.setWidth(1400);
+            window.setHeight(850);
+            window.centerOnScreen();
+
+            window.setTitle(role + " Dashboard - FitConnect Pro");
+            System.out.println("✅ Loaded " + role + " dashboard");
 
         } catch (IOException e) {
             System.err.println("❌ Error loading dashboard: " + e.getMessage());
             e.printStackTrace();
-
             ValidationUtil.showAlert("Error",
                     "Could not load dashboard.\n\n" +
                             "Error details: " + e.getMessage(),

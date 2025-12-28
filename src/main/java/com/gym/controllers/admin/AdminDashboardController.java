@@ -1,6 +1,7 @@
-package com.gym.controllers. admin;
+package com.gym.controllers.admin;
 
 import com.gym.dao.StatisticsDAO;
+import com.gym.dao.PaymentDAO;
 import com.gym.models.Admin;
 import com.gym.services.Session;
 import com.gym.utils.DateUtil;
@@ -8,14 +9,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene. control.*;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
-import javafx.stage. Modality;
-import javafx. stage.Stage;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.text.NumberFormat;
-import java.util. Currency;
+import java.util.Currency;
 
 public class AdminDashboardController {
 
@@ -35,9 +36,6 @@ public class AdminDashboardController {
     private Button salaryManagementBtn;
 
     @FXML
-    private Button applicationsBtn;
-
-    @FXML
     private Button reportsBtn;
 
     @FXML
@@ -48,9 +46,6 @@ public class AdminDashboardController {
 
     @FXML
     private Label totalTrainersLabel;
-
-    @FXML
-    private Label pendingApplicationsLabel;
 
     @FXML
     private Label monthlyRevenueLabel;
@@ -72,15 +67,14 @@ public class AdminDashboardController {
     private Button addTrainerButton;
 
     @FXML
-    private Button viewApplicationsButton;
-
-    @FXML
     private Button assignTrainerButton;
 
     private StatisticsDAO statisticsDAO;
+    private PaymentDAO paymentDAO;
 
     public AdminDashboardController() {
         statisticsDAO = new StatisticsDAO();
+        paymentDAO = new PaymentDAO();
     }
 
     @FXML
@@ -89,6 +83,7 @@ public class AdminDashboardController {
         loadAdminInfo();
         loadStatistics();
         setupEventHandlers();
+        autoGenerateMonthlyPayments();
     }
 
     private void loadAdminInfo() {
@@ -111,7 +106,7 @@ public class AdminDashboardController {
 
     private void loadStatistics() {
         try {
-            int totalMembers = statisticsDAO. getTotalMembers();
+            int totalMembers = statisticsDAO.getTotalMembers();
             if (totalMembersLabel != null) {
                 totalMembersLabel.setText(String.valueOf(totalMembers));
             }
@@ -119,11 +114,6 @@ public class AdminDashboardController {
             int totalTrainers = statisticsDAO.getTotalTrainers();
             if (totalTrainersLabel != null) {
                 totalTrainersLabel.setText(String.valueOf(totalTrainers));
-            }
-
-            int pendingApps = statisticsDAO.getPendingApplicationsCount();
-            if (pendingApplicationsLabel != null) {
-                pendingApplicationsLabel.setText(String.valueOf(pendingApps));
             }
 
             double revenue = statisticsDAO.getMonthlyRevenue();
@@ -134,19 +124,17 @@ public class AdminDashboardController {
             }
 
             System.out.println("=== STATISTICS LOADED ===");
-            System. out.println("Total Members: " + totalMembers);
+            System.out.println("Total Members: " + totalMembers);
             System.out.println("Total Trainers: " + totalTrainers);
-            System.out.println("Pending Applications: " + pendingApps);
-            System. out.println("Monthly Revenue: " + currencyFormat.format(revenue));
+            System.out.println("Monthly Revenue: " + currencyFormat.format(revenue));
             System.out.println("=========================");
 
         } catch (Exception e) {
-            System.err.println("Error loading statistics: " + e. getMessage());
+            System.err.println("Error loading statistics: " + e.getMessage());
             e.printStackTrace();
 
             if (totalMembersLabel != null) totalMembersLabel.setText("0");
             if (totalTrainersLabel != null) totalTrainersLabel.setText("0");
-            if (pendingApplicationsLabel != null) pendingApplicationsLabel.setText("0");
             if (monthlyRevenueLabel != null) monthlyRevenueLabel.setText("$0.00");
         }
     }
@@ -173,10 +161,6 @@ public class AdminDashboardController {
             salaryManagementBtn.setOnAction(event -> loadSalaryManagement());
         }
 
-        if (applicationsBtn != null) {
-            applicationsBtn.setOnAction(event -> loadApplications());
-        }
-
         if (reportsBtn != null) {
             reportsBtn.setOnAction(event -> loadReports());
         }
@@ -187,15 +171,11 @@ public class AdminDashboardController {
         }
 
         if (addTrainerButton != null) {
-            addTrainerButton. setOnAction(event -> loadTrainerRegistration());
-        }
-
-        if (viewApplicationsButton != null) {
-            viewApplicationsButton. setOnAction(event -> loadApplications());
+            addTrainerButton.setOnAction(event -> loadTrainerRegistration());
         }
 
         if (assignTrainerButton != null) {
-            assignTrainerButton. setOnAction(event -> openAssignTrainerDialog());
+            assignTrainerButton.setOnAction(event -> openAssignTrainerDialog());
         }
     }
 
@@ -272,14 +252,6 @@ public class AdminDashboardController {
         }
     }
 
-    private void loadApplications() {
-        System.out.println("Loading Applications...");
-        loadView("/fxml/admin/applications.fxml");
-        if (applicationsBtn != null) {
-            setActiveButton(applicationsBtn);
-        }
-    }
-
     private void loadReports() {
         System.out.println("Loading Reports...");
         loadView("/fxml/admin/salary_reports.fxml");
@@ -316,12 +288,11 @@ public class AdminDashboardController {
         if (dashboardBtn != null) dashboardBtn.getStyleClass().remove("active-nav");
         if (memberManagementBtn != null) memberManagementBtn.getStyleClass().remove("active-nav");
         if (trainerManagementBtn != null) trainerManagementBtn.getStyleClass().remove("active-nav");
-        if (salaryManagementBtn != null) salaryManagementBtn. getStyleClass().remove("active-nav");
-        if (applicationsBtn != null) applicationsBtn.getStyleClass().remove("active-nav");
+        if (salaryManagementBtn != null) salaryManagementBtn.getStyleClass().remove("active-nav");
         if (reportsBtn != null) reportsBtn.getStyleClass().remove("active-nav");
 
         // Add active class to the clicked button
-        if (activeButton != null && ! activeButton.getStyleClass().contains("active-nav")) {
+        if (activeButton != null && !activeButton.getStyleClass().contains("active-nav")) {
             activeButton.getStyleClass().add("active-nav");
         }
     }
@@ -355,5 +326,18 @@ public class AdminDashboardController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    private void autoGenerateMonthlyPayments() {
+        new Thread(() -> {
+            try {
+                Thread.sleep(2000);
+                paymentDAO.generateMonthlyPayments();
+                System.out.println("✅ Monthly payments check completed");
+            } catch (Exception e) {
+                System.err.println("❌ Error generating monthly payments: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }).start();
     }
 }

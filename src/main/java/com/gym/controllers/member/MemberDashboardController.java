@@ -1,6 +1,7 @@
 package com.gym.controllers.member;
 
 import com.gym.dao.MemberDashboardDAO;
+import com.gym.dao.PaymentDAO;
 import com.gym.models.Member;
 import com.gym.services.Session;
 import javafx.application.Platform;
@@ -56,6 +57,7 @@ public class MemberDashboardController {
     private Button logoutBtn;
 
     private MemberDashboardDAO dashboardDAO;
+    private PaymentDAO paymentDAO;
     private int memberId;
     private String memberName;
     private Integer trainerId;
@@ -63,9 +65,12 @@ public class MemberDashboardController {
     @FXML
     public void initialize() {
         dashboardDAO = new MemberDashboardDAO();
+        paymentDAO = new PaymentDAO();
+
         loadMemberInfo();
         loadDateInfo();
         loadAllDashboardData();
+        checkPaymentNotifications();
     }
 
     private void loadMemberInfo() {
@@ -303,6 +308,44 @@ public class MemberDashboardController {
         });
     }
 
+    private void checkPaymentNotifications() {
+        new Thread(() -> {
+            try {
+                paymentDAO.updateOverduePayments();
+                int unpaidCount = paymentDAO.getUnpaidCount(memberId, "MEMBER");
+
+                if (unpaidCount > 0) {
+                    Platform.runLater(() -> {
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("Payment Reminder");
+                        alert.setHeaderText("💰 You have pending payments!");
+                        alert.setContentText(String.format(
+                            "You have %d unpaid membership fee(s).\n" +
+                            "Please visit the Payments section to complete your payment.",
+                            unpaidCount));
+
+                        ButtonType viewPayments = new ButtonType("View Payments");
+                        ButtonType later = new ButtonType("Later", ButtonBar.ButtonData.CANCEL_CLOSE);
+                        alert.getButtonTypes().setAll(viewPayments, later);
+
+                        alert.showAndWait().ifPresent(response -> {
+                            if (response == viewPayments) {
+                                showPayments();
+                            }
+                        });
+                    });
+                }
+            } catch (Exception e) {
+                System.err.println("❌ Error checking payments: " + e.getMessage());
+            }
+        }).start();
+    }
+
+    @FXML
+    private void showPayments() {
+        loadView("/fxml/member/payments.fxml", "My Payments");
+    }
+
     // Action Handlers
     @FXML
     private void handleMessageTrainer() {
@@ -323,37 +366,16 @@ public class MemberDashboardController {
 
     @FXML
     private void handleMemberDirectory() {
-        try {
-            System.out.println("✅ Navigated to Member Directory view");
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/member/member_directory.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) welcomeLabel.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Member Directory - FitConnect Pro");
-        } catch (Exception e) {
-            e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Error", "Failed to load Member Directory: " + e.getMessage());
-        }
+        loadView("/fxml/member/member_directory.fxml", "Member Directory");
     }
 
     @FXML
     private void handleFriends() {
-        try {
-            System.out.println("✅ Navigated to Friends view");
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/member/friends.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) welcomeLabel.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Friends - FitConnect Pro");
-        } catch (Exception e) {
-            e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Error", "Failed to load Friends page: " + e.getMessage());
-        }
+        loadView("/fxml/member/friends.fxml", "Friends");
     }
 
     @FXML
     private void showFriends() {
-        // Delegate to handleFriends
         handleFriends();
     }
 
@@ -362,31 +384,14 @@ public class MemberDashboardController {
         handleMessages();
     }
 
-    // Navigation Methods
     @FXML
     private void showDashboard() {
-        // Already on dashboard
+        loadView("/fxml/member/member_dashboard.fxml", "Dashboard");
     }
 
     @FXML
     private void showWorkoutPlans() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/member/view_workout_plan.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) welcomeLabel.getScene().getWindow();
-
-            // Reuse existing scene to maintain window size
-            Scene currentScene = stage.getScene();
-            currentScene.setRoot(root);
-
-            stage.setTitle("FitConnectPro - My Workout Plans");
-            System.out.println("✅ Navigated to Workout Plans view");
-        } catch (Exception e) {
-            System.err.println("❌ Error loading workout plans view: " + e.getMessage());
-            e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Error",
-                    "Failed to load workout plans view: " + e.getMessage());
-        }
+        loadView("/fxml/member/view_workout_plan.fxml", "My Workout Plans");
     }
 
     @FXML
@@ -396,127 +401,36 @@ public class MemberDashboardController {
 
     @FXML
     private void showMealPlans() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/member/view_meal_plan.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) welcomeLabel.getScene().getWindow();
-
-            Scene currentScene = stage.getScene();
-            currentScene.setRoot(root);
-
-            stage.setTitle("FitConnectPro - My Meal Plans");
-            System.out.println("✅ Navigated to Meal Plans view");
-        } catch (Exception e) {
-            System.err.println("❌ Error loading meal plans view: " + e.getMessage());
-            e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Error",
-                    "Failed to load meal plans view: " + e.getMessage());
-        }
+        loadView("/fxml/member/view_meal_plan.fxml", "My Meal Plans");
     }
 
     @FXML
     private void showLogMeal() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/member/log_meal.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) welcomeLabel.getScene().getWindow();
-
-            Scene currentScene = stage.getScene();
-            currentScene.setRoot(root);
-
-            stage.setTitle("FitConnectPro - Log Meal");
-            System.out.println("✅ Navigated to Log Meal view");
-        } catch (Exception e) {
-            System.err.println("❌ Error loading log meal view: " + e.getMessage());
-            e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Error",
-                    "Failed to load log meal view: " + e.getMessage());
-        }
+        loadView("/fxml/member/log_meal.fxml", "Log Meal");
     }
 
     @FXML
     private void showWaterTracker() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/member/water_tracker.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) welcomeLabel.getScene().getWindow();
-
-            Scene currentScene = stage.getScene();
-            currentScene.setRoot(root);
-
-            stage.setTitle("FitConnectPro - Water Tracker");
-            System.out.println("✅ Navigated to Water Tracker view");
-        } catch (Exception e) {
-            System.err.println("❌ Error loading water tracker view: " + e.getMessage());
-            e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Error",
-                    "Failed to load water tracker: " + e.getMessage());
-        }
+        loadView("/fxml/member/water_tracker.fxml", "Water Tracker");
     }
 
     @FXML
     private void showProgress() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/member/member_progress.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) welcomeLabel.getScene().getWindow();
-
-            Scene currentScene = stage.getScene();
-            currentScene.setRoot(root);
-
-            stage.setTitle("FitConnectPro - My Progress");
-            System.out.println("✅ Navigated to Progress view");
-        } catch (Exception e) {
-            System.err.println("❌ Error loading progress view: " + e.getMessage());
-            e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Error",
-                    "Failed to load progress view: " + e.getMessage());
-        }
+        loadView("/fxml/member/member_progress.fxml", "My Progress");
     }
 
     @FXML
     private void showSocial() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/member/member_directory.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) welcomeLabel.getScene().getWindow();
-
-            Scene currentScene = stage.getScene();
-            currentScene.setRoot(root);
-
-            stage.setTitle("FitConnectPro - Member Directory");
-            System.out.println("✅ Navigated to Member Directory view");
-        } catch (Exception e) {
-            System.err.println("❌ Error loading member directory view: " + e.getMessage());
-            e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Error",
-                    "Failed to load member directory: " + e.getMessage());
-        }
+        loadView("/fxml/member/member_directory.fxml", "Member Directory");
     }
 
     @FXML
     private void showProfile() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/member/member_profile.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) welcomeLabel.getScene().getWindow();
-
-            Scene currentScene = stage.getScene();
-            currentScene.setRoot(root);
-
-            stage.setTitle("FitConnectPro - My Profile");
-            System.out.println("✅ Navigated to Profile view");
-        } catch (Exception e) {
-            System.err.println("❌ Error loading profile view: " + e.getMessage());
-            e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Error",
-                    "Failed to load profile view: " + e.getMessage());
-        }
+        loadView("/fxml/member/member_profile.fxml", "My Profile");
     }
 
     @FXML
     private void handleMessages() {
-        System.out.println("📂 Loading Messages view...");
         loadView("/fxml/member/messages.fxml", "Messages");
     }
 
@@ -527,10 +441,12 @@ public class MemberDashboardController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) welcomeLabel.getScene().getWindow();
-            stage.setScene(new Scene(root, 800, 600));
+            Scene currentScene = stage.getScene();
+            currentScene.setRoot(root);
             stage.setTitle("FitConnectPro - Login");
+            System.out.println("✅ Logged out successfully");
         } catch (Exception e) {
-            System.err.println("Error during logout: " + e.getMessage());
+            System.err.println("❌ Error during logout: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -549,6 +465,7 @@ public class MemberDashboardController {
             Parent root = loader.load();
             Stage stage = (Stage) welcomeLabel.getScene().getWindow();
 
+            // Get current scene and just change the root - this maintains window size
             Scene currentScene = stage.getScene();
             currentScene.setRoot(root);
 

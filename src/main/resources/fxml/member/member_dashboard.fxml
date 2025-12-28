@@ -50,6 +50,11 @@
             <Button fx:id="profileBtn" text="⚙️ Profile" maxWidth="Infinity"
                     style="-fx-background-color: #34495e; -fx-text-fill: white; -fx-padding: 12; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-size: 13px;"
                     onAction="#showProfile"/>
+            <Button text="💰 My Payments" onAction="#showPayments"
+                    style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-size: 14px;
+                           -fx-padding: 12 20; -fx-background-radius: 5; -fx-cursor: hand;
+                           -fx-font-weight: bold; -fx-min-width: 200px; -fx-alignment: CENTER_LEFT;"
+                    maxWidth="Infinity"/>
 
             <Region VBox.vgrow="ALWAYS"/>
 

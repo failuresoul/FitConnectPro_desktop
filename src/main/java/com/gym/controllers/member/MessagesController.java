@@ -131,22 +131,27 @@ public class MessagesController {
             currentChatUserType = userType;
             currentChatUserName = userName;
 
+            // Show chat interface
             chatHeader.setVisible(true);
             chatHeader.setManaged(true);
             messageInputArea.setVisible(true);
             messageInputArea.setManaged(true);
 
+            // Update chat header
             chatUserNameLabel.setText(userName);
             chatUserTypeLabel.setText(userType);
+            chatUserNameLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
+            chatUserTypeLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: #7f8c8d;");
 
+            // Load messages
             List<Message> messages = messageDAO.getConversation(
-                    currentMember.getMemberId(), otherUserId, userType);
+                    currentChatUserId, currentMember.getMemberId(), userType);
 
             messagesContainer.getChildren().clear();
 
             if (messages.isEmpty()) {
                 Label noMsgLabel = new Label("No messages yet. Start the conversation!");
-                noMsgLabel.setStyle("-fx-text-fill: #999; -fx-font-style: italic;");
+                noMsgLabel.setStyle("-fx-text-fill: #7f8c8d; -fx-font-size: 14px; -fx-font-style: italic;");
                 VBox emptyBox = new VBox(noMsgLabel);
                 emptyBox.setAlignment(Pos.CENTER);
                 emptyBox.setPadding(new Insets(50));
@@ -161,16 +166,22 @@ public class MessagesController {
                         messageDAO.markAsRead(msg.getMessageId());
                     }
                 }
-
-                // Scroll to bottom
-                Platform.runLater(() -> messagesScrollPane.setVvalue(1.0));
             }
 
             // Mark conversation as read
             messageDAO.markConversationAsRead(currentMember.getMemberId(), otherUserId, userType);
             loadUnreadCount();
 
+            // Scroll to bottom after a short delay to ensure layout is complete
+            Platform.runLater(() -> {
+                messagesScrollPane.layout();
+                messagesScrollPane.setVvalue(1.0);
+            });
+
+            System.out.println("✅ Loaded " + messages.size() + " messages with " + userName);
+
         } catch (Exception e) {
+            System.err.println("❌ Error loading messages: " + e.getMessage());
             e.printStackTrace();
             showAlert("Error", "Failed to load messages: " + e.getMessage(), Alert.AlertType.ERROR);
         }
@@ -179,35 +190,28 @@ public class MessagesController {
     private VBox createMessageBox(Message msg) {
         boolean isSent = msg.getSenderId() == currentMember.getMemberId();
 
-        VBox box = new VBox(5);
-        box.setMaxWidth(400);
-        box.setStyle("-fx-background-color: " + (isSent ? "#2980b9" : "#ecf0f1") +
-                "; -fx-padding: 10; -fx-background-radius: 12;");
-
-        if (isSent) {
-            box.setAlignment(Pos.TOP_RIGHT);
-            VBox.setMargin(box, new Insets(5, 0, 5, 50));
-        } else {
-            box.setAlignment(Pos.TOP_LEFT);
-            VBox.setMargin(box, new Insets(5, 50, 5, 0));
-        }
+        VBox bubble = new VBox(5);
+        bubble.setMaxWidth(400);
+        bubble.setPadding(new Insets(10, 15, 10, 15));
+        bubble.setStyle("-fx-background-color: " + (isSent ? "#3498db" : "#ecf0f1") +
+                "; -fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 1);");
 
         Label msgLabel = new Label(msg.getMessageText());
         msgLabel.setWrapText(true);
-        msgLabel.setStyle("-fx-text-fill: " + (isSent ? "white" : "#2c3e50") + "; -fx-font-size: 13px;");
+        msgLabel.setMaxWidth(380);
+        msgLabel.setStyle("-fx-text-fill: " + (isSent ? "white" : "#2c3e50") +
+                "; -fx-font-size: 14px; -fx-line-spacing: 2px;");
 
         Label timeLabel = new Label(msg.getSentAt().format(DateTimeFormatter.ofPattern("MMM dd, hh:mm a")));
-        timeLabel.setStyle("-fx-text-fill: " + (isSent ? "#ecf0f1" : "#7f8c8d") + "; -fx-font-size: 10px;");
+        timeLabel.setStyle("-fx-text-fill: " + (isSent ? "#ecf0f1" : "#95a5a6") +
+                "; -fx-font-size: 10px;");
 
-        box.getChildren().addAll(msgLabel, timeLabel);
+        bubble.getChildren().addAll(msgLabel, timeLabel);
 
         HBox container = new HBox();
-        if (isSent) {
-            container.setAlignment(Pos.CENTER_RIGHT);
-        } else {
-            container.setAlignment(Pos.CENTER_LEFT);
-        }
-        container.getChildren().add(box);
+        container.setPadding(new Insets(5, 10, 5, 10));
+        container.setAlignment(isSent ? Pos.CENTER_RIGHT : Pos.CENTER_LEFT);
+        container.getChildren().add(bubble);
 
         VBox wrapper = new VBox(container);
         return wrapper;
@@ -218,8 +222,7 @@ public class MessagesController {
         String messageText = messageInputField.getText().trim();
 
         if (messageText.isEmpty()) {
-            showAlert("Warning", "Please enter a message", Alert.AlertType.WARNING);
-            return;
+            return; // Don't show alert, just return silently
         }
 
         if (currentChatUserId == 0) {
@@ -240,11 +243,14 @@ public class MessagesController {
                 messageInputField.clear();
                 loadMessages(currentChatUserId, currentChatUserType, currentChatUserName);
                 loadConversations();
+                loadUnreadCount();
+                System.out.println("✅ Message sent successfully");
             } else {
                 showAlert("Error", "Failed to send message", Alert.AlertType.ERROR);
             }
 
         } catch (Exception e) {
+            System.err.println("❌ Error sending message: " + e.getMessage());
             e.printStackTrace();
             showAlert("Error", "Failed to send message: " + e.getMessage(), Alert.AlertType.ERROR);
         }
@@ -297,9 +303,15 @@ public class MessagesController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/member/member_dashboard.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) backButton.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Member Dashboard");
+
+            // Maintain current window size by reusing the scene
+            Scene currentScene = stage.getScene();
+            currentScene.setRoot(root);
+
+            stage.setTitle("FitConnectPro - Dashboard");
+            System.out.println("✅ Returned to dashboard");
         } catch (Exception e) {
+            System.err.println("❌ Error returning to dashboard: " + e.getMessage());
             e.printStackTrace();
         }
     }

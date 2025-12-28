@@ -333,17 +333,17 @@ public class SalaryManagementController {
                 "Salary ID: %d\n" +
                         "Trainer ID: %d\n\n" +
                         "Base Salary: %.2f\n" +
-                        "Bonus: %. 2f\n" +
+                        "Bonus: %.2f\n" +
                         "Deductions: %.2f\n" +
-                        "Net Salary:  %.2f\n\n" +
+                        "Net Salary: %.2f\n\n" +
                         "Status: %s\n" +
                         "Payment Date: %s",
-                salary. getSalaryId(),
+                salary.getSalaryId(),
                 salary.getTrainerId(),
                 salary.getBaseSalary(),
-                salary. getBonus(),
-                salary. getDeductions(),
-                salary. getNetSalary(),
+                salary.getBonus(),
+                salary.getDeductions(),
+                salary.getNetSalary(),
                 salary.getStatus(),
                 salary.getPaymentDate() != null ? salary.getPaymentDate().toString() : "N/A"
         );
