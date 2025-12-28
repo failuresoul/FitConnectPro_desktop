@@ -98,7 +98,7 @@ public class MessagesController {
         // Enter key to send
         if (messageInputArea != null) {
             messageInputArea.setOnKeyPressed(event -> {
-                if (event. getCode().toString().equals("ENTER") && !event.isShiftDown()) {
+                if (event.getCode().toString().equals("ENTER") && !event.isShiftDown()) {
                     event.consume();
                     sendMessage();
                 }
@@ -111,26 +111,37 @@ public class MessagesController {
 
         try {
             chatHeaderLabel.setText("Chat with " + selectedClient.getMemberName());
+            chatHeaderLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
             messagesContainer.getChildren().clear();
 
             List<Message> messages = messageDAO.getConversation(
-                    currentTrainer.getTrainerId(),
-                    selectedClient.getMemberId()
+                    selectedClient.getMemberId(), currentTrainer.getTrainerId(), "TRAINER"
             );
 
-            for (Message message : messages) {
-                addMessageBubble(message);
+            if (messages.isEmpty()) {
+                Label emptyLabel = new Label("No messages yet. Start the conversation!");
+                emptyLabel.setStyle("-fx-text-fill: #7f8c8d; -fx-font-size: 14px; -fx-font-style: italic;");
+                VBox emptyBox = new VBox(emptyLabel);
+                emptyBox.setAlignment(Pos.CENTER);
+                emptyBox.setPadding(new Insets(50));
+                messagesContainer.getChildren().add(emptyBox);
+            } else {
+                for (Message message : messages) {
+                    addMessageBubble(message);
+                }
             }
 
-            // Mark as read
-            messageDAO.markAsRead(currentTrainer.getTrainerId(), selectedClient.getMemberId());
+            // Mark conversation as read
+            messageDAO.markConversationAsRead(selectedClient.getMemberId(), currentTrainer.getTrainerId(), "TRAINER");
 
             // Scroll to bottom
             messagesScrollPane.layout();
-            messagesScrollPane. setVvalue(1.0);
+            messagesScrollPane.setVvalue(1.0);
+
+            System.out.println("✅ Loaded " + messages.size() + " messages with " + selectedClient.getMemberName());
 
         } catch (Exception e) {
-            System.err.println("❌ Error loading conversation:  " + e.getMessage());
+            System.err.println("❌ Error loading conversation: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -143,8 +154,8 @@ public class MessagesController {
         bubble.setMaxWidth(400);
         bubble.setStyle(
                 isSentByTrainer
-                        ? "-fx-background-color:  #3498db; -fx-background-radius: 15; -fx-text-fill: white;"
-                        :  "-fx-background-color: #ecf0f1; -fx-background-radius: 15;"
+                        ? "-fx-background-color: #3498db; -fx-background-radius: 15; -fx-text-fill: white;"
+                        : "-fx-background-color: #ecf0f1; -fx-background-radius: 15;"
         );
 
         Label messageLabel = new Label(message.getMessageText());
@@ -155,13 +166,13 @@ public class MessagesController {
                         : "-fx-text-fill: #2c3e50; -fx-font-size: 14px;"
         );
 
-        String timeStr = message.getSentDate() != null
-                ? message.getSentDate().format(DateTimeFormatter.ofPattern("MMM dd, HH:mm"))
+        String timeStr = message.getSentAt() != null
+                ? message.getSentAt().format(DateTimeFormatter.ofPattern("MMM dd, HH:mm"))
                 : "";
         Label timeLabel = new Label(timeStr);
         timeLabel.setStyle(
                 isSentByTrainer
-                        ?  "-fx-text-fill: #ecf0f1; -fx-font-size: 11px;"
+                        ? "-fx-text-fill: #ecf0f1; -fx-font-size: 11px;"
                         : "-fx-text-fill: #7f8c8d; -fx-font-size: 11px;"
         );
 
@@ -169,8 +180,8 @@ public class MessagesController {
 
         HBox container = new HBox();
         container.setPadding(new Insets(5, 10, 5, 10));
-        container.setAlignment(isSentByTrainer ? Pos.CENTER_RIGHT : Pos. CENTER_LEFT);
-        container. getChildren().add(bubble);
+        container.setAlignment(isSentByTrainer ? Pos.CENTER_RIGHT : Pos.CENTER_LEFT);
+        container.getChildren().add(bubble);
 
         messagesContainer.getChildren().add(container);
     }
@@ -187,26 +198,26 @@ public class MessagesController {
         }
 
         try {
-            Message message = new Message();
-            message.setSenderId(currentTrainer.getTrainerId());
-            message.setReceiverId(selectedClient.getMemberId());
-            message.setSenderType("TRAINER");
-            message.setMessageText(messageText);
-
-            boolean success = messageDAO.sendMessage(message);
+            boolean success = messageDAO.sendMessage(
+                    currentTrainer.getTrainerId(),
+                    selectedClient.getMemberId(),
+                    "TRAINER",
+                    "MEMBER",
+                    messageText
+            );
 
             if (success) {
                 messageInputArea.clear();
                 loadConversation(); // Reload to show new message
                 System.out.println("✅ Message sent to " + selectedClient.getMemberName());
             } else {
-                showAlert("Error", "Failed to send message", Alert.AlertType. ERROR);
+                showAlert("Error", "Failed to send message", Alert.AlertType.ERROR);
             }
 
         } catch (Exception e) {
             System.err.println("❌ Error sending message: " + e.getMessage());
             e.printStackTrace();
-            showAlert("Error", "An error occurred:  " + e.getMessage(), Alert.AlertType.ERROR);
+            showAlert("Error", "An error occurred: " + e.getMessage(), Alert.AlertType.ERROR);
         }
     }
 

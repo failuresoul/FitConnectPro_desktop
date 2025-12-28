@@ -26,9 +26,6 @@
             <Button fx:id="workoutPlansBtn" text="💪 My Workout Plans" maxWidth="Infinity"
                     style="-fx-background-color: #34495e; -fx-text-fill: white; -fx-padding: 12; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-size: 13px;"
                     onAction="#showWorkoutPlans"/>
-            <Button fx:id="logWorkoutBtn" text="✍️ Log Workout" maxWidth="Infinity"
-                    style="-fx-background-color: #34495e; -fx-text-fill: white; -fx-padding: 12; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-size: 13px;"
-                    onAction="#showLogWorkout"/>
             <Button fx:id="mealPlansBtn" text="🍽️ My Meal Plans" maxWidth="Infinity"
                     style="-fx-background-color: #34495e; -fx-text-fill: white; -fx-padding: 12; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-size: 13px;"
                     onAction="#showMealPlans"/>
@@ -44,6 +41,12 @@
             <Button fx:id="socialBtn" text="👥 Social" maxWidth="Infinity"
                     style="-fx-background-color: #34495e; -fx-text-fill: white; -fx-padding: 12; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-size: 13px;"
                     onAction="#showSocial"/>
+            <Button fx:id="friendsBtn" text="👫 Friends" maxWidth="Infinity"
+                    style="-fx-background-color: #34495e; -fx-text-fill: white; -fx-padding: 12; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-size: 13px;"
+                    onAction="#showFriends"/>
+            <Button fx:id="messagesBtn" text="💬 Messages" maxWidth="Infinity"
+                    style="-fx-background-color: #34495e; -fx-text-fill: white; -fx-padding: 12; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-size: 13px;"
+                    onAction="#showMessages"/>
             <Button fx:id="profileBtn" text="⚙️ Profile" maxWidth="Infinity"
                     style="-fx-background-color: #34495e; -fx-text-fill: white; -fx-padding: 12; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-size: 13px;"
                     onAction="#showProfile"/>

@@ -154,13 +154,13 @@ public class TrainerStatisticsDAO {
                 String sentDateStr = rs.getString("sent_date");
                 if (sentDateStr != null) {
                     try {
-                        message.setSentDate(LocalDateTime.parse(sentDateStr));
+                        message.setSentAt(LocalDateTime.parse(sentDateStr.replace(" ", "T")));
                     } catch (Exception e) {
-                        message.setSentDate(null);
+                        message.setSentAt(null);
                     }
                 }
 
-                message.setReadStatus(rs.getInt("read_status") == 1);
+                message.setRead(rs.getInt("read_status") == 1);
 
                 messages.add(message);
             }

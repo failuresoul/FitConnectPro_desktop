@@ -50,6 +50,10 @@ public class MemberDashboardController {
     private Button startWorkoutBtn;
     @FXML
     private Button viewMealDetailsBtn;
+    @FXML
+    private Button friendsBtn;
+    @FXML
+    private Button logoutBtn;
 
     private MemberDashboardDAO dashboardDAO;
     private int memberId;
@@ -111,7 +115,7 @@ public class MemberDashboardController {
             } else {
                 trainerNameLabel.setText("Not Assigned");
                 trainerSpecLabel.setText("");
-                messageTrainerBtn.setDisable(true;
+                messageTrainerBtn.setDisable(true);
             }
         });
     }
@@ -317,6 +321,47 @@ public class MemberDashboardController {
         showMealPlans();
     }
 
+    @FXML
+    private void handleMemberDirectory() {
+        try {
+            System.out.println("✅ Navigated to Member Directory view");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/member/member_directory.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) welcomeLabel.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Member Directory - FitConnect Pro");
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error", "Failed to load Member Directory: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    private void handleFriends() {
+        try {
+            System.out.println("✅ Navigated to Friends view");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/member/friends.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) welcomeLabel.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Friends - FitConnect Pro");
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error", "Failed to load Friends page: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    private void showFriends() {
+        // Delegate to handleFriends
+        handleFriends();
+    }
+
+    @FXML
+    private void showMessages() {
+        handleMessages();
+    }
+
     // Navigation Methods
     @FXML
     private void showDashboard() {
@@ -470,6 +515,12 @@ public class MemberDashboardController {
     }
 
     @FXML
+    private void handleMessages() {
+        System.out.println("📂 Loading Messages view...");
+        loadView("/fxml/member/messages.fxml", "Messages");
+    }
+
+    @FXML
     private void handleLogout() {
         Session.getInstance().clearSession();
         try {
@@ -490,5 +541,24 @@ public class MemberDashboardController {
         alert.setHeaderText(null);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+
+    private void loadView(String fxmlPath, String viewName) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            Parent root = loader.load();
+            Stage stage = (Stage) welcomeLabel.getScene().getWindow();
+
+            Scene currentScene = stage.getScene();
+            currentScene.setRoot(root);
+
+            stage.setTitle("FitConnectPro - " + viewName);
+            System.out.println("✅ Navigated to " + viewName + " view");
+        } catch (Exception e) {
+            System.err.println("❌ Error loading " + viewName + " view: " + e.getMessage());
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error",
+                    "Failed to load " + viewName + " view: " + e.getMessage());
+        }
     }
 }

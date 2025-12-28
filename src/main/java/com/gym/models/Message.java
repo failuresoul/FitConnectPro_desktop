@@ -6,17 +6,30 @@ public class Message {
     private int messageId;
     private int senderId;
     private int receiverId;
-    private String senderType; // TRAINER or MEMBER
+    private String senderType; // "MEMBER" or "TRAINER"
+    private String receiverType; // "MEMBER" or "TRAINER"
     private String messageText;
-    private LocalDateTime sentDate;
-    private boolean readStatus;
-    private LocalDateTime readDate;
-
-    // For display purposes
+    private LocalDateTime sentAt;
+    private boolean isRead;
     private String senderName;
     private String receiverName;
 
     public Message() {
+    }
+
+    public Message(int messageId, int senderId, int receiverId, String senderType,
+                   String receiverType, String messageText, LocalDateTime sentAt,
+                   boolean isRead, String senderName, String receiverName) {
+        this.messageId = messageId;
+        this.senderId = senderId;
+        this.receiverId = receiverId;
+        this.senderType = senderType;
+        this.receiverType = receiverType;
+        this.messageText = messageText;
+        this.sentAt = sentAt;
+        this.isRead = isRead;
+        this.senderName = senderName;
+        this.receiverName = receiverName;
     }
 
     // Getters and Setters
@@ -52,6 +65,14 @@ public class Message {
         this.senderType = senderType;
     }
 
+    public String getReceiverType() {
+        return receiverType;
+    }
+
+    public void setReceiverType(String receiverType) {
+        this.receiverType = receiverType;
+    }
+
     public String getMessageText() {
         return messageText;
     }
@@ -60,28 +81,20 @@ public class Message {
         this.messageText = messageText;
     }
 
-    public LocalDateTime getSentDate() {
-        return sentDate;
+    public LocalDateTime getSentAt() {
+        return sentAt;
     }
 
-    public void setSentDate(LocalDateTime sentDate) {
-        this.sentDate = sentDate;
+    public void setSentAt(LocalDateTime sentAt) {
+        this.sentAt = sentAt;
     }
 
-    public boolean isReadStatus() {
-        return readStatus;
+    public boolean isRead() {
+        return isRead;
     }
 
-    public void setReadStatus(boolean readStatus) {
-        this.readStatus = readStatus;
-    }
-
-    public LocalDateTime getReadDate() {
-        return readDate;
-    }
-
-    public void setReadDate(LocalDateTime readDate) {
-        this.readDate = readDate;
+    public void setRead(boolean read) {
+        isRead = read;
     }
 
     public String getSenderName() {
@@ -98,5 +111,21 @@ public class Message {
 
     public void setReceiverName(String receiverName) {
         this.receiverName = receiverName;
+    }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "messageId=" + messageId +
+                ", senderId=" + senderId +
+                ", receiverId=" + receiverId +
+                ", senderType='" + senderType + '\'' +
+                ", receiverType='" + receiverType + '\'' +
+                ", messageText='" + messageText + '\'' +
+                ", sentAt=" + sentAt +
+                ", isRead=" + isRead +
+                ", senderName='" + senderName + '\'' +
+                ", receiverName='" + receiverName + '\'' +
+                '}';
     }
 }

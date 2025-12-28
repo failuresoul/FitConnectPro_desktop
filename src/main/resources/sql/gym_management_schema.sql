@@ -328,6 +328,19 @@ CREATE TABLE Body_Measurements (
 
 -- SOCIAL TABLES
 
+-- Friend Requests Table (New for Phase 9)
+CREATE TABLE IF NOT EXISTS Friend_Requests (
+    request_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    sender_id INTEGER NOT NULL,
+    receiver_id INTEGER NOT NULL,
+    status TEXT DEFAULT 'PENDING' CHECK(status IN ('PENDING', 'ACCEPTED', 'REJECTED')),
+    request_date TEXT NOT NULL,
+    response_date TEXT,
+    FOREIGN KEY (sender_id) REFERENCES Members(member_id) ON DELETE CASCADE,
+    FOREIGN KEY (receiver_id) REFERENCES Members(member_id) ON DELETE CASCADE,
+    UNIQUE(sender_id, receiver_id)
+);
+
 CREATE TABLE Friendships (
                              friendship_id INTEGER PRIMARY KEY AUTOINCREMENT,
                              member_id_1 INTEGER NOT NULL,
@@ -383,6 +396,11 @@ CREATE INDEX idx_body_measurements_member ON Body_Measurements(member_id);
 CREATE INDEX idx_friendships_member1 ON Friendships(member_id_1);
 CREATE INDEX idx_friendships_member2 ON Friendships(member_id_2);
 CREATE INDEX idx_social_activities_member ON Social_Activities(member_id);
+
+-- Add indexes for Friend_Requests
+CREATE INDEX IF NOT EXISTS idx_friend_requests_receiver ON Friend_Requests(receiver_id);
+CREATE INDEX IF NOT EXISTS idx_friend_requests_sender ON Friend_Requests(sender_id);
+CREATE INDEX IF NOT EXISTS idx_friend_requests_status ON Friend_Requests(status);
 
 -- SAMPLE DATA
 -- Step 1: Delete all exercises

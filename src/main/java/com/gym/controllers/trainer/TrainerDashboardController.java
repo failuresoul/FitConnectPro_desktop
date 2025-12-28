@@ -159,8 +159,8 @@ public class TrainerDashboardController {
                 new SimpleStringProperty(cellData.getValue().getMessageText()));
 
         messageDateColumn.setCellValueFactory(cellData -> {
-            if (cellData.getValue().getSentDate() != null) {
-                String formatted = cellData.getValue().getSentDate()
+            if (cellData.getValue().getSentAt() != null) {
+                String formatted = cellData.getValue().getSentAt()
                         .format(DateTimeFormatter.ofPattern("MMM dd, yyyy HH:mm"));
                 return new SimpleStringProperty(formatted);
             }

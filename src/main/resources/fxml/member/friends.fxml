@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.gym.controllers.member.FriendsController"
+            style="-fx-background-color: #f5f5f5;">
+
+    <!-- Top Section -->
+    <top>
+        <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 20;">
+            <HBox alignment="CENTER_LEFT" spacing="15">
+                <Button fx:id="backButton" text="← Back" onAction="#handleBack"
+                        style="-fx-background-color: #6c757d; -fx-text-fill: white; -fx-cursor: hand;"/>
+                <Label text="Friends" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="totalFriendsLabel" text="Total Friends: 0"
+                       style="-fx-font-size: 14px; -fx-text-fill: #666;"/>
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- Center: Tab Pane -->
+    <center>
+        <TabPane fx:id="tabPane" style="-fx-padding: 20;" tabClosingPolicy="UNAVAILABLE">
+
+            <!-- Tab 1: My Friends -->
+            <Tab text="My Friends">
+                <VBox spacing="10" style="-fx-padding: 10;">
+                    <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 10;">
+                        <Label text="Your Friends List" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Button text="Refresh" onAction="#loadMyFriends"
+                                style="-fx-background-color: #17a2b8; -fx-text-fill: white; -fx-cursor: hand;"/>
+                    </HBox>
+
+                    <TableView fx:id="friendsTableView" VBox.vgrow="ALWAYS"
+                               style="-fx-background-color: white;">
+                        <columns>
+                            <TableColumn fx:id="friendPhotoColumn" text="Photo" prefWidth="80" sortable="false"/>
+                            <TableColumn fx:id="friendNameColumn" text="Name" prefWidth="200"/>
+                            <TableColumn fx:id="friendEmailColumn" text="Email" prefWidth="220"/>
+                            <TableColumn fx:id="friendGoalColumn" text="Goal" prefWidth="150"/>
+                            <TableColumn fx:id="friendSinceColumn" text="Friends Since" prefWidth="130"/>
+                            <TableColumn fx:id="friendActionColumn" text="Actions" prefWidth="220" sortable="false"/>
+                        </columns>
+                        <placeholder>
+                            <Label text="You don't have any friends yet" style="-fx-text-fill: #999; -fx-font-size: 14px;"/>
+                        </placeholder>
+                    </TableView>
+                </VBox>
+            </Tab>
+
+            <!-- Tab 2: Friend Requests -->
+            <Tab text="Friend Requests">
+                <VBox spacing="20" style="-fx-padding: 10;">
+
+                    <!-- Received Requests Section -->
+                    <VBox spacing="10">
+                        <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 10;">
+                            <Label text="Received Requests" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Label fx:id="receivedCountLabel" text="0 pending"
+                                   style="-fx-font-size: 12px; -fx-text-fill: #666;"/>
+                        </HBox>
+
+                        <TableView fx:id="receivedRequestsTableView" prefHeight="250"
+                                   style="-fx-background-color: white;">
+                            <columns>
+                                <TableColumn fx:id="receivedPhotoColumn" text="Photo" prefWidth="80" sortable="false"/>
+                                <TableColumn fx:id="receivedNameColumn" text="Name" prefWidth="200"/>
+                                <TableColumn fx:id="receivedEmailColumn" text="Email" prefWidth="220"/>
+                                <TableColumn fx:id="receivedDateColumn" text="Request Date" prefWidth="130"/>
+                                <TableColumn fx:id="receivedActionColumn" text="Actions" prefWidth="200" sortable="false"/>
+                            </columns>
+                            <placeholder>
+                                <Label text="No pending friend requests" style="-fx-text-fill: #999; -fx-font-size: 14px;"/>
+                            </placeholder>
+                        </TableView>
+                    </VBox>
+
+                    <!-- Sent Requests Section -->
+                    <VBox spacing="10">
+                        <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 10;">
+                            <Label text="Sent Requests" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Label fx:id="sentCountLabel" text="0 pending"
+                                   style="-fx-font-size: 12px; -fx-text-fill: #666;"/>
+                        </HBox>
+
+                        <TableView fx:id="sentRequestsTableView" prefHeight="250"
+                                   style="-fx-background-color: white;">
+                            <columns>
+                                <TableColumn fx:id="sentPhotoColumn" text="Photo" prefWidth="80" sortable="false"/>
+                                <TableColumn fx:id="sentNameColumn" text="Name" prefWidth="200"/>
+                                <TableColumn fx:id="sentEmailColumn" text="Email" prefWidth="220"/>
+                                <TableColumn fx:id="sentDateColumn" text="Request Date" prefWidth="130"/>
+                                <TableColumn fx:id="sentActionColumn" text="Actions" prefWidth="200" sortable="false"/>
+                            </columns>
+                            <placeholder>
+                                <Label text="No sent friend requests" style="-fx-text-fill: #999; -fx-font-size: 14px;"/>
+                            </placeholder>
+                        </TableView>
+                    </VBox>
+
+                </VBox>
+            </Tab>
+
+        </TabPane>
+    </center>
+
+</BorderPane>
+

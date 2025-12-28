@@ -3,7 +3,7 @@ package com.gym.models;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public class Member {
+public class Member extends User {
     private int memberId;
     private String username;
     private String passwordHash;
@@ -20,6 +20,7 @@ public class Member {
     private int createdByAdminId;
     private LocalDateTime createdDate;
     private LocalDateTime lastLogin;
+    private String fitnessGoal;
 
     public Member() {
     }
@@ -28,7 +29,7 @@ public class Member {
                   String phone, LocalDate dateOfBirth, String gender, String profilePhoto,
                   String membershipType, LocalDate membershipStart, LocalDate membershipEnd,
                   String accountStatus, int createdByAdminId, LocalDateTime createdDate,
-                  LocalDateTime lastLogin) {
+                  LocalDateTime lastLogin, String fitnessGoal) {
         this.memberId = memberId;
         this.username = username;
         this.passwordHash = passwordHash;
@@ -45,6 +46,7 @@ public class Member {
         this.createdByAdminId = createdByAdminId;
         this.createdDate = createdDate;
         this.lastLogin = lastLogin;
+        this.fitnessGoal = fitnessGoal;
     }
 
     // Convenience methods for consistency with Session API
@@ -192,6 +194,14 @@ public class Member {
         this.lastLogin = lastLogin;
     }
 
+    public String getFitnessGoal() {
+        return fitnessGoal;
+    }
+
+    public void setFitnessGoal(String fitnessGoal) {
+        this.fitnessGoal = fitnessGoal;
+    }
+
     @Override
     public String toString() {
         return "Member{" +
@@ -210,6 +220,7 @@ public class Member {
                 ", createdByAdminId=" + createdByAdminId +
                 ", createdDate=" + createdDate +
                 ", lastLogin=" + lastLogin +
+                ", fitnessGoal='" + fitnessGoal + '\'' +
                 '}';
     }
 }

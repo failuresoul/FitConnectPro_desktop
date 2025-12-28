@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.gym.controllers.member.MemberDirectoryController"
+            style="-fx-background-color: #f5f5f5;">
+
+    <!-- Top Section: Title and Search -->
+    <top>
+        <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 20;">
+            <HBox alignment="CENTER_LEFT" spacing="15">
+                <Button fx:id="backButton" text="← Back" onAction="#handleBack"
+                        style="-fx-background-color: #6c757d; -fx-text-fill: white; -fx-cursor: hand;"/>
+                <Label text="Member Directory" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="totalMembersLabel" text="Total Members: 0"
+                       style="-fx-font-size: 14px; -fx-text-fill: #666;"/>
+            </HBox>
+
+            <!-- Search Bar -->
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <TextField fx:id="searchField" promptText="Search members by name or email..."
+                           HBox.hgrow="ALWAYS"
+                           style="-fx-pref-height: 35px; -fx-font-size: 14px;"/>
+                <Button text="Search" onAction="#handleSearch"
+                        style="-fx-background-color: #007bff; -fx-text-fill: white; -fx-cursor: hand; -fx-pref-width: 100px;"/>
+                <Button text="Clear" onAction="#handleClearSearch"
+                        style="-fx-background-color: #6c757d; -fx-text-fill: white; -fx-cursor: hand; -fx-pref-width: 100px;"/>
+            </HBox>
+
+            <!-- Filters -->
+            <HBox spacing="15" alignment="CENTER_LEFT">
+                <Label text="Filter by:" style="-fx-font-weight: bold;"/>
+                <ComboBox fx:id="goalFilterComboBox" promptText="Goal Type" prefWidth="180"
+                          onAction="#handleFilter"/>
+                <ComboBox fx:id="membershipFilterComboBox" promptText="Membership Type" prefWidth="180"
+                          onAction="#handleFilter"/>
+                <Button text="Reset Filters" onAction="#handleResetFilters"
+                        style="-fx-background-color: #ffc107; -fx-text-fill: black; -fx-cursor: hand;"/>
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- Center: Member List -->
+    <center>
+        <VBox spacing="10" style="-fx-padding: 20;">
+            <TableView fx:id="memberTableView" VBox.vgrow="ALWAYS"
+                       style="-fx-background-color: white;">
+                <columns>
+                    <TableColumn fx:id="photoColumn" text="Photo" prefWidth="80" sortable="false"/>
+                    <TableColumn fx:id="nameColumn" text="Name" prefWidth="180"/>
+                    <TableColumn fx:id="emailColumn" text="Email" prefWidth="200"/>
+                    <TableColumn fx:id="goalColumn" text="Primary Goal" prefWidth="150"/>
+                    <TableColumn fx:id="membershipColumn" text="Membership Type" prefWidth="150"/>
+                    <TableColumn fx:id="memberSinceColumn" text="Member Since" prefWidth="120"/>
+                    <TableColumn fx:id="actionColumn" text="Actions" prefWidth="180" sortable="false"/>
+                </columns>
+                <placeholder>
+                    <Label text="No members found" style="-fx-text-fill: #999; -fx-font-size: 14px;"/>
+                </placeholder>
+            </TableView>
+
+            <!-- Pagination -->
+            <HBox alignment="CENTER" spacing="15" style="-fx-padding: 10;">
+                <Button fx:id="prevPageButton" text="← Previous" onAction="#handlePreviousPage"
+                        style="-fx-background-color: #007bff; -fx-text-fill: white; -fx-cursor: hand;"/>
+                <Label fx:id="pageInfoLabel" text="Page 1 of 1"
+                       style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+                <Button fx:id="nextPageButton" text="Next →" onAction="#handleNextPage"
+                        style="-fx-background-color: #007bff; -fx-text-fill: white; -fx-cursor: hand;"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <ComboBox fx:id="pageSizeComboBox" value="10" onAction="#handlePageSizeChange"
+                          style="-fx-pref-width: 80px;"/>
+                <Label text="per page" style="-fx-font-size: 14px;"/>
+            </HBox>
+        </VBox>
+    </center>
+
+</BorderPane>
+
