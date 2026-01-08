@@ -14,8 +14,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.geometry.Insets;
+import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
+import java.util.Optional;
 
 public class LoginController {
 
@@ -196,10 +199,103 @@ public class LoginController {
 
     @FXML
     public void handleForgotPassword() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Forgot Password");
-        alert.setHeaderText("Password Recovery");
-        alert.setContentText("Please contact the system administrator.");
-        alert.showAndWait();
+        // Create custom dialog
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.setTitle("Forgot Password");
+        dialog.setHeaderText("Password Recovery");
+
+        // Set the button types
+        ButtonType resetButtonType = new ButtonType("Reset Password", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(resetButtonType, ButtonType.CANCEL);
+
+        // Create the form
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(20, 150, 10, 10));
+
+        TextField usernameField = new TextField();
+        usernameField.setPromptText("Username");
+        TextField emailField = new TextField();
+        emailField.setPromptText("Email");
+        PasswordField newPasswordField = new PasswordField();
+        newPasswordField.setPromptText("New Password");
+        PasswordField confirmPasswordField = new PasswordField();
+        confirmPasswordField.setPromptText("Confirm New Password");
+
+        ComboBox<String> userTypeCombo = new ComboBox<>();
+        userTypeCombo.getItems().addAll("ADMIN", "TRAINER", "MEMBER");
+        userTypeCombo.setPromptText("Select User Type");
+        userTypeCombo.setValue("MEMBER");
+
+        grid.add(new Label("User Type:"), 0, 0);
+        grid.add(userTypeCombo, 1, 0);
+        grid.add(new Label("Username:"), 0, 1);
+        grid.add(usernameField, 1, 1);
+        grid.add(new Label("Email:"), 0, 2);
+        grid.add(emailField, 1, 2);
+        grid.add(new Label("New Password:"), 0, 3);
+        grid.add(newPasswordField, 1, 3);
+        grid.add(new Label("Confirm Password:"), 0, 4);
+        grid.add(confirmPasswordField, 1, 4);
+
+        dialog.getDialogPane().setContent(grid);
+
+        // Request focus on username field by default
+        javafx.application.Platform.runLater(() -> usernameField.requestFocus());
+
+        // Show dialog and handle result
+        Optional<ButtonType> result = dialog.showAndWait();
+
+        if (result.isPresent() && result.get() == resetButtonType) {
+            String username = usernameField.getText().trim();
+            String email = emailField.getText().trim();
+            String newPassword = newPasswordField.getText();
+            String confirmPassword = confirmPasswordField.getText();
+            String userType = userTypeCombo.getValue();
+
+            // Validate inputs
+            if (username.isEmpty() || email.isEmpty() || newPassword.isEmpty() || confirmPassword.isEmpty()) {
+                ValidationUtil.showAlert("Validation Error",
+                        "All fields are required!",
+                        Alert.AlertType.ERROR);
+                return;
+            }
+
+            if (!newPassword.equals(confirmPassword)) {
+                ValidationUtil.showAlert("Validation Error",
+                        "Passwords do not match!",
+                        Alert.AlertType.ERROR);
+                return;
+            }
+
+            if (newPassword.length() < 6) {
+                ValidationUtil.showAlert("Validation Error",
+                        "Password must be at least 6 characters long!",
+                        Alert.AlertType.ERROR);
+                return;
+            }
+
+            // Attempt to reset password
+            try {
+                boolean success = authDAO.resetPassword(username, email, newPassword, userType);
+
+                if (success) {
+                    ValidationUtil.showAlert("Success",
+                            "Password has been reset successfully!\nYou can now login with your new password.",
+                            Alert.AlertType.INFORMATION);
+                } else {
+                    ValidationUtil.showAlert("Reset Failed",
+                            "Username and email do not match or user not found!",
+                            Alert.AlertType.ERROR);
+                }
+            } catch (Exception e) {
+                System.err.println("❌ Error resetting password: " + e.getMessage());
+                e.printStackTrace();
+                ValidationUtil.showAlert("Error",
+                        "An error occurred while resetting password: " + e.getMessage(),
+                        Alert.AlertType.ERROR);
+            }
+        }
     }
 }

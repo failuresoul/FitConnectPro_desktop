@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox spacing="20" stylesheets="@../../css/admin_styles.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gym.controllers.admin.MemberManagementController">
+    <padding>
+        <Insets bottom="20" left="20" right="20" top="20" />
+    </padding>
+
+    <Label styleClass="page-title" text="Member Management">
+        <font>
+            <Font name="Arial Bold" size="24" />
+        </font>
+    </Label>
+
+    <HBox alignment="CENTER_LEFT" spacing="15">
+        <Button fx:id="addMemberBtn" styleClass="quick-action-button-primary" text="+ Add New Member">
+            <font>
+                <Font name="Arial Bold" size="13" />
+            </font>
+            <padding>
+                <Insets bottom="10" left="20" right="20" top="10" />
+            </padding>
+        </Button>
+
+        <Region HBox.hgrow="ALWAYS" />
+
+        <TextField fx:id="searchField" promptText="Search members..." styleClass="search-field">
+            <font>
+                <Font name="Arial" size="13" />
+            </font>
+        </TextField>
+
+        <Button fx:id="refreshBtn" styleClass="quick-action-button" text="🔄 Refresh">
+            <font>
+                <Font name="Arial" size="13" />
+            </font>
+        </Button>
+    </HBox>
+
+    <TableView fx:id="membersTable" styleClass="data-table" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="idColumn" prefWidth="50" text="ID" />
+            <TableColumn fx:id="nameColumn" prefWidth="150" text="Name" />
+            <TableColumn fx:id="emailColumn" prefWidth="180" text="Email" />
+            <TableColumn fx:id="phoneColumn" prefWidth="110" text="Phone" />
+            <TableColumn fx:id="membershipColumn" prefWidth="100" text="Membership" />
+            <TableColumn fx:id="joiningDateColumn" prefWidth="100" text="Joining Date" />
+            <TableColumn fx:id="expiryDateColumn" prefWidth="100" text="Expiry Date" />
+            <TableColumn fx:id="statusColumn" prefWidth="70" text="Status" />
+            <TableColumn fx:id="paymentReceivedColumn" prefWidth="120" text="Payment Received" />
+            <TableColumn fx:id="paymentPendingColumn" prefWidth="120" text="Payment Pending" />
+            <TableColumn fx:id="actionsColumn" prefWidth="80" text="Actions" />
+        </columns>
+        <placeholder>
+            <Label text="No members found" />
+        </placeholder>
+    </TableView>
+
+    <HBox alignment="CENTER_RIGHT" spacing="10">
+        <Label fx:id="totalMembersLabel" text="Total Members: 0">
+            <font>
+                <Font name="Arial Bold" size="13" />
+            </font>
+        </Label>
+    </HBox>
+</VBox>

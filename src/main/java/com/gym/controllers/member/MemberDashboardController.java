@@ -1,7 +1,6 @@
 package com.gym.controllers.member;
 
 import com.gym.dao.MemberDashboardDAO;
-import com.gym.dao.PaymentDAO;
 import com.gym.models.Member;
 import com.gym.services.Session;
 import javafx.application.Platform;
@@ -57,7 +56,6 @@ public class MemberDashboardController {
     private Button logoutBtn;
 
     private MemberDashboardDAO dashboardDAO;
-    private PaymentDAO paymentDAO;
     private int memberId;
     private String memberName;
     private Integer trainerId;
@@ -65,12 +63,10 @@ public class MemberDashboardController {
     @FXML
     public void initialize() {
         dashboardDAO = new MemberDashboardDAO();
-        paymentDAO = new PaymentDAO();
 
         loadMemberInfo();
         loadDateInfo();
         loadAllDashboardData();
-        checkPaymentNotifications();
     }
 
     private void loadMemberInfo() {
@@ -283,14 +279,14 @@ public class MemberDashboardController {
 
             if (activities.isEmpty()) {
                 Label noActivityLabel = new Label("No recent activities");
-                noActivityLabel.setStyle("-fx-text-fill: #050505; -fx-font-style: italic;");
+                noActivityLabel.setStyle("-fx-text-fill: #7f8c8d; -fx-font-style: italic;");
                 activityFeedContainer.getChildren().add(noActivityLabel);
                 return;
             }
 
             for (Map<String, Object> activity : activities) {
                 HBox activityBox = new HBox(15);
-                activityBox.setStyle("-fx-background-color: #000000; -fx-padding: 12; -fx-background-radius: 6;");
+                activityBox.setStyle("-fx-background-color: #f8f9fa; -fx-padding: 12; -fx-background-radius: 6;");
 
                 VBox contentBox = new VBox(3);
                 Label descLabel = new Label((String) activity.get("description"));
@@ -306,44 +302,6 @@ public class MemberDashboardController {
                 activityFeedContainer.getChildren().add(activityBox);
             }
         });
-    }
-
-    private void checkPaymentNotifications() {
-        new Thread(() -> {
-            try {
-                paymentDAO.updateOverduePayments();
-                int unpaidCount = paymentDAO.getUnpaidCount(memberId, "MEMBER");
-
-                if (unpaidCount > 0) {
-                    Platform.runLater(() -> {
-                        Alert alert = new Alert(Alert.AlertType.WARNING);
-                        alert.setTitle("Payment Reminder");
-                        alert.setHeaderText("💰 You have pending payments!");
-                        alert.setContentText(String.format(
-                            "You have %d unpaid membership fee(s).\n" +
-                            "Please visit the Payments section to complete your payment.",
-                            unpaidCount));
-
-                        ButtonType viewPayments = new ButtonType("View Payments");
-                        ButtonType later = new ButtonType("Later", ButtonBar.ButtonData.CANCEL_CLOSE);
-                        alert.getButtonTypes().setAll(viewPayments, later);
-
-                        alert.showAndWait().ifPresent(response -> {
-                            if (response == viewPayments) {
-                                showPayments();
-                            }
-                        });
-                    });
-                }
-            } catch (Exception e) {
-                System.err.println("❌ Error checking payments: " + e.getMessage());
-            }
-        }).start();
-    }
-
-    @FXML
-    private void showPayments() {
-        loadView("/fxml/member/payments.fxml", "My Payments");
     }
 
     // Action Handlers
@@ -464,11 +422,8 @@ public class MemberDashboardController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent root = loader.load();
             Stage stage = (Stage) welcomeLabel.getScene().getWindow();
-
-            // Get current scene and just change the root - this maintains window size
             Scene currentScene = stage.getScene();
             currentScene.setRoot(root);
-
             stage.setTitle("FitConnectPro - " + viewName);
             System.out.println("✅ Navigated to " + viewName + " view");
         } catch (Exception e) {
@@ -479,3 +434,4 @@ public class MemberDashboardController {
         }
     }
 }
+

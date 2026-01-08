@@ -1,25 +1,23 @@
 package com.gym.controllers.trainer;
 
-import com.gym.dao. TrainerStatisticsDAO;
-import com.gym.dao.PaymentDAO;
+import com.gym.dao.TrainerStatisticsDAO;
 import com.gym.models.Message;
 import com.gym.models.Trainer;
-import com. gym.services.Session;
-import javafx.application.Platform;
+import com.gym.services.Session;
 import javafx.beans.property.SimpleStringProperty;
-import javafx. collections.FXCollections;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx. fxml.FXML;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout. VBox;
-import javafx. stage.Stage;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.io.IOException;
-import java. time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class TrainerDashboardController {
@@ -34,7 +32,6 @@ public class TrainerDashboardController {
     @FXML private Button progressReportsBtn;
     @FXML private Button messagesBtn;
     @FXML private Button profileBtn;
-    @FXML private Button salaryBtn;
     @FXML private VBox contentArea;
     @FXML private Label totalClientsLabel;
     @FXML private Label todayWorkoutsLabel;
@@ -46,54 +43,12 @@ public class TrainerDashboardController {
     @FXML private TableColumn<Message, String> messageFromColumn;
     @FXML private TableColumn<Message, String> messageTextColumn;
     @FXML private TableColumn<Message, String> messageDateColumn;
-    @FXML
-    private void handleMessages() {
-        loadView("/fxml/trainer/messages.fxml", "Messages");
-    }
 
-    @FXML
-    private void handleMyProfile() {
-        loadView("/fxml/trainer/trainer_profile.fxml", "My Profile");
-    }
-
-    // Make sure you have this loadView method
-    private void loadView(String fxmlPath, String title) {
-        try {
-            System.out.println("📂 Loading " + title + "...");
-            System.out.println("🔄 Loading view: " + fxmlPath);
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
-            Parent view = loader.load();
-
-            contentArea.getChildren().clear();
-            contentArea.getChildren().add(view);
-
-            AnchorPane.setTopAnchor(view, 0.0);
-            AnchorPane. setBottomAnchor(view, 0.0);
-            AnchorPane.setLeftAnchor(view, 0.0);
-            AnchorPane.setRightAnchor(view, 0.0);
-
-            System.out.println("✅ View loaded successfully:  " + fxmlPath);
-        } catch (Exception e) {
-            System.err.println("❌ Error loading view: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    private void showComingSoon(String feature, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(feature);
-        alert.setHeaderText("Coming Soon!");
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
     private TrainerStatisticsDAO statisticsDAO;
-    private PaymentDAO paymentDAO;
     private Trainer currentTrainer;
 
     public TrainerDashboardController() {
         statisticsDAO = new TrainerStatisticsDAO();
-        paymentDAO = new PaymentDAO();
     }
 
     @FXML
@@ -106,17 +61,16 @@ public class TrainerDashboardController {
         loadStatistics();
         setupTableColumns();
         setupEventHandlers();
-        checkSalaryNotifications();
     }
 
     private void loadTrainerInfo() {
         currentTrainer = (Trainer) Session.getInstance().getCurrentUser();
         if (currentTrainer != null) {
-            welcomeLabel.setText("Welcome, " + currentTrainer. getFullName());
-            System. out.println("✅ Loaded trainer: " + currentTrainer. getFullName());
-            System.out.println("✅ Trainer ID: " + currentTrainer. getTrainerId());
+            welcomeLabel.setText("Welcome, " + currentTrainer.getFullName());
+            System.out.println("✅ Loaded trainer: " + currentTrainer.getFullName());
+            System.out.println("✅ Trainer ID: " + currentTrainer.getTrainerId());
         } else {
-            System.err. println("❌ No trainer found in session!");
+            System.err.println("❌ No trainer found in session!");
         }
     }
 
@@ -127,7 +81,7 @@ public class TrainerDashboardController {
         }
 
         try {
-            int totalClients = statisticsDAO. getMyClientsCount(currentTrainer.getTrainerId());
+            int totalClients = statisticsDAO.getMyClientsCount(currentTrainer.getTrainerId());
             if (totalClientsLabel != null) {
                 totalClientsLabel.setText(String.valueOf(totalClients));
             }
@@ -135,7 +89,7 @@ public class TrainerDashboardController {
 
             int todayWorkouts = statisticsDAO.getTodayCompletedWorkouts(currentTrainer.getTrainerId());
             if (todayWorkoutsLabel != null) {
-                todayWorkoutsLabel. setText(String.valueOf(todayWorkouts));
+                todayWorkoutsLabel.setText(String.valueOf(todayWorkouts));
             }
             System.out.println("📊 Today's workouts: " + todayWorkouts);
 
@@ -185,49 +139,11 @@ public class TrainerDashboardController {
             List<Message> messages = statisticsDAO.getRecentMessages(currentTrainer.getTrainerId(), 5);
             ObservableList<Message> messagesList = FXCollections.observableArrayList(messages);
             recentMessagesTable.setItems(messagesList);
-            System.out.println("💬 Loaded " + messages. size() + " recent messages");
+            System.out.println("💬 Loaded " + messages.size() + " recent messages");
         } catch (Exception e) {
             System.err.println("❌ Error loading messages: " + e.getMessage());
             e.printStackTrace();
         }
-    }
-
-    private void checkSalaryNotifications() {
-        new Thread(() -> {
-            try {
-                paymentDAO.updateOverduePayments();
-                int unpaidCount = paymentDAO.getUnpaidCount(currentTrainer.getTrainerId(), "TRAINER");
-
-                if (unpaidCount > 0) {
-                    Platform.runLater(() -> {
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                        alert.setTitle("Salary Notification");
-                        alert.setHeaderText("💰 You have pending salary payments!");
-                        alert.setContentText(String.format(
-                            "You have %d pending salary payment(s).\n" +
-                            "Please check the Salary section for more details.",
-                            unpaidCount));
-
-                        ButtonType viewSalary = new ButtonType("View Salary");
-                        ButtonType later = new ButtonType("Later", ButtonBar.ButtonData.CANCEL_CLOSE);
-                        alert.getButtonTypes().setAll(viewSalary, later);
-
-                        alert.showAndWait().ifPresent(response -> {
-                            if (response == viewSalary) {
-                                loadSalary();
-                            }
-                        });
-                    });
-                }
-            } catch (Exception e) {
-                System.err.println("❌ Error checking salary: " + e.getMessage());
-            }
-        }).start();
-    }
-
-    private void loadSalary() {
-        System.out.println("📂 Loading Salary...");
-        loadView("/fxml/trainer/salary.fxml");
     }
 
     private void setupEventHandlers() {
@@ -248,7 +164,7 @@ public class TrainerDashboardController {
         }
 
         if (createMealBtn != null) {
-            createMealBtn. setOnAction(e -> loadCreateMealPlan());
+            createMealBtn.setOnAction(e -> loadCreateMealPlan());
         }
 
         if (setGoalsBtn != null) {
@@ -265,10 +181,6 @@ public class TrainerDashboardController {
 
         if (profileBtn != null) {
             profileBtn.setOnAction(e -> loadProfile());
-        }
-
-        if (salaryBtn != null) {
-            salaryBtn.setOnAction(e -> showSalary());
         }
 
         if (quickCreateWorkoutBtn != null) {
@@ -329,7 +241,7 @@ public class TrainerDashboardController {
     }
 
     private void loadCreateWorkoutPlan() {
-        System.out.println("📂 Loading Create Workout Plan.. .");
+        System.out.println("📂 Loading Create Workout Plan...");
         loadView("/fxml/trainer/create_workout_plan.fxml");
     }
 
@@ -339,12 +251,12 @@ public class TrainerDashboardController {
     }
 
     private void loadSetDailyGoals() {
-        System.out.println("📂 Loading Set Daily Goals.. .");
+        System.out.println("📂 Loading Set Daily Goals...");
         loadView("/fxml/trainer/set_daily_goals.fxml");
     }
 
     private void loadProgressReports() {
-        System.out.println("📂 Loading Progress Reports.. .");
+        System.out.println("📂 Loading Progress Reports...");
         loadView("/fxml/trainer/progress_reports.fxml");
     }
 
@@ -354,14 +266,41 @@ public class TrainerDashboardController {
     }
 
     private void loadProfile() {
-        System.out.println("📂 Loading Trainer Profile.. .");
+        System.out.println("📂 Loading Trainer Profile...");
         loadView("/fxml/trainer/trainer_profile.fxml");
     }
 
     @FXML
-    private void showSalary() {
-        System.out.println("📂 Loading Salary view...");
-        loadView("/fxml/trainer/salary.fxml");
+    private void handleMessages() {
+        loadView("/fxml/trainer/messages.fxml", "Messages");
+    }
+
+    @FXML
+    private void handleMyProfile() {
+        loadView("/fxml/trainer/trainer_profile.fxml", "My Profile");
+    }
+
+    private void loadView(String fxmlPath, String title) {
+        try {
+            System.out.println("📂 Loading " + title + "...");
+            System.out.println("🔄 Loading view: " + fxmlPath);
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            Parent view = loader.load();
+
+            contentArea.getChildren().clear();
+            contentArea.getChildren().add(view);
+
+            AnchorPane.setTopAnchor(view, 0.0);
+            AnchorPane.setBottomAnchor(view, 0.0);
+            AnchorPane.setLeftAnchor(view, 0.0);
+            AnchorPane.setRightAnchor(view, 0.0);
+
+            System.out.println("✅ View loaded successfully: " + fxmlPath);
+        } catch (Exception e) {
+            System.err.println("❌ Error loading view: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     private void loadView(String fxmlPath) {
@@ -373,10 +312,10 @@ public class TrainerDashboardController {
 
             if (contentArea != null) {
                 contentArea.getChildren().clear();
-                contentArea. getChildren().add(view);
-                System.out.println("✅ View loaded successfully:  " + fxmlPath);
+                contentArea.getChildren().add(view);
+                System.out.println("✅ View loaded successfully: " + fxmlPath);
             } else {
-                System. err.println("❌ contentArea is NULL!");
+                System.err.println("❌ contentArea is NULL!");
             }
 
         } catch (IOException e) {
@@ -385,7 +324,7 @@ public class TrainerDashboardController {
             e.printStackTrace();
 
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert. setTitle("Error");
+            alert.setTitle("Error");
             alert.setHeaderText("Could not load view");
             alert.setContentText(fxmlPath + "\n\n" + e.getMessage());
             alert.showAndWait();
@@ -395,5 +334,11 @@ public class TrainerDashboardController {
         }
     }
 
+    private void showComingSoon(String feature, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(feature);
+        alert.setHeaderText("Coming Soon!");
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 }
-

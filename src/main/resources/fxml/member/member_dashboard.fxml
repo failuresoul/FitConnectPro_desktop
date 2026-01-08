@@ -50,11 +50,6 @@
             <Button fx:id="profileBtn" text="⚙️ Profile" maxWidth="Infinity"
                     style="-fx-background-color: #34495e; -fx-text-fill: white; -fx-padding: 12; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-size: 13px;"
                     onAction="#showProfile"/>
-            <Button text="💰 My Payments" onAction="#showPayments"
-                    style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-size: 14px;
-                           -fx-padding: 12 20; -fx-background-radius: 5; -fx-cursor: hand;
-                           -fx-font-weight: bold; -fx-min-width: 200px; -fx-alignment: CENTER_LEFT;"
-                    maxWidth="Infinity"/>
 
             <Region VBox.vgrow="ALWAYS"/>
 
@@ -111,12 +106,12 @@
                     <VBox spacing="12" GridPane.columnIndex="0" GridPane.rowIndex="0"
                           style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);">
                         <Label text="🎯 Today's Goals"
-                               style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #030405;"/>
+                               style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
                         <Separator/>
                         <ScrollPane fitToWidth="true" prefHeight="180" style="-fx-background-color: transparent; -fx-background: transparent;">
                             <VBox fx:id="goalsContainer" spacing="12">
                                 <Label text="Loading goals..."
-                                       style="-fx-text-fill: #0c0707; -fx-font-style: italic;"/>
+                                       style="-fx-text-fill: #7f8c8d; -fx-font-style: italic;"/>
                             </VBox>
                         </ScrollPane>
                     </VBox>
@@ -125,12 +120,12 @@
                     <VBox spacing="12" GridPane.columnIndex="1" GridPane.rowIndex="0"
                           style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);">
                         <Label text="💪 Today's Workout Plan"
-                               style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #030405;"/>
+                               style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
                         <Separator/>
                         <ScrollPane fitToWidth="true" prefHeight="140" style="-fx-background-color: transparent; -fx-background: transparent;">
                             <VBox fx:id="workoutContainer" spacing="8">
                                 <Label text="Loading workout..."
-                                       style="-fx-text-fill: #0c0707; -fx-font-style: italic;"/>
+                                       style="-fx-text-fill: #7f8c8d; -fx-font-style: italic;"/>
                             </VBox>
                         </ScrollPane>
                         <Button fx:id="startWorkoutBtn" text="▶️ Start Workout" maxWidth="Infinity"
@@ -142,12 +137,12 @@
                     <VBox spacing="12" GridPane.columnIndex="0" GridPane.rowIndex="1"
                           style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);">
                         <Label text="🍽️ Today's Meal Plan"
-                               style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #030405;"/>
+                               style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
                         <Separator/>
                         <ScrollPane fitToWidth="true" prefHeight="140" style="-fx-background-color: transparent; -fx-background: transparent;">
                             <VBox fx:id="mealContainer" spacing="8">
                                 <Label text="Loading meals..."
-                                       style="-fx-text-fill: #0c0707; -fx-font-style: italic;"/>
+                                       style="-fx-text-fill: #7f8c8d; -fx-font-style: italic;"/>
                             </VBox>
                         </ScrollPane>
                         <Button fx:id="viewMealDetailsBtn" text="📋 View Details" maxWidth="Infinity"
@@ -196,11 +191,12 @@
                     <ScrollPane fitToWidth="true" prefHeight="200" style="-fx-background-color: transparent; -fx-background: transparent;">
                         <VBox fx:id="activityFeedContainer" spacing="10">
                             <Label text="Loading activities..."
-                                   style="-fx-text-fill: #95a5a6; -fx-font-style: italic;"/>
+                                   style="-fx-text-fill: #7f8c8d; -fx-font-style: italic;"/>
                         </VBox>
                     </ScrollPane>
                 </VBox>
             </VBox>
         </ScrollPane>
     </center>
+
 </BorderPane>

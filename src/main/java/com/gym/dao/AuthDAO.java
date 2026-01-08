@@ -300,6 +300,91 @@ public class AuthDAO {
         return member;
     }
 
+    public boolean resetPassword(String username, String email, String newPassword, String userType) {
+        String tableName;
+        String usernameColumn;
+        String emailColumn;
+        String passwordColumn;
+
+        // Determine table and column names based on user type
+        switch (userType.toUpperCase()) {
+            case "ADMIN":
+                tableName = "Admins";
+                usernameColumn = "username";
+                emailColumn = "email";
+                passwordColumn = "password";
+                break;
+            case "TRAINER":
+                tableName = "Trainers";
+                usernameColumn = "username";
+                emailColumn = "email";
+                passwordColumn = "password";
+                break;
+            case "MEMBER":
+                tableName = "Members";
+                usernameColumn = "username";
+                emailColumn = "email";
+                passwordColumn = "password";
+                break;
+            default:
+                System.err.println("❌ Invalid user type: " + userType);
+                return false;
+        }
+
+        String verifyQuery = "SELECT COUNT(*) FROM " + tableName +
+                           " WHERE " + usernameColumn + " = ? AND " + emailColumn + " = ?";
+        String updateQuery = "UPDATE " + tableName +
+                           " SET " + passwordColumn + " = ? " +
+                           "WHERE " + usernameColumn + " = ? AND " + emailColumn + " = ?";
+
+        Connection conn = null;
+        PreparedStatement verifyStmt = null;
+        PreparedStatement updateStmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DatabaseConnection.getInstance().getConnection();
+
+            // First verify the username and email match
+            verifyStmt = conn.prepareStatement(verifyQuery);
+            verifyStmt.setString(1, username);
+            verifyStmt.setString(2, email);
+            rs = verifyStmt.executeQuery();
+
+            if (rs.next() && rs.getInt(1) > 0) {
+                // User found, update password
+                updateStmt = conn.prepareStatement(updateQuery);
+                updateStmt.setString(1, newPassword); // In production, hash this password
+                updateStmt.setString(2, username);
+                updateStmt.setString(3, email);
+
+                int rowsAffected = updateStmt.executeUpdate();
+
+                if (rowsAffected > 0) {
+                    System.out.println("✅ Password reset successful for " + userType + ": " + username);
+                    return true;
+                }
+            }
+
+            System.out.println("❌ Password reset failed - User not found or email mismatch");
+            return false;
+
+        } catch (SQLException e) {
+            System.err.println("❌ Error resetting password: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (verifyStmt != null) verifyStmt.close();
+                if (updateStmt != null) updateStmt.close();
+                if (conn != null) DatabaseConnection.getInstance().releaseConnection(conn);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     private void updateLastLogin(Connection conn, int userId, String tableName, String idColumn) {
         PreparedStatement pstmt = null;
         try {

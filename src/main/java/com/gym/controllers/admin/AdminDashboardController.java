@@ -167,7 +167,7 @@ public class AdminDashboardController {
 
         // Quick Action Buttons
         if (addMemberButton != null) {
-            addMemberButton.setOnAction(event -> loadMemberManagement());
+            addMemberButton.setOnAction(event -> openMemberRegistration());
         }
 
         if (addTrainerButton != null) {
@@ -224,8 +224,8 @@ public class AdminDashboardController {
     }
 
     private void loadMemberManagement() {
-        System.out.println("Loading Member Registration.. .");
-        loadView("/fxml/admin/member_registration.fxml");
+        System.out.println("Loading Member Management...");
+        loadView("/fxml/admin/member_management.fxml");
         if (memberManagementBtn != null) {
             setActiveButton(memberManagementBtn);
         }
@@ -317,6 +317,30 @@ public class AdminDashboardController {
             System. err.println("Error opening assign trainer dialog: " + e.getMessage());
             e.printStackTrace();
             showAlert("Error", "Could not open assign trainer dialog: " + e.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
+
+    private void openMemberRegistration() {
+        try {
+            System.out.println("Opening Member Registration dialog...");
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/admin/member_registration.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Add New Member");
+            stage.setScene(new Scene(root));
+            stage.setResizable(false);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+
+            loadStatistics();
+            System.out.println("Member registration dialog closed");
+
+        } catch (IOException e) {
+            System.err.println("Error opening member registration dialog: " + e.getMessage());
+            e.printStackTrace();
+            showAlert("Error", "Could not open member registration dialog: " + e.getMessage(), Alert.AlertType.ERROR);
         }
     }
 
